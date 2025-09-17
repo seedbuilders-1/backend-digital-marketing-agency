@@ -1,0 +1,50 @@
+# deploy.yml
+name: Deploy to cPanel
+
+# Run this workflow every time you push to the 'main' branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22" # Use the same Node.js version as your cPanel app
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Deploy to cPanel
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            # Navigate to your application's directory on the server
+            # Example: cd /home/your_cpanel_user/your_app_directory
+            cd /home/${{ secrets.USERNAME }}/api.digitalmarketingagency.ng
+
+            # Pull the latest changes from the main branch
+            git pull origin main
+
+            # Install/update dependencies
+            npm install --production
+
+            # Run Prisma migrations
+            npx prisma migrate deploy
+
+            # Restart the Node.js application (using Phusion Passenger method)
+            # This is the standard way to restart a Node.js app on cPanel
+            mkdir -p tmp
+            touch tmp/restart.txt
