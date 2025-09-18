@@ -220,7 +220,7 @@ model billing_cycle {
   name              String     @db.VarChar(20)
   duration_in_days  Int        @db.Int
   created_at        DateTime   @default(now()) @db.Timestamp(0)
-  deleted_at        DateTime   @db.Timestamp(0)
+  deleted_at        DateTime?   @db.Timestamp(0)
 
   plan              plan[]
 }
