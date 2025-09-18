@@ -681,6 +681,8 @@ paths:
                   format: binary
                 business_status:
                   type: string
+                registered_with_a_business:
+                  type: string
       responses:
         200: 
           description: User profile completed successfully

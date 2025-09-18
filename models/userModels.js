@@ -19,7 +19,7 @@ const getAllusers = async () => {
 
 const getuserById = async (id) => {
   const user = await prisma.user.findUnique({
-    where: { 
+    where: {
       id: id,
       deleted_at: null,
     },
@@ -47,9 +47,9 @@ const getuserByEmail = async (email) => {
       role: {
         select: {
           title: true,
-        }
-      }
-    }
+        },
+      },
+    },
   });
   return rows;
 };
@@ -61,15 +61,15 @@ const getupdateUserByEmail = async (id, email) => {
       deleted_at: null,
     },
     NOT: {
-      id: id
+      id: id,
     },
     include: {
       role: {
         select: {
           title: true,
-        }
-      }
-    }
+        },
+      },
+    },
   });
   return rows;
 };
@@ -109,18 +109,11 @@ const createUser = async ({
     },
   });
 
-  await prisma.notification_settings.create({
-    data: {
-      user_id: user.id,
-    },
-  });
-
-  await prisma.privacy_settings.create({
-    data: {
-      user_id: user.id,
-    },
-  });
-
+  // These can be run in parallel for better performance
+  await Promise.all([
+    prisma.notification_settings.create({ data: { user_id: user.id } }),
+    prisma.privacy_settings.create({ data: { user_id: user.id } }),
+  ]);
   return user;
 };
 
@@ -153,10 +146,10 @@ const deleteUser = async (id) => {
   const user = await prisma.user.update({
     where: {
       id: id,
-      deleted_at: null
+      deleted_at: null,
     },
     data: {
-      deleted_at: new Date()
+      deleted_at: new Date(),
     },
     omit: {
       password: true,
@@ -169,9 +162,12 @@ const deleteUser = async (id) => {
   return user;
 };
 
-const profile = async (id, { pfp_url, id_url, business_status, registered_with_a_business }) => {
+const profile = async (
+  id,
+  { pfp_url, id_url, business_status, registered_with_a_business }
+) => {
   const profile = await prisma.user.update({
-    where: { 
+    where: {
       id: id,
       deleted_at: null,
     },
@@ -179,7 +175,7 @@ const profile = async (id, { pfp_url, id_url, business_status, registered_with_a
       pfp_url: pfp_url,
       id_url: id_url,
       business_status: business_status,
-      registered_with_a_business: registered_with_a_business
+      registered_with_a_business: registered_with_a_business,
     },
     omit: {
       password: true,

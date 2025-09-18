@@ -1,4 +1,6 @@
-const userModel = require('../models/userModels');
+const userModel = require("../models/userModels");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const getAllusers = async () => {
   return await userModel.getAllusers();
@@ -17,32 +19,67 @@ const getuserByTel = async (tel) => {
 };
 
 const createUser = async (userData) => {
-  const { email } = userData;
-  const existingUser = await userModel.getuserByEmail(email);
-  if (existingUser) {
-    const error = new Error('Email already exists');
-    error.statusCode = 400;  
-    throw error;
-  };
+  const { email, tel, password } = userData;
 
-  const { tel } = userData;
-  const existingUserTel = await userModel.getuserByTel(tel);
-  if (existingUserTel) {
-    const error = new Error('Phone Number already exists');
-    error.statusCode = 400;  
+  // 1. Check for existing user (this part was correct)
+  const existingUserByEmail = await userModel.getuserByEmail(email);
+  if (existingUserByEmail) {
+    const error = new Error("An account with this email already exists.");
+    error.statusCode = 409; // 409 Conflict is more appropriate
     throw error;
-  };
-  return await userModel.createUser(userData);
+  }
+
+  const existingUserByTel = await userModel.getuserByTel(tel);
+  if (existingUserByTel) {
+    const error = new Error(
+      "An account with this phone number already exists."
+    );
+    error.statusCode = 409;
+    throw error;
+  }
+
+  // 2. Hash the password (moved from controller to service)
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  // 3. Create the user in the database
+  const newUser = await userModel.createUser({
+    ...userData,
+    password: hashedPassword,
+  });
+
+  // 4. Generate tokens USING THE NEWLY CREATED USER'S DATA
+  const accessToken = jwt.sign(
+    {
+      id: newUser.id,
+      email: newUser.email,
+      // You'll need to fetch the role or assign a default if needed
+      // For now, let's assume a default or omit it
+    },
+    process.env.JWT_ACCESS_SECRET,
+    { expiresIn: "1h" }
+  );
+
+  const refreshToken = jwt.sign(
+    { id: newUser.id },
+    process.env.JWT_REFRESH_SECRET,
+    { expiresIn: "7d" }
+  );
+
+  // 5. Remove the password from the user object before returning
+  delete newUser.password;
+
+  // 6. Return the complete payload
+  return { user: newUser, accessToken, refreshToken };
 };
 
 const updateUser = async (id, updateData) => {
-    const { email } = updateData;
-    const existingUser = await userModel.getupdateUserByEmail(id, email);
-    if (existingUser) {
-      const error = new Error('Email already exists');
-      error.statusCode = 400;  
-      throw error;
-    };
+  const { email } = updateData;
+  const existingUser = await userModel.getupdateUserByEmail(id, email);
+  if (existingUser) {
+    const error = new Error("Email already exists");
+    error.statusCode = 400;
+    throw error;
+  }
   return await userModel.updateUser(id, updateData);
 };
 
