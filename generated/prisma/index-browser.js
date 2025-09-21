@@ -158,45 +158,82 @@ exports.Prisma.OrganisationScalarFieldEnum = {
 exports.Prisma.ServiceScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  description: 'description',
-  subtitle: 'subtitle',
-  created_at: 'created_at',
+  isPublic: 'isPublic',
+  heroHeadline: 'heroHeadline',
+  heroParagraph: 'heroParagraph',
+  heroImageUrl: 'heroImageUrl',
+  blueprintHeadline: 'blueprintHeadline',
+  blueprintParagraph: 'blueprintParagraph',
+  blueprintImageUrl: 'blueprintImageUrl',
+  bannerText: 'bannerText',
   admin_id: 'admin_id',
-  banner_url: 'banner_url',
+  created_at: 'created_at',
   deleted_at: 'deleted_at'
 };
 
-exports.Prisma.Service_requestScalarFieldEnum = {
+exports.Prisma.ServiceFormScalarFieldEnum = {
   id: 'id',
-  message: 'message',
   service_id: 'service_id',
-  user_id: 'user_id',
-  requested_at: 'requested_at',
-  status: 'status',
-  plan_id: 'plan_id'
+  formFields: 'formFields',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
-exports.Prisma.Case_studiesScalarFieldEnum = {
+exports.Prisma.PlanScalarFieldEnum = {
   id: 'id',
-  banner: 'banner',
-  challenge: 'challenge',
-  challenge_img: 'challenge_img',
-  solution: 'solution',
-  solution_img: 'solution_img',
-  result: 'result',
-  result_img: 'result_img',
+  name: 'name',
+  price: 'price',
+  priceUnit: 'priceUnit',
+  audience: 'audience',
+  features: 'features',
   service_id: 'service_id',
-  organisation_id: 'organisation_id'
+  plan_typeId: 'plan_typeId',
+  billing_cycleId: 'billing_cycleId'
+};
+
+exports.Prisma.CaseStudyScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  subtitle: 'subtitle',
+  bannerImageUrl: 'bannerImageUrl',
+  challenge: 'challenge',
+  challengeImageUrl: 'challengeImageUrl',
+  solution: 'solution',
+  solutionImageUrl: 'solutionImageUrl',
+  result: 'result',
+  resultImageUrl: 'resultImageUrl',
+  service_id: 'service_id',
+  organisationId: 'organisationId'
 };
 
 exports.Prisma.TestimonialScalarFieldEnum = {
   id: 'id',
-  message: 'message',
+  quote: 'quote',
+  authorName: 'authorName',
+  authorTitle: 'authorTitle',
+  stars: 'stars',
+  authorImageUrl: 'authorImageUrl',
+  service_id: 'service_id',
+  user_id: 'user_id'
+};
+
+exports.Prisma.FaqScalarFieldEnum = {
+  id: 'id',
+  question: 'question',
+  answer: 'answer',
+  service_id: 'service_id'
+};
+
+exports.Prisma.ServiceRequestScalarFieldEnum = {
+  id: 'id',
   user_id: 'user_id',
   service_id: 'service_id',
-  stars: 'stars',
-  user_title: 'user_title',
-  deleted_at: 'deleted_at'
+  plan_name: 'plan_name',
+  status: 'status',
+  formData: 'formData',
+  created_at: 'created_at',
+  updated_at: 'updated_at',
+  planId: 'planId'
 };
 
 exports.Prisma.ContactScalarFieldEnum = {
@@ -268,15 +305,6 @@ exports.Prisma.Billing_cycleScalarFieldEnum = {
   deleted_at: 'deleted_at'
 };
 
-exports.Prisma.PlanScalarFieldEnum = {
-  id: 'id',
-  service_id: 'service_id',
-  plan_type_id: 'plan_type_id',
-  billing_cycle_id: 'billing_cycle_id',
-  price: 'price',
-  description: 'description'
-};
-
 exports.Prisma.SubscriptionScalarFieldEnum = {
   id: 'id',
   start_date: 'start_date',
@@ -325,7 +353,7 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
-exports.Prisma.userOrderByRelevanceFieldEnum = {
+exports.Prisma.UserOrderByRelevanceFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
@@ -339,7 +367,7 @@ exports.Prisma.userOrderByRelevanceFieldEnum = {
   role_id: 'role_id'
 };
 
-exports.Prisma.organisationOrderByRelevanceFieldEnum = {
+exports.Prisma.OrganisationOrderByRelevanceFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
@@ -353,107 +381,130 @@ exports.Prisma.organisationOrderByRelevanceFieldEnum = {
   user_id: 'user_id'
 };
 
-exports.Prisma.serviceOrderByRelevanceFieldEnum = {
+exports.Prisma.ServiceOrderByRelevanceFieldEnum = {
   id: 'id',
   title: 'title',
-  description: 'description',
+  heroHeadline: 'heroHeadline',
+  heroParagraph: 'heroParagraph',
+  heroImageUrl: 'heroImageUrl',
+  blueprintHeadline: 'blueprintHeadline',
+  blueprintParagraph: 'blueprintParagraph',
+  blueprintImageUrl: 'blueprintImageUrl',
+  bannerText: 'bannerText',
+  admin_id: 'admin_id'
+};
+
+exports.Prisma.ServiceFormOrderByRelevanceFieldEnum = {
+  id: 'id',
+  service_id: 'service_id'
+};
+
+exports.Prisma.PlanOrderByRelevanceFieldEnum = {
+  id: 'id',
+  name: 'name',
+  price: 'price',
+  priceUnit: 'priceUnit',
+  audience: 'audience',
+  service_id: 'service_id',
+  plan_typeId: 'plan_typeId',
+  billing_cycleId: 'billing_cycleId'
+};
+
+exports.Prisma.CaseStudyOrderByRelevanceFieldEnum = {
+  id: 'id',
+  title: 'title',
   subtitle: 'subtitle',
-  admin_id: 'admin_id',
-  banner_url: 'banner_url'
-};
-
-exports.Prisma.service_requestOrderByRelevanceFieldEnum = {
-  id: 'id',
-  message: 'message',
-  service_id: 'service_id',
-  user_id: 'user_id',
-  status: 'status',
-  plan_id: 'plan_id'
-};
-
-exports.Prisma.case_studiesOrderByRelevanceFieldEnum = {
-  id: 'id',
-  banner: 'banner',
+  bannerImageUrl: 'bannerImageUrl',
   challenge: 'challenge',
-  challenge_img: 'challenge_img',
+  challengeImageUrl: 'challengeImageUrl',
   solution: 'solution',
-  solution_img: 'solution_img',
+  solutionImageUrl: 'solutionImageUrl',
   result: 'result',
-  result_img: 'result_img',
+  resultImageUrl: 'resultImageUrl',
   service_id: 'service_id',
-  organisation_id: 'organisation_id'
+  organisationId: 'organisationId'
 };
 
-exports.Prisma.testimonialOrderByRelevanceFieldEnum = {
+exports.Prisma.TestimonialOrderByRelevanceFieldEnum = {
   id: 'id',
-  message: 'message',
+  quote: 'quote',
+  authorName: 'authorName',
+  authorTitle: 'authorTitle',
+  authorImageUrl: 'authorImageUrl',
+  service_id: 'service_id',
+  user_id: 'user_id'
+};
+
+exports.Prisma.FaqOrderByRelevanceFieldEnum = {
+  id: 'id',
+  question: 'question',
+  answer: 'answer',
+  service_id: 'service_id'
+};
+
+exports.Prisma.ServiceRequestOrderByRelevanceFieldEnum = {
+  id: 'id',
   user_id: 'user_id',
   service_id: 'service_id',
-  user_title: 'user_title'
+  plan_name: 'plan_name',
+  status: 'status',
+  planId: 'planId'
 };
 
-exports.Prisma.contactOrderByRelevanceFieldEnum = {
+exports.Prisma.ContactOrderByRelevanceFieldEnum = {
   id: 'id',
   name: 'name',
   pfp_url: 'pfp_url',
   organisation_id: 'organisation_id'
 };
 
-exports.Prisma.otpOrderByRelevanceFieldEnum = {
+exports.Prisma.OtpOrderByRelevanceFieldEnum = {
   id: 'id',
   otp: 'otp',
   user_id: 'user_id'
 };
 
-exports.Prisma.password_tokenOrderByRelevanceFieldEnum = {
+exports.Prisma.Password_tokenOrderByRelevanceFieldEnum = {
   id: 'id',
   token: 'token',
   user_id: 'user_id'
 };
 
-exports.Prisma.notificationOrderByRelevanceFieldEnum = {
+exports.Prisma.NotificationOrderByRelevanceFieldEnum = {
   id: 'id',
   activity: 'activity',
   user_id: 'user_id'
 };
 
-exports.Prisma.privacy_settingsOrderByRelevanceFieldEnum = {
+exports.Prisma.Privacy_settingsOrderByRelevanceFieldEnum = {
   id: 'id',
   user_id: 'user_id'
 };
 
-exports.Prisma.notification_settingsOrderByRelevanceFieldEnum = {
+exports.Prisma.Notification_settingsOrderByRelevanceFieldEnum = {
   id: 'id',
   user_id: 'user_id'
 };
 
-exports.Prisma.plan_typeOrderByRelevanceFieldEnum = {
+exports.Prisma.Plan_typeOrderByRelevanceFieldEnum = {
   id: 'id',
   name: 'name',
   created_by: 'created_by'
 };
 
-exports.Prisma.billing_cycleOrderByRelevanceFieldEnum = {
+exports.Prisma.Billing_cycleOrderByRelevanceFieldEnum = {
   id: 'id',
   name: 'name'
 };
 
-exports.Prisma.planOrderByRelevanceFieldEnum = {
-  id: 'id',
-  service_id: 'service_id',
-  plan_type_id: 'plan_type_id',
-  billing_cycle_id: 'billing_cycle_id',
-  description: 'description'
-};
-
-exports.Prisma.subscriptionOrderByRelevanceFieldEnum = {
+exports.Prisma.SubscriptionOrderByRelevanceFieldEnum = {
   id: 'id',
   status: 'status',
   user_id: 'user_id',
   plan_id: 'plan_id'
 };
 
-exports.Prisma.roleOrderByRelevanceFieldEnum = {
+exports.Prisma.RoleOrderByRelevanceFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
@@ -462,23 +513,25 @@ exports.Prisma.roleOrderByRelevanceFieldEnum = {
 
 
 exports.Prisma.ModelName = {
-  user: 'user',
-  organisation: 'organisation',
-  service: 'service',
-  service_request: 'service_request',
-  case_studies: 'case_studies',
-  testimonial: 'testimonial',
-  contact: 'contact',
-  otp: 'otp',
-  password_token: 'password_token',
-  notification: 'notification',
-  privacy_settings: 'privacy_settings',
-  notification_settings: 'notification_settings',
-  plan_type: 'plan_type',
-  billing_cycle: 'billing_cycle',
-  plan: 'plan',
-  subscription: 'subscription',
-  role: 'role'
+  User: 'User',
+  Organisation: 'Organisation',
+  Service: 'Service',
+  ServiceForm: 'ServiceForm',
+  Plan: 'Plan',
+  CaseStudy: 'CaseStudy',
+  Testimonial: 'Testimonial',
+  Faq: 'Faq',
+  ServiceRequest: 'ServiceRequest',
+  Contact: 'Contact',
+  Otp: 'Otp',
+  Password_token: 'Password_token',
+  Notification: 'Notification',
+  Privacy_settings: 'Privacy_settings',
+  Notification_settings: 'Notification_settings',
+  Plan_type: 'Plan_type',
+  Billing_cycle: 'Billing_cycle',
+  Subscription: 'Subscription',
+  Role: 'Role'
 };
 
 /**

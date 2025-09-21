@@ -10,7 +10,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/error'
+            $ref: "#/components/schemas/error"
 
   schemas:
     user:
@@ -74,7 +74,7 @@ components:
     organisation:
       type: object
       properties:
-        id: 
+        id:
           type: string
         name:
           type: string
@@ -130,7 +130,7 @@ components:
     contact:
       type: object
       properties:
-        id: 
+        id:
           type: string
         name:
           type: string
@@ -141,7 +141,7 @@ components:
         organisation_id:
           type: string
     contactForm:
-      type: object 
+      type: object
       properties:
         name:
           type: string
@@ -167,7 +167,7 @@ components:
       type: object
       properties:
         id:
-          type: string  
+          type: string
           format: uuid
         title:
           type: string
@@ -185,22 +185,11 @@ components:
         deleted_at:
           type: string
           format: date-time
-    serviceForm:
-      type: object
-      properties:
-        title:
-          type: string
-        subtitle:
-          type: string
-        description:
-          type: string
-        banner:
-          type: string
-          format: binary
+
     role:
       type: object
       properties:
-        id: 
+        id:
           type: string
           format: uuid
         title:
@@ -223,34 +212,89 @@ components:
     testimonial:
       type: object
       properties:
-        id: 
-          type: string  
+        id:
+          type: string
           format: uuid
         user_title:
           type: string
-        message: 
+        message:
           type: string
         stars:
           type: integer
         service_id:
-          type: string  
+          type: string
           format: uuid
         user_id:
-          type: string  
+          type: string
           format: uuid
     testimonialForm:
       type: object
       properties:
         user_title:
           type: string
-        message: 
+        message:
           type: string
         stars:
           type: integer
         service_id:
-          type: string  
-          format: uuid        
-        
+          type: string
+          format: uuid
+
+    CreateServiceForm:
+      type: object
+      properties:
+        # --- Main Service Fields ---
+        title:
+          type: string
+          description: The main title of the service.
+          example: "Digital Marketing Audit"
+        isPublic:
+          type: string
+          description: "Controls visibility. Sent as 'true' or 'false'."
+          example: "true"
+        # --- JSON Stringified Fields ---
+        heroSection:
+          type: string
+          description: A JSON-stringified object for the hero section.
+          example: '{"headline":"Show up with purpose.","paragraph":"A clear digital marketing strategy..."}'
+        blueprintSection:
+          type: string
+          description: A JSON-stringified object for the blueprint section.
+          example: '{"headline":"Your Blueprint for Growth...","paragraph":"Without a solid plan..."}'
+        bannerText:
+          type: string
+          example: "Let's build a strategy that works."
+        plans:
+          type: string
+          description: A JSON-stringified array of plan objects.
+          example: '[{"name":"Basic Package","price":"120000","priceUnit":"/month","audience":"For new businesses","features":["Audit"]}]'
+        faqs:
+          type: string
+          description: A JSON-stringified array of FAQ objects.
+          example: '[{"question":"Does this include execution?","answer":"No."}]'
+        caseStudies:
+          type: string
+          description: A JSON-stringified array of case study text data objects.
+          example: '[{"title":"FarmReach","subtitle":"Agri-tech Startup","challenge":"...","solution":"...","result":"..."}]'
+        testimonials:
+          type: string
+          description: A JSON-stringified array of testimonial text data objects.
+          example: '[{"quote":"Amazing work!","authorName":"Nike B.","authorTitle":"E-commerce Lead","stars":5}]'
+        # --- Image File Fields ---
+        heroImage:
+          type: string
+          format: binary
+        blueprintImage:
+          type: string
+          format: binary
+        caseStudy_0_bannerImage:
+          type: string
+          format: binary
+          description: Banner image for the first case study.
+        testimonial_0_authorImage:
+          type: string
+          format: binary
+          description: Author image for the first testimonial.
 
 paths:
   /api/auth/register:
@@ -279,7 +323,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/user"
-              example: 
+              example:
                 id: 6f50a107-81e5-4d57-abe9-90c51cd900cf
                 name: Jane Doe
                 email: janedoe@gmail.com
@@ -305,7 +349,7 @@ paths:
         required: true
         content:
           application/json:
-            schema: 
+            schema:
               $ref: "#/components/schemas/login"
             example:
               email: "admin@dma.com"
@@ -317,15 +361,15 @@ paths:
             application/json:
               schema:
                 type: object
-                properties:   
+                properties:
                   AccessToken:
                     type: string
                     description: JWT Access Token
-                  user: 
+                  user:
                     $ref: "#/components/schemas/user"
               example:
                 AccessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZ..."
-                user: 
+                user:
                   id: 6f50a107-81e5-4d57-abe9-90c51cd900cf
                   name: Jane Doe
                   email: janedoe@gmail.com
@@ -339,7 +383,7 @@ paths:
                   created_at: 2025-08-24T18:35:34.000Z
                   role_id: da202b29-8749-4e20-be73-2beafce16951
                   id_url: null
-        401: 
+        401:
           description: Invalid credentials - Wrong email or password
         500:
           description: Login failed
@@ -347,24 +391,24 @@ paths:
   /api/auth/refresh-token:
     post:
       tags: [auth]
-      summary: Refresh token 
+      summary: Refresh token
       description: Each Access token lasts an hour. Using your refresh token(lasts seven days) you can get another access token.
       responses:
         200:
-          description: ''
+          description: ""
           content:
             application/json:
               schema:
                 type: object
-                properties:   
+                properties:
                   AccessToken:
                     type: string
                     description: JWT Access Token
-                  user: 
+                  user:
                     $ref: "#/components/schemas/user"
               example:
                 AccessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZ..."
-                user: 
+                user:
                   id: 6f50a107-81e5-4d57-abe9-90c51cd900cf
                   name: Jane Doe
                   email: janedoe@gmail.com
@@ -385,7 +429,7 @@ paths:
     post:
       tags: [auth]
       summary: Verify a registered user's email
-      description: An OTP is sent to a user's email. They are required to submit the sent OTP. 
+      description: An OTP is sent to a user's email. They are required to submit the sent OTP.
       operationId: verifyEmail
       requestBody:
         content:
@@ -396,20 +440,20 @@ paths:
                 otp:
                   type: string
             example:
-              otp: '839368'
+              otp: "839368"
       responses:
         200:
-          description: 'Email has been verified succesfully'
+          description: "Email has been verified succesfully"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: "#/components/schemas/user"
         400:
           description: Expired or invalid OTP
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/error'
+                $ref: "#/components/schemas/error"
               example:
                 success: false
                 message: Error message(err.message)
@@ -426,7 +470,6 @@ paths:
             type: string
             format: uuid
 
-
   /api/auth/resend-otp:
     post:
       tags: [auth]
@@ -434,14 +477,14 @@ paths:
       description: This endpoint resends an otp. However there's a 5-minute rate limit.
       requestBody:
         required: true
-        content:    
+        content:
           application/json:
             schema:
               type: object
               properties:
                 email:
                   type: string
-            example: 
+            example:
               email: janedoe@gmail.com
       responses:
         200:
@@ -469,14 +512,14 @@ paths:
       description: Description pending...
       requestBody:
         required: true
-        content:    
+        content:
           application/json:
             schema:
               type: object
               properties:
                 email:
                   type: string
-            example: 
+            example:
               email: janedoe@gmail.com
       responses:
         200:
@@ -493,21 +536,21 @@ paths:
         404:
           description: User not found
         429:
-          description: A link has already been sent within the last 5 minutes   
+          description: A link has already been sent within the last 5 minutes
         500:
-          description: Could not reset password    
+          description: Could not reset password
 
   /api/auth/reset-password/{token}/{id}:
     post:
       tags: [auth]
       summary: Resets a user's password
       description: A user puts in their new password in the request body.
-      
+
       requestBody:
         required: true
         content:
           application/json:
-            schema: 
+            schema:
               type: object
               properties:
                 password:
@@ -520,7 +563,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: "#/components/schemas/user"
         400:
           description: Expired or invalid token
         500:
@@ -531,7 +574,7 @@ paths:
           in: path
           description: Token
           required: true
-          schema: 
+          schema:
             type: string
         - name: id
           in: path
@@ -545,7 +588,7 @@ paths:
     get:
       tags: [user]
       summary: Get all users
-      description: Return all users 
+      description: Return all users
       security:
         - bearerAuth: []
       responses:
@@ -554,7 +597,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: "#/components/schemas/user"
               example:
                 id: 6f50a107-81e5-4d57-abe9-90c51cd900cf
                 name: Jane Doe
@@ -569,7 +612,7 @@ paths:
                 created_at: 2025-08-24T18:35:34.000Z
                 role_id: da202b29-8749-4e20-be73-2beafce16951
                 id_url: null
-        404: 
+        404:
           description: User not found
         500:
           description: Could not get users
@@ -583,12 +626,12 @@ paths:
         - bearerAuth: []
 
       responses:
-        200: 
+        200:
           description: Fetched user successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: "#/components/schemas/user"
               example:
                 id: 6f50a107-81e5-4d57-abe9-90c51cd900cf
                 name: Jane Doe
@@ -620,7 +663,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/userForm'
+              $ref: "#/components/schemas/userForm"
 
       responses:
         200:
@@ -628,7 +671,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: "#/components/schemas/user"
         404:
           description: User not found
         500:
@@ -644,7 +687,7 @@ paths:
       responses:
         204:
           description: User has been successfully deleted
-        404: 
+        404:
           description: User not found
         500:
           description: Could not delete user. Includes error message (err.message)
@@ -659,10 +702,10 @@ paths:
           format: uuid
 
   /api/users/profile/{id}:
-    post: 
+    post:
       tags: [user]
       summary: Complete a user's profile
-      description: ''
+      description: ""
       security:
         - bearerAuth: []
 
@@ -673,7 +716,7 @@ paths:
             schema:
               type: object
               properties:
-                profile-pic: 
+                profile-pic:
                   type: string
                   format: binary
                 IDs:
@@ -684,14 +727,14 @@ paths:
                 registered_with_a_business:
                   type: string
       responses:
-        200: 
+        200:
           description: User profile completed successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
-        404: 
-          description: User not found 
+                $ref: "#/components/schemas/user"
+        404:
+          description: User not found
         500:
           description: Could not complete user's profile
 
@@ -703,8 +746,6 @@ paths:
           schema:
             type: string
             format: uuid
-
-
 
   /api/orgs:
     get:
@@ -719,16 +760,16 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/organisation'
+                $ref: "#/components/schemas/organisation"
         404:
           description: Organisations not found
-        500: 
+        500:
           description: Could not fetch organisations
 
     post:
       tags: [organisation]
       summary: Create an organisation
-      description: Create 
+      description: Create
       security:
         - bearerAuth: []
 
@@ -737,7 +778,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/organisationForm'
+              $ref: "#/components/schemas/organisationForm"
             example:
               name: Moniepoint
               email: contact@moniepoint.com
@@ -755,8 +796,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/organisation'
-        500: 
+                $ref: "#/components/schemas/organisation"
+        500:
           description: Could not create organisation
 
   /api/orgs/{id}:
@@ -772,7 +813,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/organisation'
+                $ref: "#/components/schemas/organisation"
         404:
           description: Organisation not found
         500:
@@ -789,7 +830,7 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/organisationForm'
+              $ref: "#/components/schemas/organisationForm"
             example:
               name: Moniepoint
               email: support@moniepoint.com
@@ -806,7 +847,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/organisation'
+                $ref: "#/components/schemas/organisation"
         404:
           description: Organisation not found
         500:
@@ -823,7 +864,7 @@ paths:
           description: Organisation has been successfully deleted
         404:
           description: Organisation not found
-        500: 
+        500:
           description: Could not delete organisation
 
     parameters:
@@ -834,7 +875,6 @@ paths:
         schema:
           type: string
           format: uuid
-
 
   /api/orgs/contact:
     get:
@@ -850,7 +890,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/contacts'
+                $ref: "#/components/schemas/contacts"
               example:
                 id: 25511d20-9118-4336-8451-7205853223a5
                 name: Jane Doe
@@ -860,7 +900,7 @@ paths:
         404:
           decription: contacts not found
         500:
-          description: Could not fetch contacts 
+          description: Could not fetch contacts
     post:
       tags: [organisation]
       summary: Create a contact
@@ -873,27 +913,26 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/contactForm'
-      
+              $ref: "#/components/schemas/contactForm"
+
       responses:
-        200: 
+        200:
           description: Created organisation contact successfully!
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/contact'
+                $ref: "#/components/schemas/contact"
               example:
                 id: 25511d20-9118-4336-8451-7205853223a5
                 name: Jane Doe
                 pfp_url: https://res.cloudinary/user/profile-pic...
                 id_url: https://res.cloudinary/user/id...
                 organisation_id: 25511d20-9118-4336-8451-7205853223a5
-        500: 
+        500:
           description: Failed to create organisation's contact
-          
 
   /api/orgs/contact/{id}:
-    get: 
+    get:
       tags: [organisation]
       summary: Get a specific contact
       description: Returns an organisation's contact
@@ -906,7 +945,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/contact'
+                $ref: "#/components/schemas/contact"
               example:
                 id: 25511d20-9118-4336-8451-7205853223a5
                 name: Jane Doe
@@ -917,7 +956,7 @@ paths:
           description: Contact not found
         500:
           description: Failed to get the contact
-    
+
     put:
       tags: [organisation]
       summary: Update a contact
@@ -929,27 +968,27 @@ paths:
         required: true
         content:
           multipart/form-data:
-            schema: 
-              $ref: '#/components/schemas/contactForm'
+            schema:
+              $ref: "#/components/schemas/contactForm"
       responses:
         200:
           description: Contact updated successfully!
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/contact'  
+                $ref: "#/components/schemas/contact"
               example:
                 id: 25511d20-9118-4336-8451-7205853223a5
                 name: Jane Doe
                 pfp_url: https://res.cloudinary/user/profile-pic...
                 id_url: https://res.cloudinary/user/id...
                 organisation_id: 25511d20-9118-4336-8451-7205853223a5
-        404: 
+        404:
           description: Contact not found
         500:
-          description: Could not update contact   
+          description: Could not update contact
 
-    delete: 
+    delete:
       tags: [organisation]
       summary: Delete a contact
       description: Delete an organisation's contact. With the contact's uuid
@@ -962,7 +1001,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/contact'
+                $ref: "#/components/schemas/contact"
               example:
                 id: 25511d20-9118-4336-8451-7205853223a5
                 name: Jane Doe
@@ -971,7 +1010,7 @@ paths:
                 organisation_id: 25511d20-9118-4336-8451-7205853223a5
         404:
           description: Contact not found
-        500: 
+        500:
           description: Could not delete contact
 
     parameters:
@@ -983,31 +1022,33 @@ paths:
           type: string
           format: uuid
 
-
-
   /api/services:
     get:
       tags: [service]
       summary: Get all services
-      description: Return a list of services offered
+      description: Return a list of all comprehensive services with their nested content.
       security:
         - bearerAuth: []
       responses:
-        200:
-          description: 'Services have been fetched succesfully'
+        "200":
+          description: "Services have been fetched successfully"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/service'
-        400:
-          description: 'No service was found'
-        500:
-          description: 'Could not get services'
+                type: array
+                items:
+                  $ref: "#/components/schemas/ServiceResponse"
+        "404":
+          description: "No services were found"
+        "500":
+          description: "Could not get services"
 
     post:
       tags: [service]
-      summary: Create a service
-      description: Create a service. Services can only be created by admins.
+      summary: Create a comprehensive service
+      description: >
+        Creates a new service along with all of its associated content (plans, case studies, etc.)
+        in a single transaction. This endpoint accepts multipart/form-data.
       security:
         - bearerAuth: []
       requestBody:
@@ -1015,43 +1056,42 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/serviceForm'
-            example:
-              title: Web design & development
-              subtitle: Build your dream online presence.
-              description: long description...
-              banner: banner.png
+              $ref: "#/components/schemas/CreateServiceForm"
       responses:
-        200:
-          description: 'Service created successfully'
-        403:
-          description: 'Forbidden: Access denied'
-        500:
-          description: 'Could not create service'
+        "201":
+          description: "Service created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceResponse"
+        "403":
+          description: "Forbidden: Admin access required"
+        "500":
+          description: "Could not create service"
 
   /api/services/{id}:
     get:
       tags: [service]
-      summary: Get a Service
-      description: Return a specific service
+      summary: Get a single Service
+      description: Return a specific service with all its nested content.
       security:
         - bearerAuth: []
       responses:
-        200:
+        "200":
           description: Service has been fetched successfully
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/service"
-        404:
+                $ref: "#/components/schemas/ServiceResponse"
+        "404":
           description: Service not found
-        500:
+        "500":
           description: Could not get service
 
     put:
       tags: [service]
-      summary: Update a service
-      description: Update a specific service.
+      summary: Update a service (Full Update)
+      description: Update a specific service with all its content. Note - this is a complex operation.
       security:
         - bearerAuth: []
       requestBody:
@@ -1059,32 +1099,31 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/serviceForm'
-
+              $ref: "#/components/schemas/CreateServiceForm" # The update form is the same as the create form
       responses:
-        200:
-          description: Service has been updated succeffully
+        "200":
+          description: Service has been updated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/service'
-        404:
+                $ref: "#/components/schemas/ServiceResponse"
+        "404":
           description: Service not found
-        500:
-          description: Could not update service 
+        "500":
+          description: Could not update service
 
     delete:
       tags: [service]
       summary: Delete a service
-      description: delete-service
+      description: Deletes a service and all of its associated content (plans, case studies, etc.) due to cascading deletes in the database.
       security:
         - bearerAuth: []
       responses:
-        200:
-          description: 'Service has been successfully deleted'
-        404: 
-          description: 'Service not found'
-        500:
+        "204":
+          description: "Service has been successfully deleted"
+        "404":
+          description: "Service not found"
+        "500":
           description: Could not delete service
 
     parameters:
@@ -1106,10 +1145,10 @@ paths:
       responses:
         200:
           description: Admins fetched successfully!
-          content: 
+          content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: "#/components/schemas/user"
 
   /api/admin/{id}:
     get:
@@ -1123,13 +1162,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: "#/components/schemas/user"
         404:
           description: Admin not found
         500:
           description: Could not get the admin
-    
-    delete: 
+
+    delete:
       tags: [admin]
       summary: Remove admin
       decription: Revoke a user's admin rights
@@ -1141,7 +1180,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/user'
+                $ref: "#/components/schemas/user"
         404:
           description: Admin not found
         500:
@@ -1177,28 +1216,28 @@ paths:
             example:
               email: admin@dma.com
       responses:
-        200: 
+        200:
           description: User has been made an admin
         404:
           description: User not found
         500:
           description: Could not make a user the admin
-  
+
   /api/admin/roles:
     get:
       tags: [admin]
       summary: Get all roles
-      description: Returns all roles 
+      description: Returns all roles
       security:
         - bearerAuth: []
-      
+
       responses:
         200:
           description: Roles have been fetched successfully
-          content:  
+          content:
             application/json:
               schema:
-                $ref: '#/components/schemas/role'
+                $ref: "#/components/schemas/role"
         404:
           description: Roles not found
         500:
@@ -1214,13 +1253,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/roleForm'
-      responses: 
+              $ref: "#/components/schemas/roleForm"
+      responses:
         200:
           description: Role has been created successfully
         500:
           description: Could not create role
-      
+
   /api/admin/roles/{id}:
     get:
       tags: [admin]
@@ -1229,41 +1268,41 @@ paths:
       security:
         - bearerAuth: []
 
-      responses: 
-        200: 
+      responses:
+        200:
           description: Role has been fetched successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/role'
-        404: 
+                $ref: "#/components/schemas/role"
+        404:
           description: Role not found
         500:
           description: Could not fetch role\
-    
-    put: 
+
+    put:
       tags: [admin]
       summary: Update a role
       description: Update a role
       security:
         - bearerAuth: []
-      
+
       requestBody:
         required: true
-        content: 
+        content:
           application/json:
             schema:
-              $ref: '#/components/schemas/roleForm'
+              $ref: "#/components/schemas/roleForm"
       responses:
         200:
           description: Role has been updated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/role'
+                $ref: "#/components/schemas/role"
         404:
           description: Role not found
-        500: 
+        500:
           description: Could not update Role
 
     delete:
@@ -1273,14 +1312,14 @@ paths:
       security:
         - bearerAuth: []
 
-      responses: 
-        200: 
+      responses:
+        200:
           description: Role has been deleted successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/role'
-        404: 
+                $ref: "#/components/schemas/role"
+        404:
           description: Role not found
         500:
           description: Could not delete role
@@ -1293,16 +1332,16 @@ paths:
         schema:
           type: string
           format: uuid
-  
+
   /api/testimonials:
-    get: 
+    get:
       tags: [testimonial]
       summary: Get all testimonials
       description: Return all testimonials
       security:
         - bearerAuth: []
       responses:
-        200: 
+        200:
           description:
           content:
             application/json:
@@ -1310,30 +1349,30 @@ paths:
                 type: object
                 properties:
                   testimonial:
-                    $ref: '#/components/schemas/testimonial'
+                    $ref: "#/components/schemas/testimonial"
                   service:
                     title:
                       type: string
-                  user: 
+                  user:
                     name:
                       type: string
               example:
                 testimonial:
                   id: e6ddf3dc-aaf6-4bad-95c5-7d154d8104fe
-                  user_title: CEO 
+                  user_title: CEO
                   message: My company website is leading to more tunovers than ever!!
                   stars: 5
                   service_id: da202b29-8749-4e20-be73-2beafce16951
-                  user_id: 677808f2-ba69-4c8f-aa72-c397d052cd86 
+                  user_id: 677808f2-ba69-4c8f-aa72-c397d052cd86
                 service:
                   title: Web design & development
                 user:
                   name: Jane Doe
         400:
           description: Bad request
-        500: 
+        500:
           description: Could not get testimonials
-    
+
     post:
       tags: [testimonial]
       summary: Create a testimonial
@@ -1345,14 +1384,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/testimonialForm'
+              $ref: "#/components/schemas/testimonialForm"
             example:
               user_title: CEO
               message: My company website is leading to more tunovers than ever!!
               stars: 5
               service_id: da202b29-8749-4e20-be73-2beafce16951
-      responses: 
-        200: 
+      responses:
+        200:
           description: Testimonial has been created successfully!
           content:
             application/json:
@@ -1360,21 +1399,21 @@ paths:
                 type: object
                 properties:
                   testimonial:
-                    $ref: '#/components/schemas/testimonial'
+                    $ref: "#/components/schemas/testimonial"
                   service:
                     title:
                       type: string
-                  user: 
+                  user:
                     name:
                       type: string
               example:
                 testimonial:
                   id: e6ddf3dc-aaf6-4bad-95c5-7d154d8104fe
-                  user_title: CEO 
+                  user_title: CEO
                   message: My company website is leading to more tunovers than ever!!
                   stars: 5
                   service_id: da202b29-8749-4e20-be73-2beafce16951
-                  user_id: 677808f2-ba69-4c8f-aa72-c397d052cd86 
+                  user_id: 677808f2-ba69-4c8f-aa72-c397d052cd86
                 service:
                   title: Web design & development
                 user:
@@ -1385,7 +1424,7 @@ paths:
           description: Could not create a testimonial
 
   /api/testimonials/{id}:
-    get: 
+    get:
       tags: [testimonial]
       summary: Get a testimonial
       description: Return a testimonial specified by its uuid
@@ -1400,28 +1439,28 @@ paths:
                 type: object
                 properties:
                   testimonial:
-                    $ref: '#/components/schemas/testimonial'
+                    $ref: "#/components/schemas/testimonial"
                   service:
                     title:
                       type: string
-                  user: 
+                  user:
                     name:
                       type: string
               example:
                 testimonial:
                   id: e6ddf3dc-aaf6-4bad-95c5-7d154d8104fe
-                  user_title: CEO 
+                  user_title: CEO
                   message: My company website is leading to more tunovers than ever!!
                   stars: 5
                   service_id: da202b29-8749-4e20-be73-2beafce16951
-                  user_id: 677808f2-ba69-4c8f-aa72-c397d052cd86 
+                  user_id: 677808f2-ba69-4c8f-aa72-c397d052cd86
                 service:
                   title: Web design & development
                 user:
                   name: Jane Doe
         404:
           description: Testimonial not found
-        500: 
+        500:
           description: Could not fetch testimonial
     put:
       tags: [testimonial]
@@ -1429,19 +1468,19 @@ paths:
       description: Update a testimonial
       security:
         - bearerAuth: []
-      requestBody: 
+      requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/testimonialForm'
+              $ref: "#/components/schemas/testimonialForm"
             example:
               user_title: CEO
               message: My company website is leading to more tunovers than ever!!
               stars: 5
               service_id: da202b29-8749-4e20-be73-2beafce16951
-      responses: 
-        200: 
+      responses:
+        200:
           description: Testimonial has been updated successfully!
           content:
             application/json:
@@ -1449,21 +1488,21 @@ paths:
                 type: object
                 properties:
                   testimonial:
-                    $ref: '#/components/schemas/testimonial'
+                    $ref: "#/components/schemas/testimonial"
                   service:
                     title:
                       type: string
-                  user: 
+                  user:
                     name:
                       type: string
               example:
                 testimonial:
                   id: e6ddf3dc-aaf6-4bad-95c5-7d154d8104fe
-                  user_title: CEO 
+                  user_title: CEO
                   message: My company website is leading to more tunovers than ever!!
                   stars: 5
                   service_id: da202b29-8749-4e20-be73-2beafce16951
-                  user_id: 677808f2-ba69-4c8f-aa72-c397d052cd86 
+                  user_id: 677808f2-ba69-4c8f-aa72-c397d052cd86
                 service:
                   title: Web design & development
                 user:
@@ -1477,9 +1516,9 @@ paths:
       tags: [testimonial]
       summary: Delete a testimonial
       description: Delete a testimonial
-      security: 
+      security:
         - bearerAuth: []
-      
+
       responses:
         200:
           description: Testimonial has been deleted successfully!
@@ -1489,28 +1528,28 @@ paths:
                 type: object
                 properties:
                   testimonial:
-                    $ref: '#/components/schemas/testimonial'
+                    $ref: "#/components/schemas/testimonial"
                   service:
                     title:
                       type: string
-                  user: 
+                  user:
                     name:
                       type: string
               example:
                 testimonial:
                   id: e6ddf3dc-aaf6-4bad-95c5-7d154d8104fe
-                  user_title: CEO 
+                  user_title: CEO
                   message: My company website is leading to more tunovers than ever!!
                   stars: 5
                   service_id: da202b29-8749-4e20-be73-2beafce16951
-                  user_id: 677808f2-ba69-4c8f-aa72-c397d052cd86 
+                  user_id: 677808f2-ba69-4c8f-aa72-c397d052cd86
                 service:
                   title: Web design & development
                 user:
                   name: Jane Doe
         404:
           description: Testimonial not found
-        500: 
+        500:
           description: Could not delete testimonial
 
     parameters:
@@ -1518,7 +1557,6 @@ paths:
         in: path
         description: Testimonial ID
         required: true
-        schema: 
+        schema:
           type: string
           format: uuid
-    

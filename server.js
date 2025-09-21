@@ -49,7 +49,7 @@ const serviceRoutes = require("./routes/serviceRoutes");
 const requestRoutes = require("./routes/requestRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 
-app.use(express.json());
+const jsonParser = express.json();
 app.use(cookieParser());
 app.use(
   cors({
@@ -64,12 +64,12 @@ app.use(
 );
 
 // Mount routes to different paths
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/orgs", orgRoutes);
-app.use("/api/testimonials", testimonialRoutes);
-app.use("/api/services", serviceRoutes);
-app.use("/api/service-request", requestRoutes);
-app.use("/api/admin", auth, authorizeRoles("admin"), adminRoutes);
+app.use("/api/auth", jsonParser, authRoutes);
+app.use("/api/users", jsonParser, userRoutes);
+app.use("/api/orgs", jsonParser, orgRoutes);
+app.use("/api/testimonials", jsonParser, testimonialRoutes);
+app.use("/api/service-request", jsonParser, requestRoutes);
+app.use("/api/admin", jsonParser, auth, authorizeRoles("admin"), adminRoutes);
 
+app.use("/api/services", serviceRoutes);
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
