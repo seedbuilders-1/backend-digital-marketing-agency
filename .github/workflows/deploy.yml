@@ -14,14 +14,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: "22" # Match your cPanel Node.js version
-
-      - name: Install Dependencies Locally (for caching or testing)
-        run: npm install
-
       - name: Deploy to cPanel & Run Commands
         uses: appleboy/ssh-action@master
         with:
@@ -30,24 +22,27 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            # 1. Navigate to the correct application directory
-            # VERIFY THIS PATH IS CORRECT!
+            # 1. Activate the Node.js Virtual Environment
+            # This is the most important step to set up the correct PATH
+            source /home/${{ secrets.USERNAME }}/nodevenv/api.digitalmarketingagency.ng/22/bin/activate
+
+            # 2. Navigate to the correct application directory
             cd /home/${{ secrets.USERNAME }}/api.digitalmarketingagency.ng
 
-            # 2. Pull the latest code from the main branch
+            # 3. Pull the latest code from the main branch
             echo "--- Pulling latest code ---"
             git pull origin main
 
-            # 3. Install/update production dependencies
+            # 4. Install/update production dependencies
+            # These commands will now work because the environment is activated
             echo "--- Installing dependencies ---"
             npm install --production
 
-            # 4. Run database migrations
+            # 5. Run database migrations
             echo "--- Running database migrations ---"
             npx prisma migrate deploy
 
-            # 5. Ensure the tmp directory exists and then update the restart file
-            # This is the most critical step for making changes live.
+            # 6. Restart the app using the simple and reliable touch method
             echo "--- Sending restart signal to application ---"
             mkdir -p tmp
             touch tmp/restart.txt
