@@ -1,7 +1,6 @@
-# deploy.yml
+# .github/workflows/deploy.yml
 name: Deploy to cPanel
 
-# Run this workflow every time you push to the 'main' branch
 on:
   push:
     branches:
@@ -18,12 +17,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "22" # Use the same Node.js version as your cPanel app
+          node-version: "22" # Match your cPanel Node.js version
 
-      - name: Install Dependencies
+      - name: Install Dependencies Locally (for caching or testing)
         run: npm install
 
-      - name: Deploy to cPanel
+      - name: Deploy to cPanel & Run Commands
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
@@ -31,20 +30,26 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            # Navigate to your application's directory on the server
-            # Example: cd /home/your_cpanel_user/your_app_directory
+            # 1. Navigate to the correct application directory
+            # VERIFY THIS PATH IS CORRECT!
             cd /home/${{ secrets.USERNAME }}/api.digitalmarketingagency.ng
 
-            # Pull the latest changes from the main branch
+            # 2. Pull the latest code from the main branch
+            echo "--- Pulling latest code ---"
             git pull origin main
 
-            # Install/update dependencies
+            # 3. Install/update production dependencies
+            echo "--- Installing dependencies ---"
             npm install --production
 
-            # Run Prisma migrations
+            # 4. Run database migrations
+            echo "--- Running database migrations ---"
             npx prisma migrate deploy
 
-            # Restart the Node.js application (using Phusion Passenger method)
-            # This is the standard way to restart a Node.js app on cPanel
+            # 5. Ensure the tmp directory exists and then update the restart file
+            # This is the most critical step for making changes live.
+            echo "--- Sending restart signal to application ---"
             mkdir -p tmp
             touch tmp/restart.txt
+
+            echo "--- Deployment script finished ---"
