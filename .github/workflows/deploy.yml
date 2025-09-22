@@ -43,13 +43,11 @@ jobs:
             echo "--- Running database migrations ---"
             npx prisma migrate deploy
 
-            # --- 7. THE FINAL, FORCEFUL RESTART USING THE CORRECT RUBY ENVIRONMENT ---
+            # --- 7. THE FINAL, CORRECT RESTART COMMAND ---
             echo "--- Force-restarting application to clear cache ---"
 
-            # Use `scl enable` to run the passenger command within the correct Ruby environment
-            scl enable ea-ruby27 "$PASSENGER_CONFIG_PATH stop-app $(pwd) || true"
+            # Use the correct `restart-app` command, run within the Ruby environment.
+            # This single command replaces both the stop and start commands.
+            scl enable ea-ruby27 "$PASSENGER_CONFIG_PATH restart-app $(pwd) --ignore-app-not-running"
 
-            # Do the same for the start command
-            scl enable ea-ruby27 "$PASSENGER_CONFIG_PATH start-app $(pwd) --daemonize --environment production --nodejs /home/${{ secrets.USERNAME }}/nodevenv/api.digitalmarketingagency.ng/22/bin/node"
-
-            echo "--- Deployment script finished with hard restart ---"
+            echo "--- Deployment script finished successfully ---"
