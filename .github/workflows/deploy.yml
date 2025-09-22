@@ -22,8 +22,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            # 1. Activate the Node.js Virtual Environment to set up the PATH
+            # 1. Activate the Node.js Virtual Environment for npm and npx
             source /home/${{ secrets.USERNAME }}/nodevenv/api.digitalmarketingagency.ng/22/bin/activate
+
+            # --- DEFINE THE FULL, ABSOLUTE PATH TO PASSENGER ---
+            export PASSENGER_CONFIG_PATH="/opt/cpanel/ea-ruby27/root/usr/bin/passenger-config"
 
             # 2. Navigate to the application directory
             cd /home/${{ secrets.USERNAME }}/api.digitalmarketingagency.ng
@@ -40,14 +43,13 @@ jobs:
             echo "--- Running database migrations ---"
             npx prisma migrate deploy
 
-            # --- 6. THE NEW, MORE FORCEFUL RESTART PROCESS ---
+            # --- 6. THE FINAL, FORCEFUL RESTART PROCESS USING THE FULL PATH ---
             echo "--- Force-restarting application to clear cache ---"
 
-            # This command tells Passenger to stop the app. The `|| true` prevents errors if it's already stopped.
-            passenger-config stop-app $(pwd) || true
+            # Use the full path to stop the app. The `|| true` prevents errors if it's already stopped.
+            $PASSENGER_CONFIG_PATH stop-app $(pwd) || true
 
-            # This command starts the app fresh, forcing a reload of all files.
-            # We use the full, absolute path to the node executable.
-            passenger-config start-app $(pwd) --daemonize --environment production --nodejs /home/${{ secrets.USERNAME }}/nodevenv/api.digitalmarketingagency.ng/22/bin/node
+            # Use the full path to start the app fresh.
+            $PASSENGER_CONFIG_PATH start-app $(pwd) --daemonize --environment production --nodejs /home/${{ secrets.USERNAME }}/nodevenv/api.digitalmarketingagency.ng/22/bin/node
 
             echo "--- Deployment script finished with hard restart ---"
