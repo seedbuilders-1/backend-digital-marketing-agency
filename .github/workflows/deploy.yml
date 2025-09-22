@@ -25,31 +25,31 @@ jobs:
             # 1. Activate the Node.js Virtual Environment for npm and npx
             source /home/${{ secrets.USERNAME }}/nodevenv/api.digitalmarketingagency.ng/22/bin/activate
 
-            # --- DEFINE THE FULL, ABSOLUTE PATH TO PASSENGER ---
+            # 2. Define the full path to passenger-config
             export PASSENGER_CONFIG_PATH="/opt/cpanel/ea-ruby27/root/usr/bin/passenger-config"
 
-            # 2. Navigate to the application directory
+            # 3. Navigate to the application directory
             cd /home/${{ secrets.USERNAME }}/api.digitalmarketingagency.ng
 
-            # 3. Pull the latest code
+            # 4. Pull the latest code
             echo "--- Pulling latest code ---"
             git pull origin main
 
-            # 4. Install dependencies
+            # 5. Install dependencies
             echo "--- Installing dependencies ---"
             npm install --production
 
-            # 5. Run database migrations
+            # 6. Run database migrations
             echo "--- Running database migrations ---"
             npx prisma migrate deploy
 
-            # --- 6. THE FINAL, FORCEFUL RESTART PROCESS USING THE FULL PATH ---
+            # --- 7. THE FINAL, FORCEFUL RESTART USING THE CORRECT RUBY ENVIRONMENT ---
             echo "--- Force-restarting application to clear cache ---"
 
-            # Use the full path to stop the app. The `|| true` prevents errors if it's already stopped.
-            $PASSENGER_CONFIG_PATH stop-app $(pwd) || true
+            # Use `scl enable` to run the passenger command within the correct Ruby environment
+            scl enable ea-ruby27 "$PASSENGER_CONFIG_PATH stop-app $(pwd) || true"
 
-            # Use the full path to start the app fresh.
-            $PASSENGER_CONFIG_PATH start-app $(pwd) --daemonize --environment production --nodejs /home/${{ secrets.USERNAME }}/nodevenv/api.digitalmarketingagency.ng/22/bin/node
+            # Do the same for the start command
+            scl enable ea-ruby27 "$PASSENGER_CONFIG_PATH start-app $(pwd) --daemonize --environment production --nodejs /home/${{ secrets.USERNAME }}/nodevenv/api.digitalmarketingagency.ng/22/bin/node"
 
             echo "--- Deployment script finished with hard restart ---"
