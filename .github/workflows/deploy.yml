@@ -25,29 +25,25 @@ jobs:
             # 1. Activate the Node.js Virtual Environment for npm and npx
             source /home/${{ secrets.USERNAME }}/nodevenv/api.digitalmarketingagency.ng/22/bin/activate
 
-            # 2. Define the full path to passenger-config
-            export PASSENGER_CONFIG_PATH="/opt/cpanel/ea-ruby27/root/usr/bin/passenger-config"
-
-            # 3. Navigate to the application directory
+            # 2. Navigate to the application directory
             cd /home/${{ secrets.USERNAME }}/api.digitalmarketingagency.ng
 
-            # 4. Pull the latest code
+            # 3. Pull the latest code
             echo "--- Pulling latest code ---"
             git pull origin main
 
-            # 5. Install dependencies
+            # 4. Install dependencies
             echo "--- Installing dependencies ---"
             npm install --production
 
-            # 6. Run database migrations
+            # 5. Run database migrations
             echo "--- Running database migrations ---"
             npx prisma migrate deploy
 
-            # --- 7. THE FINAL, CORRECT RESTART COMMAND ---
-            echo "--- Force-restarting application to clear cache ---"
-
-            # Use the correct `restart-app` command, run within the Ruby environment.
-            # This single command replaces both the stop and start commands.
-            scl enable ea-ruby27 "$PASSENGER_CONFIG_PATH restart-app $(pwd) --ignore-app-not-running"
+            # --- 6. THE SIMPLE, CPANEL-APPROVED RESTART METHOD ---
+            echo "--- Sending restart signal to application ---"
+            # This is the most reliable way to restart a Node.js app on cPanel.
+            mkdir -p tmp
+            touch tmp/restart.txt
 
             echo "--- Deployment script finished successfully ---"
