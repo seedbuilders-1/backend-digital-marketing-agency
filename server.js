@@ -8,6 +8,9 @@ const auth = require("./middlewares/authmiddleware");
 const { authorizeRoles } = require("./middlewares/authenticate");
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+const http = require("http");
+const { Server } = require("socket.io");
+const initializeSocket = require("./socket");
 
 const options = {
   definition: {
@@ -51,6 +54,7 @@ const adminRoutes = require("./routes/adminRoutes");
 const invoiceRoutes = require("./routes/invoiceRoutes");
 const milestoneRoutes = require("./routes/milestoneRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const conversationRoutes = require("./routes/conversationRoutes");
 
 const jsonParser = express.json();
 app.use(cookieParser());
@@ -79,4 +83,22 @@ app.use("/api/services", jsonParser, serviceRoutes);
 app.use("/api/invoices", jsonParser, invoiceRoutes);
 app.use("/api/milestones", jsonParser, milestoneRoutes);
 app.use("/api/payments", jsonParser, paymentRoutes);
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.use("/api/conversations", jsonParser, conversationRoutes);
+
+const server = http.createServer(app); // Create an HTTP server from the Express app
+
+const io = new Server(server, {
+  cors: {
+    // CHANGE THIS:
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      "https://digitalmarketingagency.ng",
+    ],
+    // TO THIS ^^^. Make it an array that matches your Express CORS settings.
+    methods: ["GET", "POST"],
+  },
+});
+initializeSocket(io);
+
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

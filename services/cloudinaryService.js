@@ -1,37 +1,64 @@
-// In your cloudinary service file (e.g., utils/cloudinary.js)
-
-const cloudinary = require("../config/cloudinary"); // Make sure this path is correct
+const cloudinary = require("../config/cloudinary");
 
 /**
- * Uploads a file buffer directly to Cloudinary using a stream.
- * This is the correct method for use with multer's memoryStorage.
- *
- * @param {Buffer} fileBuffer The file buffer from req.files[...].buffer
+ * Uploads a single file buffer directly to Cloudinary using a stream.
+ * @param {Buffer} fileBuffer The file buffer from req.file.buffer
  * @param {string} [folder='uploads'] The Cloudinary folder to upload into
  * @returns {Promise<object>} A promise that resolves with the Cloudinary upload result object
  */
 const uploadToCloudinary = (fileBuffer, folder = "uploads") => {
   return new Promise((resolve, reject) => {
-    // Create an upload stream that will send the buffer to Cloudinary
     const uploadStream = cloudinary.uploader.upload_stream(
-      {
-        folder: folder,
-        resource_type: "auto", // Let Cloudinary auto-detect the file type
-      },
+      { folder: folder, resource_type: "auto" },
       (error, result) => {
         if (error) {
-          // If Cloudinary returns an error, reject the promise
           console.error("Cloudinary upload stream error:", error);
           return reject(new Error("Failed to upload file to Cloudinary."));
         }
-        // If the upload is successful, resolve the promise with the result
         resolve(result);
       }
     );
-
-    // Write the buffer to the stream and signal that the write is complete
     uploadStream.end(fileBuffer);
   });
 };
 
-module.exports = { uploadToCloudinary };
+/**
+ * Uploads an array of files to Cloudinary in parallel.
+ * This function takes an array of file objects (from req.files) and
+ * uses the uploadToCloudinary function for each one.
+ *
+ * @param {Array<object>} filesArray The array of file objects from Multer (e.g., req.files['IDs'])
+ * @param {string} [folder='uploads'] The Cloudinary folder to upload into
+ * @returns {Promise<Array<object>>} A promise that resolves with an array of Cloudinary upload result objects
+ */
+const uploadMultipleToCloudinary = async (
+  filesArray = [],
+  folder = "uploads"
+) => {
+  // 1. Create an array of promises. Each promise represents one file being uploaded.
+  // We use .map() to transform the array of files into an array of upload promises.
+  const uploadPromises = filesArray.map((file) => {
+    // For each file, we call our single uploader with its buffer.
+    return uploadToCloudinary(file.buffer, folder);
+  });
+
+  // 2. Wait for ALL promises in the array to resolve.
+  // Promise.all is incredibly efficient. It runs all the uploads in parallel
+  // and only resolves when the last one has finished. If any upload fails,
+  // it will reject immediately.
+  try {
+    const results = await Promise.all(uploadPromises);
+    return results;
+  } catch (error) {
+    // If any of the uploads fail, we'll catch the error here.
+    console.error("Error during multiple file upload to Cloudinary:", error);
+    // Re-throw the error to be caught by the controller's main try...catch block.
+    throw new Error("Failed to upload one or more ID files.");
+  }
+};
+
+// Make sure to export both functions
+module.exports = {
+  uploadToCloudinary,
+  uploadMultipleToCloudinary, // <-- Export the new function
+};

@@ -27,11 +27,12 @@ model User {
   role_id                    String    @db.Char(36)
   created_at                 DateTime? @default(now()) @db.Timestamp(0)
   deleted_at                 DateTime? @db.Timestamp(0)
+  messages                   Message[] 
 
   // Corrected relations
   notifications         Notification[]
   notification_settings Notification_settings[]
-  organisations         Organisation[]
+  organisation         Organisation?
   otps                  Otp[]
   password_tokens       Password_token[]
   privacy_settings      Privacy_settings[]
@@ -47,7 +48,6 @@ model User {
   @@index([role_id], map: "user_role_id_fkey")
 }
 
-// Renamed to PascalCase for consistency
 model Organisation {
   id          String      @id @default(uuid()) @db.Char(36)
   name        String      @db.VarChar(100)
@@ -59,12 +59,21 @@ model Organisation {
   rc_number   String      @unique(map: "rc_number") @db.VarChar(20)
   staff_size  String      @db.VarChar(15)
   type        String      @db.VarChar(50)
+
+  // --- NEW REQUIRED DOCUMENT FIELDS ---
+  cert_of_inc_url             String   @db.Text // Certificate of Incorporation
+  mem_of_assoc_url            String   @db.Text // Memorandum of Association
+  proof_of_address_url        String   @db.Text // Proof of Business Address
+  company_status_report_url   String   @db.Text // Company Status Report
+
   created_at  DateTime    @default(now()) @db.Timestamp(0)
-  user_id     String      @db.Char(36)
+  user_id     String      @unique @db.Char(36)
   deleted_at  DateTime?   @db.Timestamp(0)
-  caseStudies CaseStudy[] // Corrected
+  
+  // --- RELATIONS ---
+  caseStudies CaseStudy[]
   contacts    Contact[]
-  user        User        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user        User        @relation(fields: [user_id], references: [id])
 }
 
 model Service {
@@ -214,6 +223,7 @@ model ServiceRequest {
   milestones Milestone[] // A request can have many milestones
   Plan       Plan?       @relation(fields: [planId], references: [id])
   planId     String?     @db.Char(36)
+  conversation Conversation?
 }
 
 model Milestone {
@@ -251,6 +261,26 @@ model Otp {
   user_id    String    @db.Char(36)
   user       User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
+
+model Conversation {
+  id                 String         @id @default(uuid())
+  service_request    ServiceRequest @relation(fields: [service_request_id], references: [id])
+  service_request_id String         @unique // Enforces one conversation per service request
+  messages           Message[]
+  created_at         DateTime       @default(now())
+  updated_at         DateTime       @updatedAt
+}
+
+model Message {
+  id               String       @id @default(uuid())
+  conversation     Conversation @relation(fields: [conversation_id], references: [id])
+  conversation_id  String
+  sender           User         @relation(fields: [sender_id], references: [id])
+  sender_id        String
+  text             String       @db.Text
+  created_at       DateTime     @default(now())
+}
+
 
 // Renamed to PascalCase
 model Password_token {

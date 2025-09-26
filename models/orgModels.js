@@ -1,4 +1,4 @@
-const { prisma } = require('../config/db');
+const { prisma } = require("../config/db");
 
 const getAllorgs = async () => {
   const orgs = await prisma.organisation.findMany({
@@ -7,9 +7,9 @@ const getAllorgs = async () => {
       user: {
         select: {
           name: true,
-        }
-      }
-    }   
+        },
+      },
+    },
   });
   return orgs;
 };
@@ -24,35 +24,74 @@ const getorgById = async (id) => {
   return org;
 };
 
-const createOrg = async ({ name, email, address, country, type, industry, rc_number, staff_size, logo_url, user_id }) => {
+/**
+ * Creates a new organization record in the database.
+ * @param {object} orgData The complete data for the new organization.
+ * @returns {Promise<object>} The newly created organization object.
+ */
+const createOrg = async (orgData) => {
+  const {
+    name,
+    email,
+    address,
+    country,
+    industry,
+    rc_number,
+    staff_size,
+    type,
+    logo_url,
+    cert_of_inc_url,
+    mem_of_assoc_url,
+    proof_of_address_url,
+    company_status_report_url,
+    user_id,
+  } = orgData;
+
   const org = await prisma.organisation.create({
     data: {
-      name: name, 
-      email: email,
-      address: address,  
-      country: country,  
-      type: type,
-      industry: industry,
-      rc_number: rc_number,
-      staff_size: staff_size,
-      logo_url: logo_url,
-      user_id: user_id,
+      name,
+      email,
+      address,
+      country,
+      industry,
+      rc_number,
+      staff_size,
+      type,
+      logo_url,
+      cert_of_inc_url,
+      mem_of_assoc_url,
+      proof_of_address_url,
+      company_status_report_url,
+      user_id,
     },
   });
   return org;
 };
 
-const updateOrg = async (id, { name, email, address, country, type, industry, rc_number, staff_size, logo_url }) => {
+const updateOrg = async (
+  id,
+  {
+    name,
+    email,
+    address,
+    country,
+    type,
+    industry,
+    rc_number,
+    staff_size,
+    logo_url,
+  }
+) => {
   const updated = await prisma.organisation.update({
-    where: { 
+    where: {
       id: id,
       deleted_at: null,
     },
     data: {
-      name: name, 
+      name: name,
       email: email,
-      address: address,  
-      country: country,  
+      address: address,
+      country: country,
       type: type,
       industry: industry,
       rc_number: rc_number,
@@ -65,15 +104,15 @@ const updateOrg = async (id, { name, email, address, country, type, industry, rc
 
 const deleteOrg = async (id) => {
   const deleted = await prisma.organisation.update({
-    where: { 
+    where: {
       id: id,
-      deleted_at: null
+      deleted_at: null,
     },
     data: {
-      deleted_at: new Date()
-    }
+      deleted_at: new Date(),
+    },
   });
-  return deleted; 
+  return deleted;
 };
 
 const getAllContacts = async () => {
@@ -83,9 +122,9 @@ const getAllContacts = async () => {
       organisation: {
         select: {
           name: true,
-        }
+        },
       },
-    }
+    },
   });
   return contacts;
 };
@@ -100,26 +139,37 @@ const getContact = async (id) => {
       organisation: {
         select: {
           name: true,
-        }
+        },
       },
-    }
+    },
   });
   return contact;
 };
 
+/**
+ * Creates a new contact record in the database.
+ * @param {object} contactData The data for the new contact.
+ * @returns {Promise<object>} The newly created contact object.
+ */
 const createContact = async ({ name, pfp_url, id_url, organisation_id }) => {
   const contact = await prisma.contact.create({
     data: {
-      name: name,
-      pfp_url: pfp_url,
-      id_url: id_url,
-      organisation_id: organisation_id,
-    }
+      name,
+      pfp_url,
+      id_url, // Prisma handles the JSON conversion for the array of URLs
+      organisation_id,
+    },
   });
   return contact;
 };
 
-const updateContact = async ({ id, name, pfp_url, id_url, organisation_id }) => {
+const updateContact = async ({
+  id,
+  name,
+  pfp_url,
+  id_url,
+  organisation_id,
+}) => {
   const contact = await prisma.contact.update({
     where: {
       id: id,
@@ -130,7 +180,7 @@ const updateContact = async ({ id, name, pfp_url, id_url, organisation_id }) => 
       pfp_url: pfp_url,
       id_url: id_url,
       organisation_id: organisation_id,
-    }
+    },
   });
   return contact;
 };
@@ -142,12 +192,11 @@ const deleteContact = async (id) => {
       deleted_at: null,
     },
     data: {
-      deleted_at: new Date()
-    }
+      deleted_at: new Date(),
+    },
   });
   return contact;
 };
-
 
 module.exports = {
   getAllorgs,

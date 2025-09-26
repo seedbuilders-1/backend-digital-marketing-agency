@@ -155,45 +155,59 @@ exports.deleteUser = async (req, res) => {
 exports.profile = async (req, res) => {
   try {
     const id = req.params.id;
+    // Get the string values from the multipart form body
     let { business_status, registered_with_a_business } = req.body;
 
-    if (!req.files["profile-pic"] || !req.files["IDs"] || !business_status) {
+    // --- Validation ---
+    if (!req.files || !req.files["profile-pic"] || !req.files["IDs"]) {
+      return sendError(res, 400, "Profile picture and ID files are required.");
+    }
+    if (!business_status || !registered_with_a_business) {
       return sendError(
         res,
         400,
-        "Profile picture, ID, and business_status fields are required"
+        "Both business status questions are required."
       );
     }
 
-    if (business_status.toLowerCase() === "yes") {
-      business_status = true;
-    } else {
-      business_status = false;
-    }
+    // --- Robust Boolean Conversion for BOTH fields ---
+    const ownsBusiness = ["yes", "true", "1"].includes(
+      business_status.toLowerCase()
+    );
+    // THIS IS THE FIX: Convert the second field to a boolean as well.
+    const isRegisteredWithBusiness = ["yes", "true", "1"].includes(
+      registered_with_a_business.toLowerCase()
+    );
 
+    // --- File Uploads (using .buffer) ---
+    const profilePicBuffer = req.files["profile-pic"][0].buffer;
     const uploadResult = await uploadToCloudinary(
-      req.files["profile-pic"][0].path,
+      profilePicBuffer,
       "users/profile-pic"
     );
 
     const idFiles = req.files["IDs"] || [];
     const idResults = await uploadMultipleToCloudinary(idFiles, "users/docs");
 
+    // --- Service Call ---
+    // Pass the corrected boolean values to the service.
     const profile = await userService.profile(id, {
       pfp_url: uploadResult.secure_url,
       id_url: idResults.map((img) => img.secure_url),
-      business_status,
-      registered_with_a_business,
+      business_status: ownsBusiness,
+      registered_with_a_business: isRegisteredWithBusiness,
     });
+
     if (!profile) return sendError(res, 404, "User not found");
 
     return sendSuccess(
       res,
       200,
       { user: profile, image: { pfp: profile.pfp_url, ID: profile.id_url } },
-      "user profile has been successfully completed!"
+      "User profile has been successfully completed!"
     );
   } catch (err) {
+    console.error("PROFILE UPDATE ERROR:", err);
     return sendError(res, 500, "Could not complete user profile", err.message);
   }
 };

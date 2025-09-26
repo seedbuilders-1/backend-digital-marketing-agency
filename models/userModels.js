@@ -37,21 +37,41 @@ const getuserById = async (id) => {
   return user;
 };
 
+/**
+ * Retrieves a user by their email, including their role, their organization,
+ * and all contacts associated with that organization.
+ *
+ * @param {string} email The email of the user to find.
+ * @returns {Promise<object|null>} A promise that resolves to the user object with
+ * nested relations, or null if not found.
+ */
 const getuserByEmail = async (email) => {
-  const rows = await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: {
       email: email,
       deleted_at: null,
     },
+    // The `include` clause fetches related data in the same query.
     include: {
+      // Keep the existing role inclusion
       role: {
         select: {
           title: true,
         },
       },
+
+      // Include the related Organisation record.
+      // If the user has no organization, Prisma will automatically return `null` for this field.
+      organisation: {
+        // Inside the organization, also include all of its related Contact records.
+        include: {
+          contacts: true, // `true` fetches all fields for each contact.
+        },
+      },
     },
   });
-  return rows;
+
+  return user;
 };
 
 const getupdateUserByEmail = async (id, email) => {

@@ -47,13 +47,18 @@ const createUser = async (userData) => {
     password: hashedPassword,
   });
 
+  const newUserWithDetails = await userModel.getuserByEmail(email);
+  if (!newUserWithDetails) {
+    // This should ideally never happen, but it's a good safeguard
+    throw new Error("Failed to retrieve user details after creation.");
+  }
+
   // 4. Generate tokens USING THE NEWLY CREATED USER'S DATA
   const accessToken = jwt.sign(
     {
       id: newUser.id,
       email: newUser.email,
-      // You'll need to fetch the role or assign a default if needed
-      // For now, let's assume a default or omit it
+      role: newUserWithDetails.role.title,
     },
     process.env.JWT_ACCESS_SECRET,
     { expiresIn: "1h" }

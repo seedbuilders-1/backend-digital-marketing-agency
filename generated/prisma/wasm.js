@@ -150,6 +150,10 @@ exports.Prisma.OrganisationScalarFieldEnum = {
   rc_number: 'rc_number',
   staff_size: 'staff_size',
   type: 'type',
+  cert_of_inc_url: 'cert_of_inc_url',
+  mem_of_assoc_url: 'mem_of_assoc_url',
+  proof_of_address_url: 'proof_of_address_url',
+  company_status_report_url: 'company_status_report_url',
   created_at: 'created_at',
   user_id: 'user_id',
   deleted_at: 'deleted_at'
@@ -283,6 +287,21 @@ exports.Prisma.OtpScalarFieldEnum = {
   user_id: 'user_id'
 };
 
+exports.Prisma.ConversationScalarFieldEnum = {
+  id: 'id',
+  service_request_id: 'service_request_id',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
+exports.Prisma.MessageScalarFieldEnum = {
+  id: 'id',
+  conversation_id: 'conversation_id',
+  sender_id: 'sender_id',
+  text: 'text',
+  created_at: 'created_at'
+};
+
 exports.Prisma.Password_tokenScalarFieldEnum = {
   id: 'id',
   token: 'token',
@@ -407,6 +426,10 @@ exports.Prisma.OrganisationOrderByRelevanceFieldEnum = {
   rc_number: 'rc_number',
   staff_size: 'staff_size',
   type: 'type',
+  cert_of_inc_url: 'cert_of_inc_url',
+  mem_of_assoc_url: 'mem_of_assoc_url',
+  proof_of_address_url: 'proof_of_address_url',
+  company_status_report_url: 'company_status_report_url',
   user_id: 'user_id'
 };
 
@@ -510,6 +533,18 @@ exports.Prisma.OtpOrderByRelevanceFieldEnum = {
   user_id: 'user_id'
 };
 
+exports.Prisma.ConversationOrderByRelevanceFieldEnum = {
+  id: 'id',
+  service_request_id: 'service_request_id'
+};
+
+exports.Prisma.MessageOrderByRelevanceFieldEnum = {
+  id: 'id',
+  conversation_id: 'conversation_id',
+  sender_id: 'sender_id',
+  text: 'text'
+};
+
 exports.Prisma.Password_tokenOrderByRelevanceFieldEnum = {
   id: 'id',
   token: 'token',
@@ -585,6 +620,8 @@ exports.Prisma.ModelName = {
   Milestone: 'Milestone',
   Contact: 'Contact',
   Otp: 'Otp',
+  Conversation: 'Conversation',
+  Message: 'Message',
   Password_token: 'Password_token',
   Notification: 'Notification',
   Privacy_settings: 'Privacy_settings',
