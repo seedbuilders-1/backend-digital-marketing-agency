@@ -191,6 +191,20 @@ exports.Prisma.PlanScalarFieldEnum = {
   billing_cycleId: 'billing_cycleId'
 };
 
+exports.Prisma.InvoiceScalarFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  service_request_id: 'service_request_id',
+  amount: 'amount',
+  status: 'status',
+  due_date: 'due_date',
+  paid_at: 'paid_at',
+  payment_method: 'payment_method',
+  payment_reference: 'payment_reference',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.CaseStudyScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -230,10 +244,25 @@ exports.Prisma.ServiceRequestScalarFieldEnum = {
   service_id: 'service_id',
   plan_name: 'plan_name',
   status: 'status',
+  start_date: 'start_date',
+  end_date: 'end_date',
   formData: 'formData',
   created_at: 'created_at',
   updated_at: 'updated_at',
   planId: 'planId'
+};
+
+exports.Prisma.MilestoneScalarFieldEnum = {
+  id: 'id',
+  service_request_id: 'service_request_id',
+  title: 'title',
+  deadline: 'deadline',
+  deliverable_url: 'deliverable_url',
+  deliverable_name: 'deliverable_name',
+  status: 'status',
+  rejection_reason: 'rejection_reason',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
 };
 
 exports.Prisma.ContactScalarFieldEnum = {
@@ -410,6 +439,15 @@ exports.Prisma.PlanOrderByRelevanceFieldEnum = {
   billing_cycleId: 'billing_cycleId'
 };
 
+exports.Prisma.InvoiceOrderByRelevanceFieldEnum = {
+  id: 'id',
+  user_id: 'user_id',
+  service_request_id: 'service_request_id',
+  status: 'status',
+  payment_method: 'payment_method',
+  payment_reference: 'payment_reference'
+};
+
 exports.Prisma.CaseStudyOrderByRelevanceFieldEnum = {
   id: 'id',
   title: 'title',
@@ -447,8 +485,16 @@ exports.Prisma.ServiceRequestOrderByRelevanceFieldEnum = {
   user_id: 'user_id',
   service_id: 'service_id',
   plan_name: 'plan_name',
-  status: 'status',
   planId: 'planId'
+};
+
+exports.Prisma.MilestoneOrderByRelevanceFieldEnum = {
+  id: 'id',
+  service_request_id: 'service_request_id',
+  title: 'title',
+  deliverable_url: 'deliverable_url',
+  deliverable_name: 'deliverable_name',
+  rejection_reason: 'rejection_reason'
 };
 
 exports.Prisma.ContactOrderByRelevanceFieldEnum = {
@@ -510,7 +556,20 @@ exports.Prisma.RoleOrderByRelevanceFieldEnum = {
   description: 'description',
   created_by: 'created_by'
 };
+exports.ServiceRequestStatus = exports.$Enums.ServiceRequestStatus = {
+  PENDING_APPROVAL: 'PENDING_APPROVAL',
+  ACTIVE: 'ACTIVE',
+  COMPLETED: 'COMPLETED',
+  DECLINED: 'DECLINED',
+  CANCELLED: 'CANCELLED'
+};
 
+exports.MilestoneStatus = exports.$Enums.MilestoneStatus = {
+  PENDING_ADMIN_UPLOAD: 'PENDING_ADMIN_UPLOAD',
+  PENDING_CLIENT_APPROVAL: 'PENDING_CLIENT_APPROVAL',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
@@ -518,10 +577,12 @@ exports.Prisma.ModelName = {
   Service: 'Service',
   ServiceForm: 'ServiceForm',
   Plan: 'Plan',
+  Invoice: 'Invoice',
   CaseStudy: 'CaseStudy',
   Testimonial: 'Testimonial',
   Faq: 'Faq',
   ServiceRequest: 'ServiceRequest',
+  Milestone: 'Milestone',
   Contact: 'Contact',
   Otp: 'Otp',
   Password_token: 'Password_token',

@@ -39,6 +39,11 @@ export type ServiceForm = $Result.DefaultSelection<Prisma.$ServiceFormPayload>
  */
 export type Plan = $Result.DefaultSelection<Prisma.$PlanPayload>
 /**
+ * Model Invoice
+ * 
+ */
+export type Invoice = $Result.DefaultSelection<Prisma.$InvoicePayload>
+/**
  * Model CaseStudy
  * 
  */
@@ -58,6 +63,11 @@ export type Faq = $Result.DefaultSelection<Prisma.$FaqPayload>
  * 
  */
 export type ServiceRequest = $Result.DefaultSelection<Prisma.$ServiceRequestPayload>
+/**
+ * Model Milestone
+ * 
+ */
+export type Milestone = $Result.DefaultSelection<Prisma.$MilestonePayload>
 /**
  * Model Contact
  * 
@@ -108,6 +118,40 @@ export type Subscription = $Result.DefaultSelection<Prisma.$SubscriptionPayload>
  * 
  */
 export type Role = $Result.DefaultSelection<Prisma.$RolePayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const ServiceRequestStatus: {
+  PENDING_APPROVAL: 'PENDING_APPROVAL',
+  ACTIVE: 'ACTIVE',
+  COMPLETED: 'COMPLETED',
+  DECLINED: 'DECLINED',
+  CANCELLED: 'CANCELLED'
+};
+
+export type ServiceRequestStatus = (typeof ServiceRequestStatus)[keyof typeof ServiceRequestStatus]
+
+
+export const MilestoneStatus: {
+  PENDING_ADMIN_UPLOAD: 'PENDING_ADMIN_UPLOAD',
+  PENDING_CLIENT_APPROVAL: 'PENDING_CLIENT_APPROVAL',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+};
+
+export type MilestoneStatus = (typeof MilestoneStatus)[keyof typeof MilestoneStatus]
+
+}
+
+export type ServiceRequestStatus = $Enums.ServiceRequestStatus
+
+export const ServiceRequestStatus: typeof $Enums.ServiceRequestStatus
+
+export type MilestoneStatus = $Enums.MilestoneStatus
+
+export const MilestoneStatus: typeof $Enums.MilestoneStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -285,6 +329,16 @@ export class PrismaClient<
   get plan(): Prisma.PlanDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.invoice`: Exposes CRUD operations for the **Invoice** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Invoices
+    * const invoices = await prisma.invoice.findMany()
+    * ```
+    */
+  get invoice(): Prisma.InvoiceDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.caseStudy`: Exposes CRUD operations for the **CaseStudy** model.
     * Example usage:
     * ```ts
@@ -323,6 +377,16 @@ export class PrismaClient<
     * ```
     */
   get serviceRequest(): Prisma.ServiceRequestDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.milestone`: Exposes CRUD operations for the **Milestone** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Milestones
+    * const milestones = await prisma.milestone.findMany()
+    * ```
+    */
+  get milestone(): Prisma.MilestoneDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.contact`: Exposes CRUD operations for the **Contact** model.
@@ -868,10 +932,12 @@ export namespace Prisma {
     Service: 'Service',
     ServiceForm: 'ServiceForm',
     Plan: 'Plan',
+    Invoice: 'Invoice',
     CaseStudy: 'CaseStudy',
     Testimonial: 'Testimonial',
     Faq: 'Faq',
     ServiceRequest: 'ServiceRequest',
+    Milestone: 'Milestone',
     Contact: 'Contact',
     Otp: 'Otp',
     Password_token: 'Password_token',
@@ -900,7 +966,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "organisation" | "service" | "serviceForm" | "plan" | "caseStudy" | "testimonial" | "faq" | "serviceRequest" | "contact" | "otp" | "password_token" | "notification" | "privacy_settings" | "notification_settings" | "plan_type" | "billing_cycle" | "subscription" | "role"
+      modelProps: "user" | "organisation" | "service" | "serviceForm" | "plan" | "invoice" | "caseStudy" | "testimonial" | "faq" | "serviceRequest" | "milestone" | "contact" | "otp" | "password_token" | "notification" | "privacy_settings" | "notification_settings" | "plan_type" | "billing_cycle" | "subscription" | "role"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1234,6 +1300,72 @@ export namespace Prisma {
           }
         }
       }
+      Invoice: {
+        payload: Prisma.$InvoicePayload<ExtArgs>
+        fields: Prisma.InvoiceFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InvoiceFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InvoiceFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          findFirst: {
+            args: Prisma.InvoiceFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InvoiceFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          findMany: {
+            args: Prisma.InvoiceFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>[]
+          }
+          create: {
+            args: Prisma.InvoiceCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          createMany: {
+            args: Prisma.InvoiceCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.InvoiceDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          update: {
+            args: Prisma.InvoiceUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          deleteMany: {
+            args: Prisma.InvoiceDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InvoiceUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.InvoiceUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InvoicePayload>
+          }
+          aggregate: {
+            args: Prisma.InvoiceAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInvoice>
+          }
+          groupBy: {
+            args: Prisma.InvoiceGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InvoiceCountArgs<ExtArgs>
+            result: $Utils.Optional<InvoiceCountAggregateOutputType> | number
+          }
+        }
+      }
       CaseStudy: {
         payload: Prisma.$CaseStudyPayload<ExtArgs>
         fields: Prisma.CaseStudyFieldRefs
@@ -1495,6 +1627,72 @@ export namespace Prisma {
           count: {
             args: Prisma.ServiceRequestCountArgs<ExtArgs>
             result: $Utils.Optional<ServiceRequestCountAggregateOutputType> | number
+          }
+        }
+      }
+      Milestone: {
+        payload: Prisma.$MilestonePayload<ExtArgs>
+        fields: Prisma.MilestoneFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MilestoneFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MilestonePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MilestoneFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MilestonePayload>
+          }
+          findFirst: {
+            args: Prisma.MilestoneFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MilestonePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MilestoneFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MilestonePayload>
+          }
+          findMany: {
+            args: Prisma.MilestoneFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MilestonePayload>[]
+          }
+          create: {
+            args: Prisma.MilestoneCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MilestonePayload>
+          }
+          createMany: {
+            args: Prisma.MilestoneCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.MilestoneDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MilestonePayload>
+          }
+          update: {
+            args: Prisma.MilestoneUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MilestonePayload>
+          }
+          deleteMany: {
+            args: Prisma.MilestoneDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MilestoneUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.MilestoneUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$MilestonePayload>
+          }
+          aggregate: {
+            args: Prisma.MilestoneAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateMilestone>
+          }
+          groupBy: {
+            args: Prisma.MilestoneGroupByArgs<ExtArgs>
+            result: $Utils.Optional<MilestoneGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MilestoneCountArgs<ExtArgs>
+            result: $Utils.Optional<MilestoneCountAggregateOutputType> | number
           }
         }
       }
@@ -2247,10 +2445,12 @@ export namespace Prisma {
     service?: ServiceOmit
     serviceForm?: ServiceFormOmit
     plan?: PlanOmit
+    invoice?: InvoiceOmit
     caseStudy?: CaseStudyOmit
     testimonial?: TestimonialOmit
     faq?: FaqOmit
     serviceRequest?: ServiceRequestOmit
+    milestone?: MilestoneOmit
     contact?: ContactOmit
     otp?: OtpOmit
     password_token?: Password_tokenOmit
@@ -2367,6 +2567,7 @@ export namespace Prisma {
     subscriptions: number
     testimonials: number
     plan_types: number
+    Invoice: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2382,6 +2583,7 @@ export namespace Prisma {
     subscriptions?: boolean | UserCountOutputTypeCountSubscriptionsArgs
     testimonials?: boolean | UserCountOutputTypeCountTestimonialsArgs
     plan_types?: boolean | UserCountOutputTypeCountPlan_typesArgs
+    Invoice?: boolean | UserCountOutputTypeCountInvoiceArgs
   }
 
   // Custom InputTypes
@@ -2477,6 +2679,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountPlan_typesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: Plan_typeWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountInvoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceWhereInput
   }
 
 
@@ -2624,6 +2833,37 @@ export namespace Prisma {
    */
   export type PlanCountOutputTypeCountSubscriptionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: SubscriptionWhereInput
+  }
+
+
+  /**
+   * Count Type ServiceRequestCountOutputType
+   */
+
+  export type ServiceRequestCountOutputType = {
+    milestones: number
+  }
+
+  export type ServiceRequestCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    milestones?: boolean | ServiceRequestCountOutputTypeCountMilestonesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ServiceRequestCountOutputType without action
+   */
+  export type ServiceRequestCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceRequestCountOutputType
+     */
+    select?: ServiceRequestCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ServiceRequestCountOutputType without action
+   */
+  export type ServiceRequestCountOutputTypeCountMilestonesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MilestoneWhereInput
   }
 
 
@@ -2985,6 +3225,7 @@ export namespace Prisma {
     testimonials?: boolean | User$testimonialsArgs<ExtArgs>
     plan_types?: boolean | User$plan_typesArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    Invoice?: boolean | User$InvoiceArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3024,6 +3265,7 @@ export namespace Prisma {
     testimonials?: boolean | User$testimonialsArgs<ExtArgs>
     plan_types?: boolean | User$plan_typesArgs<ExtArgs>
     role?: boolean | RoleDefaultArgs<ExtArgs>
+    Invoice?: boolean | User$InvoiceArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3043,6 +3285,7 @@ export namespace Prisma {
       testimonials: Prisma.$TestimonialPayload<ExtArgs>[]
       plan_types: Prisma.$Plan_typePayload<ExtArgs>[]
       role: Prisma.$RolePayload<ExtArgs>
+      Invoice: Prisma.$InvoicePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -3414,6 +3657,7 @@ export namespace Prisma {
     testimonials<T extends User$testimonialsArgs<ExtArgs> = {}>(args?: Subset<T, User$testimonialsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TestimonialPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     plan_types<T extends User$plan_typesArgs<ExtArgs> = {}>(args?: Subset<T, User$plan_typesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Plan_typePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     role<T extends RoleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RoleDefaultArgs<ExtArgs>>): Prisma__RoleClient<$Result.GetResult<Prisma.$RolePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    Invoice<T extends User$InvoiceArgs<ExtArgs> = {}>(args?: Subset<T, User$InvoiceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4087,6 +4331,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Plan_typeScalarFieldEnum | Plan_typeScalarFieldEnum[]
+  }
+
+  /**
+   * User.Invoice
+   */
+  export type User$InvoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    where?: InvoiceWhereInput
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    cursor?: InvoiceWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
   }
 
   /**
@@ -5417,7 +5685,7 @@ export namespace Prisma {
     faqs?: boolean | Service$faqsArgs<ExtArgs>
     service_requests?: boolean | Service$service_requestsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
-    ServiceForm?: boolean | Service$ServiceFormArgs<ExtArgs>
+    form?: boolean | Service$formArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["service"]>
 
@@ -5447,7 +5715,7 @@ export namespace Prisma {
     faqs?: boolean | Service$faqsArgs<ExtArgs>
     service_requests?: boolean | Service$service_requestsArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
-    ServiceForm?: boolean | Service$ServiceFormArgs<ExtArgs>
+    form?: boolean | Service$formArgs<ExtArgs>
     _count?: boolean | ServiceCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -5460,7 +5728,7 @@ export namespace Prisma {
       faqs: Prisma.$FaqPayload<ExtArgs>[]
       service_requests: Prisma.$ServiceRequestPayload<ExtArgs>[]
       user: Prisma.$UserPayload<ExtArgs>
-      ServiceForm: Prisma.$ServiceFormPayload<ExtArgs> | null
+      form: Prisma.$ServiceFormPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5822,7 +6090,7 @@ export namespace Prisma {
     faqs<T extends Service$faqsArgs<ExtArgs> = {}>(args?: Subset<T, Service$faqsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FaqPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     service_requests<T extends Service$service_requestsArgs<ExtArgs> = {}>(args?: Subset<T, Service$service_requestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    ServiceForm<T extends Service$ServiceFormArgs<ExtArgs> = {}>(args?: Subset<T, Service$ServiceFormArgs<ExtArgs>>): Prisma__ServiceFormClient<$Result.GetResult<Prisma.$ServiceFormPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    form<T extends Service$formArgs<ExtArgs> = {}>(args?: Subset<T, Service$formArgs<ExtArgs>>): Prisma__ServiceFormClient<$Result.GetResult<Prisma.$ServiceFormPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6328,9 +6596,9 @@ export namespace Prisma {
   }
 
   /**
-   * Service.ServiceForm
+   * Service.form
    */
-  export type Service$ServiceFormArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Service$formArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the ServiceForm
      */
@@ -8360,6 +8628,1058 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: PlanInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Invoice
+   */
+
+  export type AggregateInvoice = {
+    _count: InvoiceCountAggregateOutputType | null
+    _avg: InvoiceAvgAggregateOutputType | null
+    _sum: InvoiceSumAggregateOutputType | null
+    _min: InvoiceMinAggregateOutputType | null
+    _max: InvoiceMaxAggregateOutputType | null
+  }
+
+  export type InvoiceAvgAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type InvoiceSumAggregateOutputType = {
+    amount: Decimal | null
+  }
+
+  export type InvoiceMinAggregateOutputType = {
+    id: string | null
+    user_id: string | null
+    service_request_id: string | null
+    amount: Decimal | null
+    status: string | null
+    due_date: Date | null
+    paid_at: Date | null
+    payment_method: string | null
+    payment_reference: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type InvoiceMaxAggregateOutputType = {
+    id: string | null
+    user_id: string | null
+    service_request_id: string | null
+    amount: Decimal | null
+    status: string | null
+    due_date: Date | null
+    paid_at: Date | null
+    payment_method: string | null
+    payment_reference: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type InvoiceCountAggregateOutputType = {
+    id: number
+    user_id: number
+    service_request_id: number
+    amount: number
+    status: number
+    due_date: number
+    paid_at: number
+    payment_method: number
+    payment_reference: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type InvoiceAvgAggregateInputType = {
+    amount?: true
+  }
+
+  export type InvoiceSumAggregateInputType = {
+    amount?: true
+  }
+
+  export type InvoiceMinAggregateInputType = {
+    id?: true
+    user_id?: true
+    service_request_id?: true
+    amount?: true
+    status?: true
+    due_date?: true
+    paid_at?: true
+    payment_method?: true
+    payment_reference?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type InvoiceMaxAggregateInputType = {
+    id?: true
+    user_id?: true
+    service_request_id?: true
+    amount?: true
+    status?: true
+    due_date?: true
+    paid_at?: true
+    payment_method?: true
+    payment_reference?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type InvoiceCountAggregateInputType = {
+    id?: true
+    user_id?: true
+    service_request_id?: true
+    amount?: true
+    status?: true
+    due_date?: true
+    paid_at?: true
+    payment_method?: true
+    payment_reference?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type InvoiceAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Invoice to aggregate.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Invoices
+    **/
+    _count?: true | InvoiceCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InvoiceAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InvoiceSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InvoiceMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InvoiceMaxAggregateInputType
+  }
+
+  export type GetInvoiceAggregateType<T extends InvoiceAggregateArgs> = {
+        [P in keyof T & keyof AggregateInvoice]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInvoice[P]>
+      : GetScalarType<T[P], AggregateInvoice[P]>
+  }
+
+
+
+
+  export type InvoiceGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InvoiceWhereInput
+    orderBy?: InvoiceOrderByWithAggregationInput | InvoiceOrderByWithAggregationInput[]
+    by: InvoiceScalarFieldEnum[] | InvoiceScalarFieldEnum
+    having?: InvoiceScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InvoiceCountAggregateInputType | true
+    _avg?: InvoiceAvgAggregateInputType
+    _sum?: InvoiceSumAggregateInputType
+    _min?: InvoiceMinAggregateInputType
+    _max?: InvoiceMaxAggregateInputType
+  }
+
+  export type InvoiceGroupByOutputType = {
+    id: string
+    user_id: string
+    service_request_id: string | null
+    amount: Decimal
+    status: string
+    due_date: Date
+    paid_at: Date | null
+    payment_method: string | null
+    payment_reference: string | null
+    created_at: Date
+    updated_at: Date
+    _count: InvoiceCountAggregateOutputType | null
+    _avg: InvoiceAvgAggregateOutputType | null
+    _sum: InvoiceSumAggregateOutputType | null
+    _min: InvoiceMinAggregateOutputType | null
+    _max: InvoiceMaxAggregateOutputType | null
+  }
+
+  type GetInvoiceGroupByPayload<T extends InvoiceGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InvoiceGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InvoiceGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InvoiceGroupByOutputType[P]>
+            : GetScalarType<T[P], InvoiceGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InvoiceSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    user_id?: boolean
+    service_request_id?: boolean
+    amount?: boolean
+    status?: boolean
+    due_date?: boolean
+    paid_at?: boolean
+    payment_method?: boolean
+    payment_reference?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    service_request?: boolean | Invoice$service_requestArgs<ExtArgs>
+  }, ExtArgs["result"]["invoice"]>
+
+
+
+  export type InvoiceSelectScalar = {
+    id?: boolean
+    user_id?: boolean
+    service_request_id?: boolean
+    amount?: boolean
+    status?: boolean
+    due_date?: boolean
+    paid_at?: boolean
+    payment_method?: boolean
+    payment_reference?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type InvoiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "service_request_id" | "amount" | "status" | "due_date" | "paid_at" | "payment_method" | "payment_reference" | "created_at" | "updated_at", ExtArgs["result"]["invoice"]>
+  export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    service_request?: boolean | Invoice$service_requestArgs<ExtArgs>
+  }
+
+  export type $InvoicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Invoice"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      service_request: Prisma.$ServiceRequestPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      user_id: string
+      service_request_id: string | null
+      amount: Prisma.Decimal
+      status: string
+      due_date: Date
+      paid_at: Date | null
+      payment_method: string | null
+      payment_reference: string | null
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["invoice"]>
+    composites: {}
+  }
+
+  type InvoiceGetPayload<S extends boolean | null | undefined | InvoiceDefaultArgs> = $Result.GetResult<Prisma.$InvoicePayload, S>
+
+  type InvoiceCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InvoiceFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InvoiceCountAggregateInputType | true
+    }
+
+  export interface InvoiceDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Invoice'], meta: { name: 'Invoice' } }
+    /**
+     * Find zero or one Invoice that matches the filter.
+     * @param {InvoiceFindUniqueArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InvoiceFindUniqueArgs>(args: SelectSubset<T, InvoiceFindUniqueArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Invoice that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InvoiceFindUniqueOrThrowArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InvoiceFindUniqueOrThrowArgs>(args: SelectSubset<T, InvoiceFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Invoice that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceFindFirstArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InvoiceFindFirstArgs>(args?: SelectSubset<T, InvoiceFindFirstArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Invoice that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceFindFirstOrThrowArgs} args - Arguments to find a Invoice
+     * @example
+     * // Get one Invoice
+     * const invoice = await prisma.invoice.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InvoiceFindFirstOrThrowArgs>(args?: SelectSubset<T, InvoiceFindFirstOrThrowArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Invoices that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Invoices
+     * const invoices = await prisma.invoice.findMany()
+     * 
+     * // Get first 10 Invoices
+     * const invoices = await prisma.invoice.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const invoiceWithIdOnly = await prisma.invoice.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InvoiceFindManyArgs>(args?: SelectSubset<T, InvoiceFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Invoice.
+     * @param {InvoiceCreateArgs} args - Arguments to create a Invoice.
+     * @example
+     * // Create one Invoice
+     * const Invoice = await prisma.invoice.create({
+     *   data: {
+     *     // ... data to create a Invoice
+     *   }
+     * })
+     * 
+     */
+    create<T extends InvoiceCreateArgs>(args: SelectSubset<T, InvoiceCreateArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Invoices.
+     * @param {InvoiceCreateManyArgs} args - Arguments to create many Invoices.
+     * @example
+     * // Create many Invoices
+     * const invoice = await prisma.invoice.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InvoiceCreateManyArgs>(args?: SelectSubset<T, InvoiceCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Invoice.
+     * @param {InvoiceDeleteArgs} args - Arguments to delete one Invoice.
+     * @example
+     * // Delete one Invoice
+     * const Invoice = await prisma.invoice.delete({
+     *   where: {
+     *     // ... filter to delete one Invoice
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InvoiceDeleteArgs>(args: SelectSubset<T, InvoiceDeleteArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Invoice.
+     * @param {InvoiceUpdateArgs} args - Arguments to update one Invoice.
+     * @example
+     * // Update one Invoice
+     * const invoice = await prisma.invoice.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InvoiceUpdateArgs>(args: SelectSubset<T, InvoiceUpdateArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Invoices.
+     * @param {InvoiceDeleteManyArgs} args - Arguments to filter Invoices to delete.
+     * @example
+     * // Delete a few Invoices
+     * const { count } = await prisma.invoice.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InvoiceDeleteManyArgs>(args?: SelectSubset<T, InvoiceDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Invoices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Invoices
+     * const invoice = await prisma.invoice.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InvoiceUpdateManyArgs>(args: SelectSubset<T, InvoiceUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Invoice.
+     * @param {InvoiceUpsertArgs} args - Arguments to update or create a Invoice.
+     * @example
+     * // Update or create a Invoice
+     * const invoice = await prisma.invoice.upsert({
+     *   create: {
+     *     // ... data to create a Invoice
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Invoice we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InvoiceUpsertArgs>(args: SelectSubset<T, InvoiceUpsertArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Invoices.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceCountArgs} args - Arguments to filter Invoices to count.
+     * @example
+     * // Count the number of Invoices
+     * const count = await prisma.invoice.count({
+     *   where: {
+     *     // ... the filter for the Invoices we want to count
+     *   }
+     * })
+    **/
+    count<T extends InvoiceCountArgs>(
+      args?: Subset<T, InvoiceCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InvoiceCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Invoice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InvoiceAggregateArgs>(args: Subset<T, InvoiceAggregateArgs>): Prisma.PrismaPromise<GetInvoiceAggregateType<T>>
+
+    /**
+     * Group by Invoice.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InvoiceGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InvoiceGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InvoiceGroupByArgs['orderBy'] }
+        : { orderBy?: InvoiceGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InvoiceGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInvoiceGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Invoice model
+   */
+  readonly fields: InvoiceFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Invoice.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InvoiceClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    service_request<T extends Invoice$service_requestArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$service_requestArgs<ExtArgs>>): Prisma__ServiceRequestClient<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Invoice model
+   */
+  interface InvoiceFieldRefs {
+    readonly id: FieldRef<"Invoice", 'String'>
+    readonly user_id: FieldRef<"Invoice", 'String'>
+    readonly service_request_id: FieldRef<"Invoice", 'String'>
+    readonly amount: FieldRef<"Invoice", 'Decimal'>
+    readonly status: FieldRef<"Invoice", 'String'>
+    readonly due_date: FieldRef<"Invoice", 'DateTime'>
+    readonly paid_at: FieldRef<"Invoice", 'DateTime'>
+    readonly payment_method: FieldRef<"Invoice", 'String'>
+    readonly payment_reference: FieldRef<"Invoice", 'String'>
+    readonly created_at: FieldRef<"Invoice", 'DateTime'>
+    readonly updated_at: FieldRef<"Invoice", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Invoice findUnique
+   */
+  export type InvoiceFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice findUniqueOrThrow
+   */
+  export type InvoiceFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice findFirst
+   */
+  export type InvoiceFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Invoices.
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Invoices.
+     */
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice findFirstOrThrow
+   */
+  export type InvoiceFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoice to fetch.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Invoices.
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Invoices.
+     */
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice findMany
+   */
+  export type InvoiceFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter, which Invoices to fetch.
+     */
+    where?: InvoiceWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Invoices to fetch.
+     */
+    orderBy?: InvoiceOrderByWithRelationInput | InvoiceOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Invoices.
+     */
+    cursor?: InvoiceWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Invoices from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Invoices.
+     */
+    skip?: number
+    distinct?: InvoiceScalarFieldEnum | InvoiceScalarFieldEnum[]
+  }
+
+  /**
+   * Invoice create
+   */
+  export type InvoiceCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Invoice.
+     */
+    data: XOR<InvoiceCreateInput, InvoiceUncheckedCreateInput>
+  }
+
+  /**
+   * Invoice createMany
+   */
+  export type InvoiceCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Invoices.
+     */
+    data: InvoiceCreateManyInput | InvoiceCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Invoice update
+   */
+  export type InvoiceUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Invoice.
+     */
+    data: XOR<InvoiceUpdateInput, InvoiceUncheckedUpdateInput>
+    /**
+     * Choose, which Invoice to update.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice updateMany
+   */
+  export type InvoiceUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Invoices.
+     */
+    data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyInput>
+    /**
+     * Filter which Invoices to update
+     */
+    where?: InvoiceWhereInput
+    /**
+     * Limit how many Invoices to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Invoice upsert
+   */
+  export type InvoiceUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Invoice to update in case it exists.
+     */
+    where: InvoiceWhereUniqueInput
+    /**
+     * In case the Invoice found by the `where` argument doesn't exist, create a new Invoice with this data.
+     */
+    create: XOR<InvoiceCreateInput, InvoiceUncheckedCreateInput>
+    /**
+     * In case the Invoice was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InvoiceUpdateInput, InvoiceUncheckedUpdateInput>
+  }
+
+  /**
+   * Invoice delete
+   */
+  export type InvoiceDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    /**
+     * Filter which Invoice to delete.
+     */
+    where: InvoiceWhereUniqueInput
+  }
+
+  /**
+   * Invoice deleteMany
+   */
+  export type InvoiceDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Invoices to delete
+     */
+    where?: InvoiceWhereInput
+    /**
+     * Limit how many Invoices to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Invoice.service_request
+   */
+  export type Invoice$service_requestArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ServiceRequest
+     */
+    select?: ServiceRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ServiceRequest
+     */
+    omit?: ServiceRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ServiceRequestInclude<ExtArgs> | null
+    where?: ServiceRequestWhereInput
+  }
+
+  /**
+   * Invoice without action
+   */
+  export type InvoiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
   }
 
 
@@ -11325,7 +12645,9 @@ export namespace Prisma {
     user_id: string | null
     service_id: string | null
     plan_name: string | null
-    status: string | null
+    status: $Enums.ServiceRequestStatus | null
+    start_date: Date | null
+    end_date: Date | null
     created_at: Date | null
     updated_at: Date | null
     planId: string | null
@@ -11336,7 +12658,9 @@ export namespace Prisma {
     user_id: string | null
     service_id: string | null
     plan_name: string | null
-    status: string | null
+    status: $Enums.ServiceRequestStatus | null
+    start_date: Date | null
+    end_date: Date | null
     created_at: Date | null
     updated_at: Date | null
     planId: string | null
@@ -11348,6 +12672,8 @@ export namespace Prisma {
     service_id: number
     plan_name: number
     status: number
+    start_date: number
+    end_date: number
     formData: number
     created_at: number
     updated_at: number
@@ -11362,6 +12688,8 @@ export namespace Prisma {
     service_id?: true
     plan_name?: true
     status?: true
+    start_date?: true
+    end_date?: true
     created_at?: true
     updated_at?: true
     planId?: true
@@ -11373,6 +12701,8 @@ export namespace Prisma {
     service_id?: true
     plan_name?: true
     status?: true
+    start_date?: true
+    end_date?: true
     created_at?: true
     updated_at?: true
     planId?: true
@@ -11384,6 +12714,8 @@ export namespace Prisma {
     service_id?: true
     plan_name?: true
     status?: true
+    start_date?: true
+    end_date?: true
     formData?: true
     created_at?: true
     updated_at?: true
@@ -11468,7 +12800,9 @@ export namespace Prisma {
     user_id: string
     service_id: string
     plan_name: string
-    status: string
+    status: $Enums.ServiceRequestStatus
+    start_date: Date | null
+    end_date: Date | null
     formData: JsonValue
     created_at: Date
     updated_at: Date
@@ -11498,13 +12832,18 @@ export namespace Prisma {
     service_id?: boolean
     plan_name?: boolean
     status?: boolean
+    start_date?: boolean
+    end_date?: boolean
     formData?: boolean
     created_at?: boolean
     updated_at?: boolean
     planId?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
+    invoice?: boolean | ServiceRequest$invoiceArgs<ExtArgs>
+    milestones?: boolean | ServiceRequest$milestonesArgs<ExtArgs>
     Plan?: boolean | ServiceRequest$PlanArgs<ExtArgs>
+    _count?: boolean | ServiceRequestCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["serviceRequest"]>
 
 
@@ -11515,17 +12854,22 @@ export namespace Prisma {
     service_id?: boolean
     plan_name?: boolean
     status?: boolean
+    start_date?: boolean
+    end_date?: boolean
     formData?: boolean
     created_at?: boolean
     updated_at?: boolean
     planId?: boolean
   }
 
-  export type ServiceRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "service_id" | "plan_name" | "status" | "formData" | "created_at" | "updated_at" | "planId", ExtArgs["result"]["serviceRequest"]>
+  export type ServiceRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "user_id" | "service_id" | "plan_name" | "status" | "start_date" | "end_date" | "formData" | "created_at" | "updated_at" | "planId", ExtArgs["result"]["serviceRequest"]>
   export type ServiceRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     service?: boolean | ServiceDefaultArgs<ExtArgs>
+    invoice?: boolean | ServiceRequest$invoiceArgs<ExtArgs>
+    milestones?: boolean | ServiceRequest$milestonesArgs<ExtArgs>
     Plan?: boolean | ServiceRequest$PlanArgs<ExtArgs>
+    _count?: boolean | ServiceRequestCountOutputTypeDefaultArgs<ExtArgs>
   }
 
   export type $ServiceRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -11533,6 +12877,8 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       service: Prisma.$ServicePayload<ExtArgs>
+      invoice: Prisma.$InvoicePayload<ExtArgs> | null
+      milestones: Prisma.$MilestonePayload<ExtArgs>[]
       Plan: Prisma.$PlanPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -11540,7 +12886,9 @@ export namespace Prisma {
       user_id: string
       service_id: string
       plan_name: string
-      status: string
+      status: $Enums.ServiceRequestStatus
+      start_date: Date | null
+      end_date: Date | null
       formData: Prisma.JsonValue
       created_at: Date
       updated_at: Date
@@ -11887,6 +13235,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     service<T extends ServiceDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceDefaultArgs<ExtArgs>>): Prisma__ServiceClient<$Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    invoice<T extends ServiceRequest$invoiceArgs<ExtArgs> = {}>(args?: Subset<T, ServiceRequest$invoiceArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    milestones<T extends ServiceRequest$milestonesArgs<ExtArgs> = {}>(args?: Subset<T, ServiceRequest$milestonesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Plan<T extends ServiceRequest$PlanArgs<ExtArgs> = {}>(args?: Subset<T, ServiceRequest$PlanArgs<ExtArgs>>): Prisma__PlanClient<$Result.GetResult<Prisma.$PlanPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -11921,7 +13271,9 @@ export namespace Prisma {
     readonly user_id: FieldRef<"ServiceRequest", 'String'>
     readonly service_id: FieldRef<"ServiceRequest", 'String'>
     readonly plan_name: FieldRef<"ServiceRequest", 'String'>
-    readonly status: FieldRef<"ServiceRequest", 'String'>
+    readonly status: FieldRef<"ServiceRequest", 'ServiceRequestStatus'>
+    readonly start_date: FieldRef<"ServiceRequest", 'DateTime'>
+    readonly end_date: FieldRef<"ServiceRequest", 'DateTime'>
     readonly formData: FieldRef<"ServiceRequest", 'Json'>
     readonly created_at: FieldRef<"ServiceRequest", 'DateTime'>
     readonly updated_at: FieldRef<"ServiceRequest", 'DateTime'>
@@ -12269,6 +13621,49 @@ export namespace Prisma {
   }
 
   /**
+   * ServiceRequest.invoice
+   */
+  export type ServiceRequest$invoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    where?: InvoiceWhereInput
+  }
+
+  /**
+   * ServiceRequest.milestones
+   */
+  export type ServiceRequest$milestonesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Milestone
+     */
+    select?: MilestoneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Milestone
+     */
+    omit?: MilestoneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MilestoneInclude<ExtArgs> | null
+    where?: MilestoneWhereInput
+    orderBy?: MilestoneOrderByWithRelationInput | MilestoneOrderByWithRelationInput[]
+    cursor?: MilestoneWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MilestoneScalarFieldEnum | MilestoneScalarFieldEnum[]
+  }
+
+  /**
    * ServiceRequest.Plan
    */
   export type ServiceRequest$PlanArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12303,6 +13698,990 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ServiceRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Milestone
+   */
+
+  export type AggregateMilestone = {
+    _count: MilestoneCountAggregateOutputType | null
+    _min: MilestoneMinAggregateOutputType | null
+    _max: MilestoneMaxAggregateOutputType | null
+  }
+
+  export type MilestoneMinAggregateOutputType = {
+    id: string | null
+    service_request_id: string | null
+    title: string | null
+    deadline: Date | null
+    deliverable_url: string | null
+    deliverable_name: string | null
+    status: $Enums.MilestoneStatus | null
+    rejection_reason: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type MilestoneMaxAggregateOutputType = {
+    id: string | null
+    service_request_id: string | null
+    title: string | null
+    deadline: Date | null
+    deliverable_url: string | null
+    deliverable_name: string | null
+    status: $Enums.MilestoneStatus | null
+    rejection_reason: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type MilestoneCountAggregateOutputType = {
+    id: number
+    service_request_id: number
+    title: number
+    deadline: number
+    deliverable_url: number
+    deliverable_name: number
+    status: number
+    rejection_reason: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type MilestoneMinAggregateInputType = {
+    id?: true
+    service_request_id?: true
+    title?: true
+    deadline?: true
+    deliverable_url?: true
+    deliverable_name?: true
+    status?: true
+    rejection_reason?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type MilestoneMaxAggregateInputType = {
+    id?: true
+    service_request_id?: true
+    title?: true
+    deadline?: true
+    deliverable_url?: true
+    deliverable_name?: true
+    status?: true
+    rejection_reason?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type MilestoneCountAggregateInputType = {
+    id?: true
+    service_request_id?: true
+    title?: true
+    deadline?: true
+    deliverable_url?: true
+    deliverable_name?: true
+    status?: true
+    rejection_reason?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type MilestoneAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Milestone to aggregate.
+     */
+    where?: MilestoneWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Milestones to fetch.
+     */
+    orderBy?: MilestoneOrderByWithRelationInput | MilestoneOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MilestoneWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Milestones from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Milestones.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Milestones
+    **/
+    _count?: true | MilestoneCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MilestoneMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MilestoneMaxAggregateInputType
+  }
+
+  export type GetMilestoneAggregateType<T extends MilestoneAggregateArgs> = {
+        [P in keyof T & keyof AggregateMilestone]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMilestone[P]>
+      : GetScalarType<T[P], AggregateMilestone[P]>
+  }
+
+
+
+
+  export type MilestoneGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MilestoneWhereInput
+    orderBy?: MilestoneOrderByWithAggregationInput | MilestoneOrderByWithAggregationInput[]
+    by: MilestoneScalarFieldEnum[] | MilestoneScalarFieldEnum
+    having?: MilestoneScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MilestoneCountAggregateInputType | true
+    _min?: MilestoneMinAggregateInputType
+    _max?: MilestoneMaxAggregateInputType
+  }
+
+  export type MilestoneGroupByOutputType = {
+    id: string
+    service_request_id: string
+    title: string
+    deadline: Date
+    deliverable_url: string | null
+    deliverable_name: string | null
+    status: $Enums.MilestoneStatus
+    rejection_reason: string | null
+    created_at: Date
+    updated_at: Date
+    _count: MilestoneCountAggregateOutputType | null
+    _min: MilestoneMinAggregateOutputType | null
+    _max: MilestoneMaxAggregateOutputType | null
+  }
+
+  type GetMilestoneGroupByPayload<T extends MilestoneGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MilestoneGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MilestoneGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MilestoneGroupByOutputType[P]>
+            : GetScalarType<T[P], MilestoneGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MilestoneSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    service_request_id?: boolean
+    title?: boolean
+    deadline?: boolean
+    deliverable_url?: boolean
+    deliverable_name?: boolean
+    status?: boolean
+    rejection_reason?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    service_request?: boolean | ServiceRequestDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["milestone"]>
+
+
+
+  export type MilestoneSelectScalar = {
+    id?: boolean
+    service_request_id?: boolean
+    title?: boolean
+    deadline?: boolean
+    deliverable_url?: boolean
+    deliverable_name?: boolean
+    status?: boolean
+    rejection_reason?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type MilestoneOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "service_request_id" | "title" | "deadline" | "deliverable_url" | "deliverable_name" | "status" | "rejection_reason" | "created_at" | "updated_at", ExtArgs["result"]["milestone"]>
+  export type MilestoneInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    service_request?: boolean | ServiceRequestDefaultArgs<ExtArgs>
+  }
+
+  export type $MilestonePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Milestone"
+    objects: {
+      service_request: Prisma.$ServiceRequestPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      service_request_id: string
+      title: string
+      deadline: Date
+      deliverable_url: string | null
+      deliverable_name: string | null
+      status: $Enums.MilestoneStatus
+      rejection_reason: string | null
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["milestone"]>
+    composites: {}
+  }
+
+  type MilestoneGetPayload<S extends boolean | null | undefined | MilestoneDefaultArgs> = $Result.GetResult<Prisma.$MilestonePayload, S>
+
+  type MilestoneCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<MilestoneFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: MilestoneCountAggregateInputType | true
+    }
+
+  export interface MilestoneDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Milestone'], meta: { name: 'Milestone' } }
+    /**
+     * Find zero or one Milestone that matches the filter.
+     * @param {MilestoneFindUniqueArgs} args - Arguments to find a Milestone
+     * @example
+     * // Get one Milestone
+     * const milestone = await prisma.milestone.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends MilestoneFindUniqueArgs>(args: SelectSubset<T, MilestoneFindUniqueArgs<ExtArgs>>): Prisma__MilestoneClient<$Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Milestone that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {MilestoneFindUniqueOrThrowArgs} args - Arguments to find a Milestone
+     * @example
+     * // Get one Milestone
+     * const milestone = await prisma.milestone.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends MilestoneFindUniqueOrThrowArgs>(args: SelectSubset<T, MilestoneFindUniqueOrThrowArgs<ExtArgs>>): Prisma__MilestoneClient<$Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Milestone that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MilestoneFindFirstArgs} args - Arguments to find a Milestone
+     * @example
+     * // Get one Milestone
+     * const milestone = await prisma.milestone.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends MilestoneFindFirstArgs>(args?: SelectSubset<T, MilestoneFindFirstArgs<ExtArgs>>): Prisma__MilestoneClient<$Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Milestone that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MilestoneFindFirstOrThrowArgs} args - Arguments to find a Milestone
+     * @example
+     * // Get one Milestone
+     * const milestone = await prisma.milestone.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends MilestoneFindFirstOrThrowArgs>(args?: SelectSubset<T, MilestoneFindFirstOrThrowArgs<ExtArgs>>): Prisma__MilestoneClient<$Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Milestones that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MilestoneFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Milestones
+     * const milestones = await prisma.milestone.findMany()
+     * 
+     * // Get first 10 Milestones
+     * const milestones = await prisma.milestone.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const milestoneWithIdOnly = await prisma.milestone.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends MilestoneFindManyArgs>(args?: SelectSubset<T, MilestoneFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Milestone.
+     * @param {MilestoneCreateArgs} args - Arguments to create a Milestone.
+     * @example
+     * // Create one Milestone
+     * const Milestone = await prisma.milestone.create({
+     *   data: {
+     *     // ... data to create a Milestone
+     *   }
+     * })
+     * 
+     */
+    create<T extends MilestoneCreateArgs>(args: SelectSubset<T, MilestoneCreateArgs<ExtArgs>>): Prisma__MilestoneClient<$Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Milestones.
+     * @param {MilestoneCreateManyArgs} args - Arguments to create many Milestones.
+     * @example
+     * // Create many Milestones
+     * const milestone = await prisma.milestone.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends MilestoneCreateManyArgs>(args?: SelectSubset<T, MilestoneCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Milestone.
+     * @param {MilestoneDeleteArgs} args - Arguments to delete one Milestone.
+     * @example
+     * // Delete one Milestone
+     * const Milestone = await prisma.milestone.delete({
+     *   where: {
+     *     // ... filter to delete one Milestone
+     *   }
+     * })
+     * 
+     */
+    delete<T extends MilestoneDeleteArgs>(args: SelectSubset<T, MilestoneDeleteArgs<ExtArgs>>): Prisma__MilestoneClient<$Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Milestone.
+     * @param {MilestoneUpdateArgs} args - Arguments to update one Milestone.
+     * @example
+     * // Update one Milestone
+     * const milestone = await prisma.milestone.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends MilestoneUpdateArgs>(args: SelectSubset<T, MilestoneUpdateArgs<ExtArgs>>): Prisma__MilestoneClient<$Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Milestones.
+     * @param {MilestoneDeleteManyArgs} args - Arguments to filter Milestones to delete.
+     * @example
+     * // Delete a few Milestones
+     * const { count } = await prisma.milestone.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends MilestoneDeleteManyArgs>(args?: SelectSubset<T, MilestoneDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Milestones.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MilestoneUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Milestones
+     * const milestone = await prisma.milestone.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends MilestoneUpdateManyArgs>(args: SelectSubset<T, MilestoneUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Milestone.
+     * @param {MilestoneUpsertArgs} args - Arguments to update or create a Milestone.
+     * @example
+     * // Update or create a Milestone
+     * const milestone = await prisma.milestone.upsert({
+     *   create: {
+     *     // ... data to create a Milestone
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Milestone we want to update
+     *   }
+     * })
+     */
+    upsert<T extends MilestoneUpsertArgs>(args: SelectSubset<T, MilestoneUpsertArgs<ExtArgs>>): Prisma__MilestoneClient<$Result.GetResult<Prisma.$MilestonePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Milestones.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MilestoneCountArgs} args - Arguments to filter Milestones to count.
+     * @example
+     * // Count the number of Milestones
+     * const count = await prisma.milestone.count({
+     *   where: {
+     *     // ... the filter for the Milestones we want to count
+     *   }
+     * })
+    **/
+    count<T extends MilestoneCountArgs>(
+      args?: Subset<T, MilestoneCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MilestoneCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Milestone.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MilestoneAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MilestoneAggregateArgs>(args: Subset<T, MilestoneAggregateArgs>): Prisma.PrismaPromise<GetMilestoneAggregateType<T>>
+
+    /**
+     * Group by Milestone.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MilestoneGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MilestoneGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MilestoneGroupByArgs['orderBy'] }
+        : { orderBy?: MilestoneGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MilestoneGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMilestoneGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Milestone model
+   */
+  readonly fields: MilestoneFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Milestone.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MilestoneClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    service_request<T extends ServiceRequestDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ServiceRequestDefaultArgs<ExtArgs>>): Prisma__ServiceRequestClient<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Milestone model
+   */
+  interface MilestoneFieldRefs {
+    readonly id: FieldRef<"Milestone", 'String'>
+    readonly service_request_id: FieldRef<"Milestone", 'String'>
+    readonly title: FieldRef<"Milestone", 'String'>
+    readonly deadline: FieldRef<"Milestone", 'DateTime'>
+    readonly deliverable_url: FieldRef<"Milestone", 'String'>
+    readonly deliverable_name: FieldRef<"Milestone", 'String'>
+    readonly status: FieldRef<"Milestone", 'MilestoneStatus'>
+    readonly rejection_reason: FieldRef<"Milestone", 'String'>
+    readonly created_at: FieldRef<"Milestone", 'DateTime'>
+    readonly updated_at: FieldRef<"Milestone", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Milestone findUnique
+   */
+  export type MilestoneFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Milestone
+     */
+    select?: MilestoneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Milestone
+     */
+    omit?: MilestoneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MilestoneInclude<ExtArgs> | null
+    /**
+     * Filter, which Milestone to fetch.
+     */
+    where: MilestoneWhereUniqueInput
+  }
+
+  /**
+   * Milestone findUniqueOrThrow
+   */
+  export type MilestoneFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Milestone
+     */
+    select?: MilestoneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Milestone
+     */
+    omit?: MilestoneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MilestoneInclude<ExtArgs> | null
+    /**
+     * Filter, which Milestone to fetch.
+     */
+    where: MilestoneWhereUniqueInput
+  }
+
+  /**
+   * Milestone findFirst
+   */
+  export type MilestoneFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Milestone
+     */
+    select?: MilestoneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Milestone
+     */
+    omit?: MilestoneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MilestoneInclude<ExtArgs> | null
+    /**
+     * Filter, which Milestone to fetch.
+     */
+    where?: MilestoneWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Milestones to fetch.
+     */
+    orderBy?: MilestoneOrderByWithRelationInput | MilestoneOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Milestones.
+     */
+    cursor?: MilestoneWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Milestones from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Milestones.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Milestones.
+     */
+    distinct?: MilestoneScalarFieldEnum | MilestoneScalarFieldEnum[]
+  }
+
+  /**
+   * Milestone findFirstOrThrow
+   */
+  export type MilestoneFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Milestone
+     */
+    select?: MilestoneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Milestone
+     */
+    omit?: MilestoneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MilestoneInclude<ExtArgs> | null
+    /**
+     * Filter, which Milestone to fetch.
+     */
+    where?: MilestoneWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Milestones to fetch.
+     */
+    orderBy?: MilestoneOrderByWithRelationInput | MilestoneOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Milestones.
+     */
+    cursor?: MilestoneWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Milestones from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Milestones.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Milestones.
+     */
+    distinct?: MilestoneScalarFieldEnum | MilestoneScalarFieldEnum[]
+  }
+
+  /**
+   * Milestone findMany
+   */
+  export type MilestoneFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Milestone
+     */
+    select?: MilestoneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Milestone
+     */
+    omit?: MilestoneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MilestoneInclude<ExtArgs> | null
+    /**
+     * Filter, which Milestones to fetch.
+     */
+    where?: MilestoneWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Milestones to fetch.
+     */
+    orderBy?: MilestoneOrderByWithRelationInput | MilestoneOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Milestones.
+     */
+    cursor?: MilestoneWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Milestones from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Milestones.
+     */
+    skip?: number
+    distinct?: MilestoneScalarFieldEnum | MilestoneScalarFieldEnum[]
+  }
+
+  /**
+   * Milestone create
+   */
+  export type MilestoneCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Milestone
+     */
+    select?: MilestoneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Milestone
+     */
+    omit?: MilestoneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MilestoneInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Milestone.
+     */
+    data: XOR<MilestoneCreateInput, MilestoneUncheckedCreateInput>
+  }
+
+  /**
+   * Milestone createMany
+   */
+  export type MilestoneCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Milestones.
+     */
+    data: MilestoneCreateManyInput | MilestoneCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Milestone update
+   */
+  export type MilestoneUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Milestone
+     */
+    select?: MilestoneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Milestone
+     */
+    omit?: MilestoneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MilestoneInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Milestone.
+     */
+    data: XOR<MilestoneUpdateInput, MilestoneUncheckedUpdateInput>
+    /**
+     * Choose, which Milestone to update.
+     */
+    where: MilestoneWhereUniqueInput
+  }
+
+  /**
+   * Milestone updateMany
+   */
+  export type MilestoneUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Milestones.
+     */
+    data: XOR<MilestoneUpdateManyMutationInput, MilestoneUncheckedUpdateManyInput>
+    /**
+     * Filter which Milestones to update
+     */
+    where?: MilestoneWhereInput
+    /**
+     * Limit how many Milestones to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Milestone upsert
+   */
+  export type MilestoneUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Milestone
+     */
+    select?: MilestoneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Milestone
+     */
+    omit?: MilestoneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MilestoneInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Milestone to update in case it exists.
+     */
+    where: MilestoneWhereUniqueInput
+    /**
+     * In case the Milestone found by the `where` argument doesn't exist, create a new Milestone with this data.
+     */
+    create: XOR<MilestoneCreateInput, MilestoneUncheckedCreateInput>
+    /**
+     * In case the Milestone was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MilestoneUpdateInput, MilestoneUncheckedUpdateInput>
+  }
+
+  /**
+   * Milestone delete
+   */
+  export type MilestoneDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Milestone
+     */
+    select?: MilestoneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Milestone
+     */
+    omit?: MilestoneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MilestoneInclude<ExtArgs> | null
+    /**
+     * Filter which Milestone to delete.
+     */
+    where: MilestoneWhereUniqueInput
+  }
+
+  /**
+   * Milestone deleteMany
+   */
+  export type MilestoneDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Milestones to delete
+     */
+    where?: MilestoneWhereInput
+    /**
+     * Limit how many Milestones to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Milestone without action
+   */
+  export type MilestoneDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Milestone
+     */
+    select?: MilestoneSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Milestone
+     */
+    omit?: MilestoneOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: MilestoneInclude<ExtArgs> | null
   }
 
 
@@ -21912,6 +24291,23 @@ export namespace Prisma {
   export type PlanScalarFieldEnum = (typeof PlanScalarFieldEnum)[keyof typeof PlanScalarFieldEnum]
 
 
+  export const InvoiceScalarFieldEnum: {
+    id: 'id',
+    user_id: 'user_id',
+    service_request_id: 'service_request_id',
+    amount: 'amount',
+    status: 'status',
+    due_date: 'due_date',
+    paid_at: 'paid_at',
+    payment_method: 'payment_method',
+    payment_reference: 'payment_reference',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
+
+
   export const CaseStudyScalarFieldEnum: {
     id: 'id',
     title: 'title',
@@ -21960,6 +24356,8 @@ export namespace Prisma {
     service_id: 'service_id',
     plan_name: 'plan_name',
     status: 'status',
+    start_date: 'start_date',
+    end_date: 'end_date',
     formData: 'formData',
     created_at: 'created_at',
     updated_at: 'updated_at',
@@ -21967,6 +24365,22 @@ export namespace Prisma {
   };
 
   export type ServiceRequestScalarFieldEnum = (typeof ServiceRequestScalarFieldEnum)[keyof typeof ServiceRequestScalarFieldEnum]
+
+
+  export const MilestoneScalarFieldEnum: {
+    id: 'id',
+    service_request_id: 'service_request_id',
+    title: 'title',
+    deadline: 'deadline',
+    deliverable_url: 'deliverable_url',
+    deliverable_name: 'deliverable_name',
+    status: 'status',
+    rejection_reason: 'rejection_reason',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type MilestoneScalarFieldEnum = (typeof MilestoneScalarFieldEnum)[keyof typeof MilestoneScalarFieldEnum]
 
 
   export const ContactScalarFieldEnum: {
@@ -22206,6 +24620,18 @@ export namespace Prisma {
   export type PlanOrderByRelevanceFieldEnum = (typeof PlanOrderByRelevanceFieldEnum)[keyof typeof PlanOrderByRelevanceFieldEnum]
 
 
+  export const InvoiceOrderByRelevanceFieldEnum: {
+    id: 'id',
+    user_id: 'user_id',
+    service_request_id: 'service_request_id',
+    status: 'status',
+    payment_method: 'payment_method',
+    payment_reference: 'payment_reference'
+  };
+
+  export type InvoiceOrderByRelevanceFieldEnum = (typeof InvoiceOrderByRelevanceFieldEnum)[keyof typeof InvoiceOrderByRelevanceFieldEnum]
+
+
   export const CaseStudyOrderByRelevanceFieldEnum: {
     id: 'id',
     title: 'title',
@@ -22252,11 +24678,22 @@ export namespace Prisma {
     user_id: 'user_id',
     service_id: 'service_id',
     plan_name: 'plan_name',
-    status: 'status',
     planId: 'planId'
   };
 
   export type ServiceRequestOrderByRelevanceFieldEnum = (typeof ServiceRequestOrderByRelevanceFieldEnum)[keyof typeof ServiceRequestOrderByRelevanceFieldEnum]
+
+
+  export const MilestoneOrderByRelevanceFieldEnum: {
+    id: 'id',
+    service_request_id: 'service_request_id',
+    title: 'title',
+    deliverable_url: 'deliverable_url',
+    deliverable_name: 'deliverable_name',
+    rejection_reason: 'rejection_reason'
+  };
+
+  export type MilestoneOrderByRelevanceFieldEnum = (typeof MilestoneOrderByRelevanceFieldEnum)[keyof typeof MilestoneOrderByRelevanceFieldEnum]
 
 
   export const ContactOrderByRelevanceFieldEnum: {
@@ -22390,9 +24827,30 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Decimal'
+   */
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+  /**
    * Reference to a field of type 'Int'
    */
   export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'ServiceRequestStatus'
+   */
+  export type EnumServiceRequestStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ServiceRequestStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'MilestoneStatus'
+   */
+  export type EnumMilestoneStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'MilestoneStatus'>
     
 
 
@@ -22439,6 +24897,7 @@ export namespace Prisma {
     testimonials?: TestimonialListRelationFilter
     plan_types?: Plan_typeListRelationFilter
     role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
+    Invoice?: InvoiceListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -22471,6 +24930,7 @@ export namespace Prisma {
     testimonials?: TestimonialOrderByRelationAggregateInput
     plan_types?: Plan_typeOrderByRelationAggregateInput
     role?: RoleOrderByWithRelationInput
+    Invoice?: InvoiceOrderByRelationAggregateInput
     _relevance?: UserOrderByRelevanceInput
   }
 
@@ -22507,6 +24967,7 @@ export namespace Prisma {
     testimonials?: TestimonialListRelationFilter
     plan_types?: Plan_typeListRelationFilter
     role?: XOR<RoleScalarRelationFilter, RoleWhereInput>
+    Invoice?: InvoiceListRelationFilter
   }, "id" | "email" | "tel">
 
   export type UserOrderByWithAggregationInput = {
@@ -22678,7 +25139,7 @@ export namespace Prisma {
     faqs?: FaqListRelationFilter
     service_requests?: ServiceRequestListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    ServiceForm?: XOR<ServiceFormNullableScalarRelationFilter, ServiceFormWhereInput> | null
+    form?: XOR<ServiceFormNullableScalarRelationFilter, ServiceFormWhereInput> | null
   }
 
   export type ServiceOrderByWithRelationInput = {
@@ -22701,7 +25162,7 @@ export namespace Prisma {
     faqs?: FaqOrderByRelationAggregateInput
     service_requests?: ServiceRequestOrderByRelationAggregateInput
     user?: UserOrderByWithRelationInput
-    ServiceForm?: ServiceFormOrderByWithRelationInput
+    form?: ServiceFormOrderByWithRelationInput
     _relevance?: ServiceOrderByRelevanceInput
   }
 
@@ -22728,7 +25189,7 @@ export namespace Prisma {
     faqs?: FaqListRelationFilter
     service_requests?: ServiceRequestListRelationFilter
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    ServiceForm?: XOR<ServiceFormNullableScalarRelationFilter, ServiceFormWhereInput> | null
+    form?: XOR<ServiceFormNullableScalarRelationFilter, ServiceFormWhereInput> | null
   }, "id">
 
   export type ServiceOrderByWithAggregationInput = {
@@ -22911,6 +25372,97 @@ export namespace Prisma {
     service_id?: StringWithAggregatesFilter<"Plan"> | string
     plan_typeId?: StringNullableWithAggregatesFilter<"Plan"> | string | null
     billing_cycleId?: StringNullableWithAggregatesFilter<"Plan"> | string | null
+  }
+
+  export type InvoiceWhereInput = {
+    AND?: InvoiceWhereInput | InvoiceWhereInput[]
+    OR?: InvoiceWhereInput[]
+    NOT?: InvoiceWhereInput | InvoiceWhereInput[]
+    id?: StringFilter<"Invoice"> | string
+    user_id?: StringFilter<"Invoice"> | string
+    service_request_id?: StringNullableFilter<"Invoice"> | string | null
+    amount?: DecimalFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
+    status?: StringFilter<"Invoice"> | string
+    due_date?: DateTimeFilter<"Invoice"> | Date | string
+    paid_at?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    payment_method?: StringNullableFilter<"Invoice"> | string | null
+    payment_reference?: StringNullableFilter<"Invoice"> | string | null
+    created_at?: DateTimeFilter<"Invoice"> | Date | string
+    updated_at?: DateTimeFilter<"Invoice"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    service_request?: XOR<ServiceRequestNullableScalarRelationFilter, ServiceRequestWhereInput> | null
+  }
+
+  export type InvoiceOrderByWithRelationInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    service_request_id?: SortOrderInput | SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    due_date?: SortOrder
+    paid_at?: SortOrderInput | SortOrder
+    payment_method?: SortOrderInput | SortOrder
+    payment_reference?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    user?: UserOrderByWithRelationInput
+    service_request?: ServiceRequestOrderByWithRelationInput
+    _relevance?: InvoiceOrderByRelevanceInput
+  }
+
+  export type InvoiceWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    service_request_id?: string
+    payment_reference?: string
+    AND?: InvoiceWhereInput | InvoiceWhereInput[]
+    OR?: InvoiceWhereInput[]
+    NOT?: InvoiceWhereInput | InvoiceWhereInput[]
+    user_id?: StringFilter<"Invoice"> | string
+    amount?: DecimalFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
+    status?: StringFilter<"Invoice"> | string
+    due_date?: DateTimeFilter<"Invoice"> | Date | string
+    paid_at?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    payment_method?: StringNullableFilter<"Invoice"> | string | null
+    created_at?: DateTimeFilter<"Invoice"> | Date | string
+    updated_at?: DateTimeFilter<"Invoice"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    service_request?: XOR<ServiceRequestNullableScalarRelationFilter, ServiceRequestWhereInput> | null
+  }, "id" | "service_request_id" | "payment_reference">
+
+  export type InvoiceOrderByWithAggregationInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    service_request_id?: SortOrderInput | SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    due_date?: SortOrder
+    paid_at?: SortOrderInput | SortOrder
+    payment_method?: SortOrderInput | SortOrder
+    payment_reference?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: InvoiceCountOrderByAggregateInput
+    _avg?: InvoiceAvgOrderByAggregateInput
+    _max?: InvoiceMaxOrderByAggregateInput
+    _min?: InvoiceMinOrderByAggregateInput
+    _sum?: InvoiceSumOrderByAggregateInput
+  }
+
+  export type InvoiceScalarWhereWithAggregatesInput = {
+    AND?: InvoiceScalarWhereWithAggregatesInput | InvoiceScalarWhereWithAggregatesInput[]
+    OR?: InvoiceScalarWhereWithAggregatesInput[]
+    NOT?: InvoiceScalarWhereWithAggregatesInput | InvoiceScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Invoice"> | string
+    user_id?: StringWithAggregatesFilter<"Invoice"> | string
+    service_request_id?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    amount?: DecimalWithAggregatesFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
+    status?: StringWithAggregatesFilter<"Invoice"> | string
+    due_date?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+    paid_at?: DateTimeNullableWithAggregatesFilter<"Invoice"> | Date | string | null
+    payment_method?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    payment_reference?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
+    created_at?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
   }
 
   export type CaseStudyWhereInput = {
@@ -23142,13 +25694,17 @@ export namespace Prisma {
     user_id?: StringFilter<"ServiceRequest"> | string
     service_id?: StringFilter<"ServiceRequest"> | string
     plan_name?: StringFilter<"ServiceRequest"> | string
-    status?: StringFilter<"ServiceRequest"> | string
+    status?: EnumServiceRequestStatusFilter<"ServiceRequest"> | $Enums.ServiceRequestStatus
+    start_date?: DateTimeNullableFilter<"ServiceRequest"> | Date | string | null
+    end_date?: DateTimeNullableFilter<"ServiceRequest"> | Date | string | null
     formData?: JsonFilter<"ServiceRequest">
     created_at?: DateTimeFilter<"ServiceRequest"> | Date | string
     updated_at?: DateTimeFilter<"ServiceRequest"> | Date | string
     planId?: StringNullableFilter<"ServiceRequest"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
+    invoice?: XOR<InvoiceNullableScalarRelationFilter, InvoiceWhereInput> | null
+    milestones?: MilestoneListRelationFilter
     Plan?: XOR<PlanNullableScalarRelationFilter, PlanWhereInput> | null
   }
 
@@ -23158,12 +25714,16 @@ export namespace Prisma {
     service_id?: SortOrder
     plan_name?: SortOrder
     status?: SortOrder
+    start_date?: SortOrderInput | SortOrder
+    end_date?: SortOrderInput | SortOrder
     formData?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     planId?: SortOrderInput | SortOrder
     user?: UserOrderByWithRelationInput
     service?: ServiceOrderByWithRelationInput
+    invoice?: InvoiceOrderByWithRelationInput
+    milestones?: MilestoneOrderByRelationAggregateInput
     Plan?: PlanOrderByWithRelationInput
     _relevance?: ServiceRequestOrderByRelevanceInput
   }
@@ -23176,13 +25736,17 @@ export namespace Prisma {
     user_id?: StringFilter<"ServiceRequest"> | string
     service_id?: StringFilter<"ServiceRequest"> | string
     plan_name?: StringFilter<"ServiceRequest"> | string
-    status?: StringFilter<"ServiceRequest"> | string
+    status?: EnumServiceRequestStatusFilter<"ServiceRequest"> | $Enums.ServiceRequestStatus
+    start_date?: DateTimeNullableFilter<"ServiceRequest"> | Date | string | null
+    end_date?: DateTimeNullableFilter<"ServiceRequest"> | Date | string | null
     formData?: JsonFilter<"ServiceRequest">
     created_at?: DateTimeFilter<"ServiceRequest"> | Date | string
     updated_at?: DateTimeFilter<"ServiceRequest"> | Date | string
     planId?: StringNullableFilter<"ServiceRequest"> | string | null
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
+    invoice?: XOR<InvoiceNullableScalarRelationFilter, InvoiceWhereInput> | null
+    milestones?: MilestoneListRelationFilter
     Plan?: XOR<PlanNullableScalarRelationFilter, PlanWhereInput> | null
   }, "id">
 
@@ -23192,6 +25756,8 @@ export namespace Prisma {
     service_id?: SortOrder
     plan_name?: SortOrder
     status?: SortOrder
+    start_date?: SortOrderInput | SortOrder
+    end_date?: SortOrderInput | SortOrder
     formData?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -23209,11 +25775,94 @@ export namespace Prisma {
     user_id?: StringWithAggregatesFilter<"ServiceRequest"> | string
     service_id?: StringWithAggregatesFilter<"ServiceRequest"> | string
     plan_name?: StringWithAggregatesFilter<"ServiceRequest"> | string
-    status?: StringWithAggregatesFilter<"ServiceRequest"> | string
+    status?: EnumServiceRequestStatusWithAggregatesFilter<"ServiceRequest"> | $Enums.ServiceRequestStatus
+    start_date?: DateTimeNullableWithAggregatesFilter<"ServiceRequest"> | Date | string | null
+    end_date?: DateTimeNullableWithAggregatesFilter<"ServiceRequest"> | Date | string | null
     formData?: JsonWithAggregatesFilter<"ServiceRequest">
     created_at?: DateTimeWithAggregatesFilter<"ServiceRequest"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"ServiceRequest"> | Date | string
     planId?: StringNullableWithAggregatesFilter<"ServiceRequest"> | string | null
+  }
+
+  export type MilestoneWhereInput = {
+    AND?: MilestoneWhereInput | MilestoneWhereInput[]
+    OR?: MilestoneWhereInput[]
+    NOT?: MilestoneWhereInput | MilestoneWhereInput[]
+    id?: StringFilter<"Milestone"> | string
+    service_request_id?: StringFilter<"Milestone"> | string
+    title?: StringFilter<"Milestone"> | string
+    deadline?: DateTimeFilter<"Milestone"> | Date | string
+    deliverable_url?: StringNullableFilter<"Milestone"> | string | null
+    deliverable_name?: StringNullableFilter<"Milestone"> | string | null
+    status?: EnumMilestoneStatusFilter<"Milestone"> | $Enums.MilestoneStatus
+    rejection_reason?: StringNullableFilter<"Milestone"> | string | null
+    created_at?: DateTimeFilter<"Milestone"> | Date | string
+    updated_at?: DateTimeFilter<"Milestone"> | Date | string
+    service_request?: XOR<ServiceRequestScalarRelationFilter, ServiceRequestWhereInput>
+  }
+
+  export type MilestoneOrderByWithRelationInput = {
+    id?: SortOrder
+    service_request_id?: SortOrder
+    title?: SortOrder
+    deadline?: SortOrder
+    deliverable_url?: SortOrderInput | SortOrder
+    deliverable_name?: SortOrderInput | SortOrder
+    status?: SortOrder
+    rejection_reason?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    service_request?: ServiceRequestOrderByWithRelationInput
+    _relevance?: MilestoneOrderByRelevanceInput
+  }
+
+  export type MilestoneWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: MilestoneWhereInput | MilestoneWhereInput[]
+    OR?: MilestoneWhereInput[]
+    NOT?: MilestoneWhereInput | MilestoneWhereInput[]
+    service_request_id?: StringFilter<"Milestone"> | string
+    title?: StringFilter<"Milestone"> | string
+    deadline?: DateTimeFilter<"Milestone"> | Date | string
+    deliverable_url?: StringNullableFilter<"Milestone"> | string | null
+    deliverable_name?: StringNullableFilter<"Milestone"> | string | null
+    status?: EnumMilestoneStatusFilter<"Milestone"> | $Enums.MilestoneStatus
+    rejection_reason?: StringNullableFilter<"Milestone"> | string | null
+    created_at?: DateTimeFilter<"Milestone"> | Date | string
+    updated_at?: DateTimeFilter<"Milestone"> | Date | string
+    service_request?: XOR<ServiceRequestScalarRelationFilter, ServiceRequestWhereInput>
+  }, "id">
+
+  export type MilestoneOrderByWithAggregationInput = {
+    id?: SortOrder
+    service_request_id?: SortOrder
+    title?: SortOrder
+    deadline?: SortOrder
+    deliverable_url?: SortOrderInput | SortOrder
+    deliverable_name?: SortOrderInput | SortOrder
+    status?: SortOrder
+    rejection_reason?: SortOrderInput | SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: MilestoneCountOrderByAggregateInput
+    _max?: MilestoneMaxOrderByAggregateInput
+    _min?: MilestoneMinOrderByAggregateInput
+  }
+
+  export type MilestoneScalarWhereWithAggregatesInput = {
+    AND?: MilestoneScalarWhereWithAggregatesInput | MilestoneScalarWhereWithAggregatesInput[]
+    OR?: MilestoneScalarWhereWithAggregatesInput[]
+    NOT?: MilestoneScalarWhereWithAggregatesInput | MilestoneScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Milestone"> | string
+    service_request_id?: StringWithAggregatesFilter<"Milestone"> | string
+    title?: StringWithAggregatesFilter<"Milestone"> | string
+    deadline?: DateTimeWithAggregatesFilter<"Milestone"> | Date | string
+    deliverable_url?: StringNullableWithAggregatesFilter<"Milestone"> | string | null
+    deliverable_name?: StringNullableWithAggregatesFilter<"Milestone"> | string | null
+    status?: EnumMilestoneStatusWithAggregatesFilter<"Milestone"> | $Enums.MilestoneStatus
+    rejection_reason?: StringNullableWithAggregatesFilter<"Milestone"> | string | null
+    created_at?: DateTimeWithAggregatesFilter<"Milestone"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Milestone"> | Date | string
   }
 
   export type ContactWhereInput = {
@@ -23851,6 +26500,7 @@ export namespace Prisma {
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeCreateNestedManyWithoutUserInput
     role: RoleCreateNestedOneWithoutUsersInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -23882,6 +26532,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -23913,6 +26564,7 @@ export namespace Prisma {
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -23944,6 +26596,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -24140,7 +26793,7 @@ export namespace Prisma {
     faqs?: FaqCreateNestedManyWithoutServiceInput
     service_requests?: ServiceRequestCreateNestedManyWithoutServiceInput
     user: UserCreateNestedOneWithoutServicesInput
-    ServiceForm?: ServiceFormCreateNestedOneWithoutServiceInput
+    form?: ServiceFormCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateInput = {
@@ -24162,7 +26815,7 @@ export namespace Prisma {
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutServiceInput
     faqs?: FaqUncheckedCreateNestedManyWithoutServiceInput
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutServiceInput
-    ServiceForm?: ServiceFormUncheckedCreateNestedOneWithoutServiceInput
+    form?: ServiceFormUncheckedCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceUpdateInput = {
@@ -24184,7 +26837,7 @@ export namespace Prisma {
     faqs?: FaqUpdateManyWithoutServiceNestedInput
     service_requests?: ServiceRequestUpdateManyWithoutServiceNestedInput
     user?: UserUpdateOneRequiredWithoutServicesNestedInput
-    ServiceForm?: ServiceFormUpdateOneWithoutServiceNestedInput
+    form?: ServiceFormUpdateOneWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateInput = {
@@ -24206,7 +26859,7 @@ export namespace Prisma {
     testimonials?: TestimonialUncheckedUpdateManyWithoutServiceNestedInput
     faqs?: FaqUncheckedUpdateManyWithoutServiceNestedInput
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutServiceNestedInput
-    ServiceForm?: ServiceFormUncheckedUpdateOneWithoutServiceNestedInput
+    form?: ServiceFormUncheckedUpdateOneWithoutServiceNestedInput
   }
 
   export type ServiceCreateManyInput = {
@@ -24261,7 +26914,7 @@ export namespace Prisma {
     formFields: JsonNullValueInput | InputJsonValue
     created_at?: Date | string | null
     updated_at?: Date | string | null
-    service: ServiceCreateNestedOneWithoutServiceFormInput
+    service: ServiceCreateNestedOneWithoutFormInput
   }
 
   export type ServiceFormUncheckedCreateInput = {
@@ -24277,7 +26930,7 @@ export namespace Prisma {
     formFields?: JsonNullValueInput | InputJsonValue
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    service?: ServiceUpdateOneRequiredWithoutServiceFormNestedInput
+    service?: ServiceUpdateOneRequiredWithoutFormNestedInput
   }
 
   export type ServiceFormUncheckedUpdateInput = {
@@ -24398,6 +27051,102 @@ export namespace Prisma {
     service_id?: StringFieldUpdateOperationsInput | string
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type InvoiceCreateInput = {
+    id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    status: string
+    due_date: Date | string
+    paid_at?: Date | string | null
+    payment_method?: string | null
+    payment_reference?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    user: UserCreateNestedOneWithoutInvoiceInput
+    service_request?: ServiceRequestCreateNestedOneWithoutInvoiceInput
+  }
+
+  export type InvoiceUncheckedCreateInput = {
+    id?: string
+    user_id: string
+    service_request_id?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    status: string
+    due_date: Date | string
+    paid_at?: Date | string | null
+    payment_method?: string | null
+    payment_reference?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type InvoiceUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    due_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInvoiceNestedInput
+    service_request?: ServiceRequestUpdateOneWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    service_request_id?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    due_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceCreateManyInput = {
+    id?: string
+    user_id: string
+    service_request_id?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    status: string
+    due_date: Date | string
+    paid_at?: Date | string | null
+    payment_method?: string | null
+    payment_reference?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type InvoiceUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    due_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    service_request_id?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    due_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CaseStudyCreateInput = {
@@ -24629,12 +27378,16 @@ export namespace Prisma {
   export type ServiceRequestCreateInput = {
     id?: string
     plan_name: string
-    status?: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     formData: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
     user: UserCreateNestedOneWithoutService_requestsInput
     service: ServiceCreateNestedOneWithoutService_requestsInput
+    invoice?: InvoiceCreateNestedOneWithoutService_requestInput
+    milestones?: MilestoneCreateNestedManyWithoutService_requestInput
     Plan?: PlanCreateNestedOneWithoutService_requestsInput
   }
 
@@ -24643,22 +27396,30 @@ export namespace Prisma {
     user_id: string
     service_id: string
     plan_name: string
-    status?: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     formData: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
     planId?: string | null
+    invoice?: InvoiceUncheckedCreateNestedOneWithoutService_requestInput
+    milestones?: MilestoneUncheckedCreateNestedManyWithoutService_requestInput
   }
 
   export type ServiceRequestUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     plan_name?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     formData?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutService_requestsNestedInput
     service?: ServiceUpdateOneRequiredWithoutService_requestsNestedInput
+    invoice?: InvoiceUpdateOneWithoutService_requestNestedInput
+    milestones?: MilestoneUpdateManyWithoutService_requestNestedInput
     Plan?: PlanUpdateOneWithoutService_requestsNestedInput
   }
 
@@ -24667,11 +27428,15 @@ export namespace Prisma {
     user_id?: StringFieldUpdateOperationsInput | string
     service_id?: StringFieldUpdateOperationsInput | string
     plan_name?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     formData?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     planId?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice?: InvoiceUncheckedUpdateOneWithoutService_requestNestedInput
+    milestones?: MilestoneUncheckedUpdateManyWithoutService_requestNestedInput
   }
 
   export type ServiceRequestCreateManyInput = {
@@ -24679,7 +27444,9 @@ export namespace Prisma {
     user_id: string
     service_id: string
     plan_name: string
-    status?: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     formData: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -24689,7 +27456,9 @@ export namespace Prisma {
   export type ServiceRequestUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     plan_name?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     formData?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24700,11 +27469,103 @@ export namespace Prisma {
     user_id?: StringFieldUpdateOperationsInput | string
     service_id?: StringFieldUpdateOperationsInput | string
     plan_name?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     formData?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     planId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type MilestoneCreateInput = {
+    id?: string
+    title: string
+    deadline: Date | string
+    deliverable_url?: string | null
+    deliverable_name?: string | null
+    status?: $Enums.MilestoneStatus
+    rejection_reason?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    service_request: ServiceRequestCreateNestedOneWithoutMilestonesInput
+  }
+
+  export type MilestoneUncheckedCreateInput = {
+    id?: string
+    service_request_id: string
+    title: string
+    deadline: Date | string
+    deliverable_url?: string | null
+    deliverable_name?: string | null
+    status?: $Enums.MilestoneStatus
+    rejection_reason?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type MilestoneUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliverable_url?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_name?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMilestoneStatusFieldUpdateOperationsInput | $Enums.MilestoneStatus
+    rejection_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    service_request?: ServiceRequestUpdateOneRequiredWithoutMilestonesNestedInput
+  }
+
+  export type MilestoneUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    service_request_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliverable_url?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_name?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMilestoneStatusFieldUpdateOperationsInput | $Enums.MilestoneStatus
+    rejection_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MilestoneCreateManyInput = {
+    id?: string
+    service_request_id: string
+    title: string
+    deadline: Date | string
+    deliverable_url?: string | null
+    deliverable_name?: string | null
+    status?: $Enums.MilestoneStatus
+    rejection_reason?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type MilestoneUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliverable_url?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_name?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMilestoneStatusFieldUpdateOperationsInput | $Enums.MilestoneStatus
+    rejection_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MilestoneUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    service_request_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliverable_url?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_name?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMilestoneStatusFieldUpdateOperationsInput | $Enums.MilestoneStatus
+    rejection_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ContactCreateInput = {
@@ -25464,6 +28325,12 @@ export namespace Prisma {
     isNot?: RoleWhereInput
   }
 
+  export type InvoiceListRelationFilter = {
+    every?: InvoiceWhereInput
+    some?: InvoiceWhereInput
+    none?: InvoiceWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -25514,6 +28381,10 @@ export namespace Prisma {
   }
 
   export type Plan_typeOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type InvoiceOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -25990,6 +28861,94 @@ export namespace Prisma {
     billing_cycleId?: SortOrder
   }
 
+  export type DecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type ServiceRequestNullableScalarRelationFilter = {
+    is?: ServiceRequestWhereInput | null
+    isNot?: ServiceRequestWhereInput | null
+  }
+
+  export type InvoiceOrderByRelevanceInput = {
+    fields: InvoiceOrderByRelevanceFieldEnum | InvoiceOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type InvoiceCountOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    service_request_id?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    due_date?: SortOrder
+    paid_at?: SortOrder
+    payment_method?: SortOrder
+    payment_reference?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type InvoiceAvgOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type InvoiceMaxOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    service_request_id?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    due_date?: SortOrder
+    paid_at?: SortOrder
+    payment_method?: SortOrder
+    payment_reference?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type InvoiceMinOrderByAggregateInput = {
+    id?: SortOrder
+    user_id?: SortOrder
+    service_request_id?: SortOrder
+    amount?: SortOrder
+    status?: SortOrder
+    due_date?: SortOrder
+    paid_at?: SortOrder
+    payment_method?: SortOrder
+    payment_reference?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type InvoiceSumOrderByAggregateInput = {
+    amount?: SortOrder
+  }
+
+  export type DecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
   export type OrganisationNullableScalarRelationFilter = {
     is?: OrganisationWhereInput | null
     isNot?: OrganisationWhereInput | null
@@ -26147,9 +29106,31 @@ export namespace Prisma {
     service_id?: SortOrder
   }
 
+  export type EnumServiceRequestStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ServiceRequestStatus | EnumServiceRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ServiceRequestStatus[]
+    notIn?: $Enums.ServiceRequestStatus[]
+    not?: NestedEnumServiceRequestStatusFilter<$PrismaModel> | $Enums.ServiceRequestStatus
+  }
+
+  export type InvoiceNullableScalarRelationFilter = {
+    is?: InvoiceWhereInput | null
+    isNot?: InvoiceWhereInput | null
+  }
+
+  export type MilestoneListRelationFilter = {
+    every?: MilestoneWhereInput
+    some?: MilestoneWhereInput
+    none?: MilestoneWhereInput
+  }
+
   export type PlanNullableScalarRelationFilter = {
     is?: PlanWhereInput | null
     isNot?: PlanWhereInput | null
+  }
+
+  export type MilestoneOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type ServiceRequestOrderByRelevanceInput = {
@@ -26164,6 +29145,8 @@ export namespace Prisma {
     service_id?: SortOrder
     plan_name?: SortOrder
     status?: SortOrder
+    start_date?: SortOrder
+    end_date?: SortOrder
     formData?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
@@ -26176,6 +29159,8 @@ export namespace Prisma {
     service_id?: SortOrder
     plan_name?: SortOrder
     status?: SortOrder
+    start_date?: SortOrder
+    end_date?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     planId?: SortOrder
@@ -26187,9 +29172,88 @@ export namespace Prisma {
     service_id?: SortOrder
     plan_name?: SortOrder
     status?: SortOrder
+    start_date?: SortOrder
+    end_date?: SortOrder
     created_at?: SortOrder
     updated_at?: SortOrder
     planId?: SortOrder
+  }
+
+  export type EnumServiceRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ServiceRequestStatus | EnumServiceRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ServiceRequestStatus[]
+    notIn?: $Enums.ServiceRequestStatus[]
+    not?: NestedEnumServiceRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.ServiceRequestStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumServiceRequestStatusFilter<$PrismaModel>
+    _max?: NestedEnumServiceRequestStatusFilter<$PrismaModel>
+  }
+
+  export type EnumMilestoneStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.MilestoneStatus | EnumMilestoneStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MilestoneStatus[]
+    notIn?: $Enums.MilestoneStatus[]
+    not?: NestedEnumMilestoneStatusFilter<$PrismaModel> | $Enums.MilestoneStatus
+  }
+
+  export type ServiceRequestScalarRelationFilter = {
+    is?: ServiceRequestWhereInput
+    isNot?: ServiceRequestWhereInput
+  }
+
+  export type MilestoneOrderByRelevanceInput = {
+    fields: MilestoneOrderByRelevanceFieldEnum | MilestoneOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type MilestoneCountOrderByAggregateInput = {
+    id?: SortOrder
+    service_request_id?: SortOrder
+    title?: SortOrder
+    deadline?: SortOrder
+    deliverable_url?: SortOrder
+    deliverable_name?: SortOrder
+    status?: SortOrder
+    rejection_reason?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type MilestoneMaxOrderByAggregateInput = {
+    id?: SortOrder
+    service_request_id?: SortOrder
+    title?: SortOrder
+    deadline?: SortOrder
+    deliverable_url?: SortOrder
+    deliverable_name?: SortOrder
+    status?: SortOrder
+    rejection_reason?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type MilestoneMinOrderByAggregateInput = {
+    id?: SortOrder
+    service_request_id?: SortOrder
+    title?: SortOrder
+    deadline?: SortOrder
+    deliverable_url?: SortOrder
+    deliverable_name?: SortOrder
+    status?: SortOrder
+    rejection_reason?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type EnumMilestoneStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MilestoneStatus | EnumMilestoneStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MilestoneStatus[]
+    notIn?: $Enums.MilestoneStatus[]
+    not?: NestedEnumMilestoneStatusWithAggregatesFilter<$PrismaModel> | $Enums.MilestoneStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMilestoneStatusFilter<$PrismaModel>
+    _max?: NestedEnumMilestoneStatusFilter<$PrismaModel>
   }
 
   export type OrganisationScalarRelationFilter = {
@@ -26634,6 +29698,13 @@ export namespace Prisma {
     connect?: RoleWhereUniqueInput
   }
 
+  export type InvoiceCreateNestedManyWithoutUserInput = {
+    create?: XOR<InvoiceCreateWithoutUserInput, InvoiceUncheckedCreateWithoutUserInput> | InvoiceCreateWithoutUserInput[] | InvoiceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutUserInput | InvoiceCreateOrConnectWithoutUserInput[]
+    createMany?: InvoiceCreateManyUserInputEnvelope
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+  }
+
   export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
@@ -26716,6 +29787,13 @@ export namespace Prisma {
     connectOrCreate?: Plan_typeCreateOrConnectWithoutUserInput | Plan_typeCreateOrConnectWithoutUserInput[]
     createMany?: Plan_typeCreateManyUserInputEnvelope
     connect?: Plan_typeWhereUniqueInput | Plan_typeWhereUniqueInput[]
+  }
+
+  export type InvoiceUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<InvoiceCreateWithoutUserInput, InvoiceUncheckedCreateWithoutUserInput> | InvoiceCreateWithoutUserInput[] | InvoiceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutUserInput | InvoiceCreateOrConnectWithoutUserInput[]
+    createMany?: InvoiceCreateManyUserInputEnvelope
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -26910,6 +29988,20 @@ export namespace Prisma {
     update?: XOR<XOR<RoleUpdateToOneWithWhereWithoutUsersInput, RoleUpdateWithoutUsersInput>, RoleUncheckedUpdateWithoutUsersInput>
   }
 
+  export type InvoiceUpdateManyWithoutUserNestedInput = {
+    create?: XOR<InvoiceCreateWithoutUserInput, InvoiceUncheckedCreateWithoutUserInput> | InvoiceCreateWithoutUserInput[] | InvoiceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutUserInput | InvoiceCreateOrConnectWithoutUserInput[]
+    upsert?: InvoiceUpsertWithWhereUniqueWithoutUserInput | InvoiceUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: InvoiceCreateManyUserInputEnvelope
+    set?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    disconnect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    delete?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    update?: InvoiceUpdateWithWhereUniqueWithoutUserInput | InvoiceUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: InvoiceUpdateManyWithWhereWithoutUserInput | InvoiceUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+  }
+
   export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
     connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
@@ -27076,6 +30168,20 @@ export namespace Prisma {
     update?: Plan_typeUpdateWithWhereUniqueWithoutUserInput | Plan_typeUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: Plan_typeUpdateManyWithWhereWithoutUserInput | Plan_typeUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: Plan_typeScalarWhereInput | Plan_typeScalarWhereInput[]
+  }
+
+  export type InvoiceUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<InvoiceCreateWithoutUserInput, InvoiceUncheckedCreateWithoutUserInput> | InvoiceCreateWithoutUserInput[] | InvoiceUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: InvoiceCreateOrConnectWithoutUserInput | InvoiceCreateOrConnectWithoutUserInput[]
+    upsert?: InvoiceUpsertWithWhereUniqueWithoutUserInput | InvoiceUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: InvoiceCreateManyUserInputEnvelope
+    set?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    disconnect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    delete?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    connect?: InvoiceWhereUniqueInput | InvoiceWhereUniqueInput[]
+    update?: InvoiceUpdateWithWhereUniqueWithoutUserInput | InvoiceUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: InvoiceUpdateManyWithWhereWithoutUserInput | InvoiceUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
   }
 
   export type CaseStudyCreateNestedManyWithoutOrganisationInput = {
@@ -27440,18 +30546,18 @@ export namespace Prisma {
     update?: XOR<XOR<ServiceFormUpdateToOneWithWhereWithoutServiceInput, ServiceFormUpdateWithoutServiceInput>, ServiceFormUncheckedUpdateWithoutServiceInput>
   }
 
-  export type ServiceCreateNestedOneWithoutServiceFormInput = {
-    create?: XOR<ServiceCreateWithoutServiceFormInput, ServiceUncheckedCreateWithoutServiceFormInput>
-    connectOrCreate?: ServiceCreateOrConnectWithoutServiceFormInput
+  export type ServiceCreateNestedOneWithoutFormInput = {
+    create?: XOR<ServiceCreateWithoutFormInput, ServiceUncheckedCreateWithoutFormInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutFormInput
     connect?: ServiceWhereUniqueInput
   }
 
-  export type ServiceUpdateOneRequiredWithoutServiceFormNestedInput = {
-    create?: XOR<ServiceCreateWithoutServiceFormInput, ServiceUncheckedCreateWithoutServiceFormInput>
-    connectOrCreate?: ServiceCreateOrConnectWithoutServiceFormInput
-    upsert?: ServiceUpsertWithoutServiceFormInput
+  export type ServiceUpdateOneRequiredWithoutFormNestedInput = {
+    create?: XOR<ServiceCreateWithoutFormInput, ServiceUncheckedCreateWithoutFormInput>
+    connectOrCreate?: ServiceCreateOrConnectWithoutFormInput
+    upsert?: ServiceUpsertWithoutFormInput
     connect?: ServiceWhereUniqueInput
-    update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutServiceFormInput, ServiceUpdateWithoutServiceFormInput>, ServiceUncheckedUpdateWithoutServiceFormInput>
+    update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutFormInput, ServiceUpdateWithoutFormInput>, ServiceUncheckedUpdateWithoutFormInput>
   }
 
   export type ServiceCreateNestedOneWithoutPlansInput = {
@@ -27584,6 +30690,44 @@ export namespace Prisma {
     deleteMany?: SubscriptionScalarWhereInput | SubscriptionScalarWhereInput[]
   }
 
+  export type UserCreateNestedOneWithoutInvoiceInput = {
+    create?: XOR<UserCreateWithoutInvoiceInput, UserUncheckedCreateWithoutInvoiceInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInvoiceInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type ServiceRequestCreateNestedOneWithoutInvoiceInput = {
+    create?: XOR<ServiceRequestCreateWithoutInvoiceInput, ServiceRequestUncheckedCreateWithoutInvoiceInput>
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutInvoiceInput
+    connect?: ServiceRequestWhereUniqueInput
+  }
+
+  export type DecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
+  export type UserUpdateOneRequiredWithoutInvoiceNestedInput = {
+    create?: XOR<UserCreateWithoutInvoiceInput, UserUncheckedCreateWithoutInvoiceInput>
+    connectOrCreate?: UserCreateOrConnectWithoutInvoiceInput
+    upsert?: UserUpsertWithoutInvoiceInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutInvoiceInput, UserUpdateWithoutInvoiceInput>, UserUncheckedUpdateWithoutInvoiceInput>
+  }
+
+  export type ServiceRequestUpdateOneWithoutInvoiceNestedInput = {
+    create?: XOR<ServiceRequestCreateWithoutInvoiceInput, ServiceRequestUncheckedCreateWithoutInvoiceInput>
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutInvoiceInput
+    upsert?: ServiceRequestUpsertWithoutInvoiceInput
+    disconnect?: ServiceRequestWhereInput | boolean
+    delete?: ServiceRequestWhereInput | boolean
+    connect?: ServiceRequestWhereUniqueInput
+    update?: XOR<XOR<ServiceRequestUpdateToOneWithWhereWithoutInvoiceInput, ServiceRequestUpdateWithoutInvoiceInput>, ServiceRequestUncheckedUpdateWithoutInvoiceInput>
+  }
+
   export type ServiceCreateNestedOneWithoutCaseStudiesInput = {
     create?: XOR<ServiceCreateWithoutCaseStudiesInput, ServiceUncheckedCreateWithoutCaseStudiesInput>
     connectOrCreate?: ServiceCreateOrConnectWithoutCaseStudiesInput
@@ -27676,10 +30820,40 @@ export namespace Prisma {
     connect?: ServiceWhereUniqueInput
   }
 
+  export type InvoiceCreateNestedOneWithoutService_requestInput = {
+    create?: XOR<InvoiceCreateWithoutService_requestInput, InvoiceUncheckedCreateWithoutService_requestInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutService_requestInput
+    connect?: InvoiceWhereUniqueInput
+  }
+
+  export type MilestoneCreateNestedManyWithoutService_requestInput = {
+    create?: XOR<MilestoneCreateWithoutService_requestInput, MilestoneUncheckedCreateWithoutService_requestInput> | MilestoneCreateWithoutService_requestInput[] | MilestoneUncheckedCreateWithoutService_requestInput[]
+    connectOrCreate?: MilestoneCreateOrConnectWithoutService_requestInput | MilestoneCreateOrConnectWithoutService_requestInput[]
+    createMany?: MilestoneCreateManyService_requestInputEnvelope
+    connect?: MilestoneWhereUniqueInput | MilestoneWhereUniqueInput[]
+  }
+
   export type PlanCreateNestedOneWithoutService_requestsInput = {
     create?: XOR<PlanCreateWithoutService_requestsInput, PlanUncheckedCreateWithoutService_requestsInput>
     connectOrCreate?: PlanCreateOrConnectWithoutService_requestsInput
     connect?: PlanWhereUniqueInput
+  }
+
+  export type InvoiceUncheckedCreateNestedOneWithoutService_requestInput = {
+    create?: XOR<InvoiceCreateWithoutService_requestInput, InvoiceUncheckedCreateWithoutService_requestInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutService_requestInput
+    connect?: InvoiceWhereUniqueInput
+  }
+
+  export type MilestoneUncheckedCreateNestedManyWithoutService_requestInput = {
+    create?: XOR<MilestoneCreateWithoutService_requestInput, MilestoneUncheckedCreateWithoutService_requestInput> | MilestoneCreateWithoutService_requestInput[] | MilestoneUncheckedCreateWithoutService_requestInput[]
+    connectOrCreate?: MilestoneCreateOrConnectWithoutService_requestInput | MilestoneCreateOrConnectWithoutService_requestInput[]
+    createMany?: MilestoneCreateManyService_requestInputEnvelope
+    connect?: MilestoneWhereUniqueInput | MilestoneWhereUniqueInput[]
+  }
+
+  export type EnumServiceRequestStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ServiceRequestStatus
   }
 
   export type UserUpdateOneRequiredWithoutService_requestsNestedInput = {
@@ -27698,6 +30872,30 @@ export namespace Prisma {
     update?: XOR<XOR<ServiceUpdateToOneWithWhereWithoutService_requestsInput, ServiceUpdateWithoutService_requestsInput>, ServiceUncheckedUpdateWithoutService_requestsInput>
   }
 
+  export type InvoiceUpdateOneWithoutService_requestNestedInput = {
+    create?: XOR<InvoiceCreateWithoutService_requestInput, InvoiceUncheckedCreateWithoutService_requestInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutService_requestInput
+    upsert?: InvoiceUpsertWithoutService_requestInput
+    disconnect?: InvoiceWhereInput | boolean
+    delete?: InvoiceWhereInput | boolean
+    connect?: InvoiceWhereUniqueInput
+    update?: XOR<XOR<InvoiceUpdateToOneWithWhereWithoutService_requestInput, InvoiceUpdateWithoutService_requestInput>, InvoiceUncheckedUpdateWithoutService_requestInput>
+  }
+
+  export type MilestoneUpdateManyWithoutService_requestNestedInput = {
+    create?: XOR<MilestoneCreateWithoutService_requestInput, MilestoneUncheckedCreateWithoutService_requestInput> | MilestoneCreateWithoutService_requestInput[] | MilestoneUncheckedCreateWithoutService_requestInput[]
+    connectOrCreate?: MilestoneCreateOrConnectWithoutService_requestInput | MilestoneCreateOrConnectWithoutService_requestInput[]
+    upsert?: MilestoneUpsertWithWhereUniqueWithoutService_requestInput | MilestoneUpsertWithWhereUniqueWithoutService_requestInput[]
+    createMany?: MilestoneCreateManyService_requestInputEnvelope
+    set?: MilestoneWhereUniqueInput | MilestoneWhereUniqueInput[]
+    disconnect?: MilestoneWhereUniqueInput | MilestoneWhereUniqueInput[]
+    delete?: MilestoneWhereUniqueInput | MilestoneWhereUniqueInput[]
+    connect?: MilestoneWhereUniqueInput | MilestoneWhereUniqueInput[]
+    update?: MilestoneUpdateWithWhereUniqueWithoutService_requestInput | MilestoneUpdateWithWhereUniqueWithoutService_requestInput[]
+    updateMany?: MilestoneUpdateManyWithWhereWithoutService_requestInput | MilestoneUpdateManyWithWhereWithoutService_requestInput[]
+    deleteMany?: MilestoneScalarWhereInput | MilestoneScalarWhereInput[]
+  }
+
   export type PlanUpdateOneWithoutService_requestsNestedInput = {
     create?: XOR<PlanCreateWithoutService_requestsInput, PlanUncheckedCreateWithoutService_requestsInput>
     connectOrCreate?: PlanCreateOrConnectWithoutService_requestsInput
@@ -27706,6 +30904,48 @@ export namespace Prisma {
     delete?: PlanWhereInput | boolean
     connect?: PlanWhereUniqueInput
     update?: XOR<XOR<PlanUpdateToOneWithWhereWithoutService_requestsInput, PlanUpdateWithoutService_requestsInput>, PlanUncheckedUpdateWithoutService_requestsInput>
+  }
+
+  export type InvoiceUncheckedUpdateOneWithoutService_requestNestedInput = {
+    create?: XOR<InvoiceCreateWithoutService_requestInput, InvoiceUncheckedCreateWithoutService_requestInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutService_requestInput
+    upsert?: InvoiceUpsertWithoutService_requestInput
+    disconnect?: InvoiceWhereInput | boolean
+    delete?: InvoiceWhereInput | boolean
+    connect?: InvoiceWhereUniqueInput
+    update?: XOR<XOR<InvoiceUpdateToOneWithWhereWithoutService_requestInput, InvoiceUpdateWithoutService_requestInput>, InvoiceUncheckedUpdateWithoutService_requestInput>
+  }
+
+  export type MilestoneUncheckedUpdateManyWithoutService_requestNestedInput = {
+    create?: XOR<MilestoneCreateWithoutService_requestInput, MilestoneUncheckedCreateWithoutService_requestInput> | MilestoneCreateWithoutService_requestInput[] | MilestoneUncheckedCreateWithoutService_requestInput[]
+    connectOrCreate?: MilestoneCreateOrConnectWithoutService_requestInput | MilestoneCreateOrConnectWithoutService_requestInput[]
+    upsert?: MilestoneUpsertWithWhereUniqueWithoutService_requestInput | MilestoneUpsertWithWhereUniqueWithoutService_requestInput[]
+    createMany?: MilestoneCreateManyService_requestInputEnvelope
+    set?: MilestoneWhereUniqueInput | MilestoneWhereUniqueInput[]
+    disconnect?: MilestoneWhereUniqueInput | MilestoneWhereUniqueInput[]
+    delete?: MilestoneWhereUniqueInput | MilestoneWhereUniqueInput[]
+    connect?: MilestoneWhereUniqueInput | MilestoneWhereUniqueInput[]
+    update?: MilestoneUpdateWithWhereUniqueWithoutService_requestInput | MilestoneUpdateWithWhereUniqueWithoutService_requestInput[]
+    updateMany?: MilestoneUpdateManyWithWhereWithoutService_requestInput | MilestoneUpdateManyWithWhereWithoutService_requestInput[]
+    deleteMany?: MilestoneScalarWhereInput | MilestoneScalarWhereInput[]
+  }
+
+  export type ServiceRequestCreateNestedOneWithoutMilestonesInput = {
+    create?: XOR<ServiceRequestCreateWithoutMilestonesInput, ServiceRequestUncheckedCreateWithoutMilestonesInput>
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutMilestonesInput
+    connect?: ServiceRequestWhereUniqueInput
+  }
+
+  export type EnumMilestoneStatusFieldUpdateOperationsInput = {
+    set?: $Enums.MilestoneStatus
+  }
+
+  export type ServiceRequestUpdateOneRequiredWithoutMilestonesNestedInput = {
+    create?: XOR<ServiceRequestCreateWithoutMilestonesInput, ServiceRequestUncheckedCreateWithoutMilestonesInput>
+    connectOrCreate?: ServiceRequestCreateOrConnectWithoutMilestonesInput
+    upsert?: ServiceRequestUpsertWithoutMilestonesInput
+    connect?: ServiceRequestWhereUniqueInput
+    update?: XOR<XOR<ServiceRequestUpdateToOneWithWhereWithoutMilestonesInput, ServiceRequestUpdateWithoutMilestonesInput>, ServiceRequestUncheckedUpdateWithoutMilestonesInput>
   }
 
   export type OrganisationCreateNestedOneWithoutContactsInput = {
@@ -28186,6 +31426,33 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedDecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -28211,6 +31478,40 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedEnumServiceRequestStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ServiceRequestStatus | EnumServiceRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ServiceRequestStatus[]
+    notIn?: $Enums.ServiceRequestStatus[]
+    not?: NestedEnumServiceRequestStatusFilter<$PrismaModel> | $Enums.ServiceRequestStatus
+  }
+
+  export type NestedEnumServiceRequestStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ServiceRequestStatus | EnumServiceRequestStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ServiceRequestStatus[]
+    notIn?: $Enums.ServiceRequestStatus[]
+    not?: NestedEnumServiceRequestStatusWithAggregatesFilter<$PrismaModel> | $Enums.ServiceRequestStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumServiceRequestStatusFilter<$PrismaModel>
+    _max?: NestedEnumServiceRequestStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumMilestoneStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.MilestoneStatus | EnumMilestoneStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MilestoneStatus[]
+    notIn?: $Enums.MilestoneStatus[]
+    not?: NestedEnumMilestoneStatusFilter<$PrismaModel> | $Enums.MilestoneStatus
+  }
+
+  export type NestedEnumMilestoneStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.MilestoneStatus | EnumMilestoneStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.MilestoneStatus[]
+    notIn?: $Enums.MilestoneStatus[]
+    not?: NestedEnumMilestoneStatusWithAggregatesFilter<$PrismaModel> | $Enums.MilestoneStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMilestoneStatusFilter<$PrismaModel>
+    _max?: NestedEnumMilestoneStatusFilter<$PrismaModel>
   }
 
   export type NotificationCreateWithoutUserInput = {
@@ -28429,7 +31730,7 @@ export namespace Prisma {
     testimonials?: TestimonialCreateNestedManyWithoutServiceInput
     faqs?: FaqCreateNestedManyWithoutServiceInput
     service_requests?: ServiceRequestCreateNestedManyWithoutServiceInput
-    ServiceForm?: ServiceFormCreateNestedOneWithoutServiceInput
+    form?: ServiceFormCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutUserInput = {
@@ -28450,7 +31751,7 @@ export namespace Prisma {
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutServiceInput
     faqs?: FaqUncheckedCreateNestedManyWithoutServiceInput
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutServiceInput
-    ServiceForm?: ServiceFormUncheckedCreateNestedOneWithoutServiceInput
+    form?: ServiceFormUncheckedCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutUserInput = {
@@ -28466,11 +31767,15 @@ export namespace Prisma {
   export type ServiceRequestCreateWithoutUserInput = {
     id?: string
     plan_name: string
-    status?: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     formData: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
     service: ServiceCreateNestedOneWithoutService_requestsInput
+    invoice?: InvoiceCreateNestedOneWithoutService_requestInput
+    milestones?: MilestoneCreateNestedManyWithoutService_requestInput
     Plan?: PlanCreateNestedOneWithoutService_requestsInput
   }
 
@@ -28478,11 +31783,15 @@ export namespace Prisma {
     id?: string
     service_id: string
     plan_name: string
-    status?: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     formData: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
     planId?: string | null
+    invoice?: InvoiceUncheckedCreateNestedOneWithoutService_requestInput
+    milestones?: MilestoneUncheckedCreateNestedManyWithoutService_requestInput
   }
 
   export type ServiceRequestCreateOrConnectWithoutUserInput = {
@@ -28598,6 +31907,42 @@ export namespace Prisma {
   export type RoleCreateOrConnectWithoutUsersInput = {
     where: RoleWhereUniqueInput
     create: XOR<RoleCreateWithoutUsersInput, RoleUncheckedCreateWithoutUsersInput>
+  }
+
+  export type InvoiceCreateWithoutUserInput = {
+    id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    status: string
+    due_date: Date | string
+    paid_at?: Date | string | null
+    payment_method?: string | null
+    payment_reference?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    service_request?: ServiceRequestCreateNestedOneWithoutInvoiceInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutUserInput = {
+    id?: string
+    service_request_id?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    status: string
+    due_date: Date | string
+    paid_at?: Date | string | null
+    payment_method?: string | null
+    payment_reference?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type InvoiceCreateOrConnectWithoutUserInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutUserInput, InvoiceUncheckedCreateWithoutUserInput>
+  }
+
+  export type InvoiceCreateManyUserInputEnvelope = {
+    data: InvoiceCreateManyUserInput | InvoiceCreateManyUserInput[]
+    skipDuplicates?: boolean
   }
 
   export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
@@ -28860,7 +32205,9 @@ export namespace Prisma {
     user_id?: StringFilter<"ServiceRequest"> | string
     service_id?: StringFilter<"ServiceRequest"> | string
     plan_name?: StringFilter<"ServiceRequest"> | string
-    status?: StringFilter<"ServiceRequest"> | string
+    status?: EnumServiceRequestStatusFilter<"ServiceRequest"> | $Enums.ServiceRequestStatus
+    start_date?: DateTimeNullableFilter<"ServiceRequest"> | Date | string | null
+    end_date?: DateTimeNullableFilter<"ServiceRequest"> | Date | string | null
     formData?: JsonFilter<"ServiceRequest">
     created_at?: DateTimeFilter<"ServiceRequest"> | Date | string
     updated_at?: DateTimeFilter<"ServiceRequest"> | Date | string
@@ -28981,6 +32328,39 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type InvoiceUpsertWithWhereUniqueWithoutUserInput = {
+    where: InvoiceWhereUniqueInput
+    update: XOR<InvoiceUpdateWithoutUserInput, InvoiceUncheckedUpdateWithoutUserInput>
+    create: XOR<InvoiceCreateWithoutUserInput, InvoiceUncheckedCreateWithoutUserInput>
+  }
+
+  export type InvoiceUpdateWithWhereUniqueWithoutUserInput = {
+    where: InvoiceWhereUniqueInput
+    data: XOR<InvoiceUpdateWithoutUserInput, InvoiceUncheckedUpdateWithoutUserInput>
+  }
+
+  export type InvoiceUpdateManyWithWhereWithoutUserInput = {
+    where: InvoiceScalarWhereInput
+    data: XOR<InvoiceUpdateManyMutationInput, InvoiceUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type InvoiceScalarWhereInput = {
+    AND?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+    OR?: InvoiceScalarWhereInput[]
+    NOT?: InvoiceScalarWhereInput | InvoiceScalarWhereInput[]
+    id?: StringFilter<"Invoice"> | string
+    user_id?: StringFilter<"Invoice"> | string
+    service_request_id?: StringNullableFilter<"Invoice"> | string | null
+    amount?: DecimalFilter<"Invoice"> | Decimal | DecimalJsLike | number | string
+    status?: StringFilter<"Invoice"> | string
+    due_date?: DateTimeFilter<"Invoice"> | Date | string
+    paid_at?: DateTimeNullableFilter<"Invoice"> | Date | string | null
+    payment_method?: StringNullableFilter<"Invoice"> | string | null
+    payment_reference?: StringNullableFilter<"Invoice"> | string | null
+    created_at?: DateTimeFilter<"Invoice"> | Date | string
+    updated_at?: DateTimeFilter<"Invoice"> | Date | string
+  }
+
   export type CaseStudyCreateWithoutOrganisationInput = {
     id?: string
     title: string
@@ -29075,6 +32455,7 @@ export namespace Prisma {
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeCreateNestedManyWithoutUserInput
     role: RoleCreateNestedOneWithoutUsersInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOrganisationsInput = {
@@ -29105,6 +32486,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOrganisationsInput = {
@@ -29214,6 +32596,7 @@ export namespace Prisma {
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOrganisationsInput = {
@@ -29244,6 +32627,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PlanCreateWithoutServiceInput = {
@@ -29375,11 +32759,15 @@ export namespace Prisma {
   export type ServiceRequestCreateWithoutServiceInput = {
     id?: string
     plan_name: string
-    status?: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     formData: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
     user: UserCreateNestedOneWithoutService_requestsInput
+    invoice?: InvoiceCreateNestedOneWithoutService_requestInput
+    milestones?: MilestoneCreateNestedManyWithoutService_requestInput
     Plan?: PlanCreateNestedOneWithoutService_requestsInput
   }
 
@@ -29387,11 +32775,15 @@ export namespace Prisma {
     id?: string
     user_id: string
     plan_name: string
-    status?: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     formData: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
     planId?: string | null
+    invoice?: InvoiceUncheckedCreateNestedOneWithoutService_requestInput
+    milestones?: MilestoneUncheckedCreateNestedManyWithoutService_requestInput
   }
 
   export type ServiceRequestCreateOrConnectWithoutServiceInput = {
@@ -29432,6 +32824,7 @@ export namespace Prisma {
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeCreateNestedManyWithoutUserInput
     role: RoleCreateNestedOneWithoutUsersInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutServicesInput = {
@@ -29462,6 +32855,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutServicesInput = {
@@ -29632,6 +33026,7 @@ export namespace Prisma {
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutServicesInput = {
@@ -29662,6 +33057,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ServiceFormUpsertWithoutServiceInput = {
@@ -29689,7 +33085,7 @@ export namespace Prisma {
     updated_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
-  export type ServiceCreateWithoutServiceFormInput = {
+  export type ServiceCreateWithoutFormInput = {
     id?: string
     title: string
     isPublic?: boolean
@@ -29710,7 +33106,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutServicesInput
   }
 
-  export type ServiceUncheckedCreateWithoutServiceFormInput = {
+  export type ServiceUncheckedCreateWithoutFormInput = {
     id?: string
     title: string
     isPublic?: boolean
@@ -29731,23 +33127,23 @@ export namespace Prisma {
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutServiceInput
   }
 
-  export type ServiceCreateOrConnectWithoutServiceFormInput = {
+  export type ServiceCreateOrConnectWithoutFormInput = {
     where: ServiceWhereUniqueInput
-    create: XOR<ServiceCreateWithoutServiceFormInput, ServiceUncheckedCreateWithoutServiceFormInput>
+    create: XOR<ServiceCreateWithoutFormInput, ServiceUncheckedCreateWithoutFormInput>
   }
 
-  export type ServiceUpsertWithoutServiceFormInput = {
-    update: XOR<ServiceUpdateWithoutServiceFormInput, ServiceUncheckedUpdateWithoutServiceFormInput>
-    create: XOR<ServiceCreateWithoutServiceFormInput, ServiceUncheckedCreateWithoutServiceFormInput>
+  export type ServiceUpsertWithoutFormInput = {
+    update: XOR<ServiceUpdateWithoutFormInput, ServiceUncheckedUpdateWithoutFormInput>
+    create: XOR<ServiceCreateWithoutFormInput, ServiceUncheckedCreateWithoutFormInput>
     where?: ServiceWhereInput
   }
 
-  export type ServiceUpdateToOneWithWhereWithoutServiceFormInput = {
+  export type ServiceUpdateToOneWithWhereWithoutFormInput = {
     where?: ServiceWhereInput
-    data: XOR<ServiceUpdateWithoutServiceFormInput, ServiceUncheckedUpdateWithoutServiceFormInput>
+    data: XOR<ServiceUpdateWithoutFormInput, ServiceUncheckedUpdateWithoutFormInput>
   }
 
-  export type ServiceUpdateWithoutServiceFormInput = {
+  export type ServiceUpdateWithoutFormInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     isPublic?: BoolFieldUpdateOperationsInput | boolean
@@ -29768,7 +33164,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutServicesNestedInput
   }
 
-  export type ServiceUncheckedUpdateWithoutServiceFormInput = {
+  export type ServiceUncheckedUpdateWithoutFormInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     isPublic?: BoolFieldUpdateOperationsInput | boolean
@@ -29807,7 +33203,7 @@ export namespace Prisma {
     faqs?: FaqCreateNestedManyWithoutServiceInput
     service_requests?: ServiceRequestCreateNestedManyWithoutServiceInput
     user: UserCreateNestedOneWithoutServicesInput
-    ServiceForm?: ServiceFormCreateNestedOneWithoutServiceInput
+    form?: ServiceFormCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutPlansInput = {
@@ -29828,7 +33224,7 @@ export namespace Prisma {
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutServiceInput
     faqs?: FaqUncheckedCreateNestedManyWithoutServiceInput
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutServiceInput
-    ServiceForm?: ServiceFormUncheckedCreateNestedOneWithoutServiceInput
+    form?: ServiceFormUncheckedCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutPlansInput = {
@@ -29839,12 +33235,16 @@ export namespace Prisma {
   export type ServiceRequestCreateWithoutPlanInput = {
     id?: string
     plan_name: string
-    status?: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     formData: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
     user: UserCreateNestedOneWithoutService_requestsInput
     service: ServiceCreateNestedOneWithoutService_requestsInput
+    invoice?: InvoiceCreateNestedOneWithoutService_requestInput
+    milestones?: MilestoneCreateNestedManyWithoutService_requestInput
   }
 
   export type ServiceRequestUncheckedCreateWithoutPlanInput = {
@@ -29852,10 +33252,14 @@ export namespace Prisma {
     user_id: string
     service_id: string
     plan_name: string
-    status?: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     formData: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
+    invoice?: InvoiceUncheckedCreateNestedOneWithoutService_requestInput
+    milestones?: MilestoneUncheckedCreateNestedManyWithoutService_requestInput
   }
 
   export type ServiceRequestCreateOrConnectWithoutPlanInput = {
@@ -29965,7 +33369,7 @@ export namespace Prisma {
     faqs?: FaqUpdateManyWithoutServiceNestedInput
     service_requests?: ServiceRequestUpdateManyWithoutServiceNestedInput
     user?: UserUpdateOneRequiredWithoutServicesNestedInput
-    ServiceForm?: ServiceFormUpdateOneWithoutServiceNestedInput
+    form?: ServiceFormUpdateOneWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutPlansInput = {
@@ -29986,7 +33390,7 @@ export namespace Prisma {
     testimonials?: TestimonialUncheckedUpdateManyWithoutServiceNestedInput
     faqs?: FaqUncheckedUpdateManyWithoutServiceNestedInput
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutServiceNestedInput
-    ServiceForm?: ServiceFormUncheckedUpdateOneWithoutServiceNestedInput
+    form?: ServiceFormUncheckedUpdateOneWithoutServiceNestedInput
   }
 
   export type ServiceRequestUpsertWithWhereUniqueWithoutPlanInput = {
@@ -30075,6 +33479,222 @@ export namespace Prisma {
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type UserCreateWithoutInvoiceInput = {
+    id?: string
+    name: string
+    email: string
+    tel: string
+    country: string
+    address: string
+    category: string
+    pfp_url?: string | null
+    id_url?: NullableJsonNullValueInput | InputJsonValue
+    business_status?: boolean | null
+    registered_with_a_business?: boolean | null
+    password: string
+    status?: string
+    created_at?: Date | string | null
+    deleted_at?: Date | string | null
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
+    organisations?: OrganisationCreateNestedManyWithoutUserInput
+    otps?: OtpCreateNestedManyWithoutUserInput
+    password_tokens?: Password_tokenCreateNestedManyWithoutUserInput
+    privacy_settings?: Privacy_settingsCreateNestedManyWithoutUserInput
+    created_roles?: RoleCreateNestedManyWithoutCreatorInput
+    services?: ServiceCreateNestedManyWithoutUserInput
+    service_requests?: ServiceRequestCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    testimonials?: TestimonialCreateNestedManyWithoutUserInput
+    plan_types?: Plan_typeCreateNestedManyWithoutUserInput
+    role: RoleCreateNestedOneWithoutUsersInput
+  }
+
+  export type UserUncheckedCreateWithoutInvoiceInput = {
+    id?: string
+    name: string
+    email: string
+    tel: string
+    country: string
+    address: string
+    category: string
+    pfp_url?: string | null
+    id_url?: NullableJsonNullValueInput | InputJsonValue
+    business_status?: boolean | null
+    registered_with_a_business?: boolean | null
+    password: string
+    status?: string
+    role_id: string
+    created_at?: Date | string | null
+    deleted_at?: Date | string | null
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
+    organisations?: OrganisationUncheckedCreateNestedManyWithoutUserInput
+    otps?: OtpUncheckedCreateNestedManyWithoutUserInput
+    password_tokens?: Password_tokenUncheckedCreateNestedManyWithoutUserInput
+    privacy_settings?: Privacy_settingsUncheckedCreateNestedManyWithoutUserInput
+    created_roles?: RoleUncheckedCreateNestedManyWithoutCreatorInput
+    services?: ServiceUncheckedCreateNestedManyWithoutUserInput
+    service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
+    plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutInvoiceInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutInvoiceInput, UserUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type ServiceRequestCreateWithoutInvoiceInput = {
+    id?: string
+    plan_name: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    formData: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    user: UserCreateNestedOneWithoutService_requestsInput
+    service: ServiceCreateNestedOneWithoutService_requestsInput
+    milestones?: MilestoneCreateNestedManyWithoutService_requestInput
+    Plan?: PlanCreateNestedOneWithoutService_requestsInput
+  }
+
+  export type ServiceRequestUncheckedCreateWithoutInvoiceInput = {
+    id?: string
+    user_id: string
+    service_id: string
+    plan_name: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    formData: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    planId?: string | null
+    milestones?: MilestoneUncheckedCreateNestedManyWithoutService_requestInput
+  }
+
+  export type ServiceRequestCreateOrConnectWithoutInvoiceInput = {
+    where: ServiceRequestWhereUniqueInput
+    create: XOR<ServiceRequestCreateWithoutInvoiceInput, ServiceRequestUncheckedCreateWithoutInvoiceInput>
+  }
+
+  export type UserUpsertWithoutInvoiceInput = {
+    update: XOR<UserUpdateWithoutInvoiceInput, UserUncheckedUpdateWithoutInvoiceInput>
+    create: XOR<UserCreateWithoutInvoiceInput, UserUncheckedCreateWithoutInvoiceInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutInvoiceInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutInvoiceInput, UserUncheckedUpdateWithoutInvoiceInput>
+  }
+
+  export type UserUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    tel?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
+    id_url?: NullableJsonNullValueInput | InputJsonValue
+    business_status?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    registered_with_a_business?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
+    organisations?: OrganisationUpdateManyWithoutUserNestedInput
+    otps?: OtpUpdateManyWithoutUserNestedInput
+    password_tokens?: Password_tokenUpdateManyWithoutUserNestedInput
+    privacy_settings?: Privacy_settingsUpdateManyWithoutUserNestedInput
+    created_roles?: RoleUpdateManyWithoutCreatorNestedInput
+    services?: ServiceUpdateManyWithoutUserNestedInput
+    service_requests?: ServiceRequestUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    testimonials?: TestimonialUpdateManyWithoutUserNestedInput
+    plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
+    role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    tel?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
+    id_url?: NullableJsonNullValueInput | InputJsonValue
+    business_status?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    registered_with_a_business?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    role_id?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
+    organisations?: OrganisationUncheckedUpdateManyWithoutUserNestedInput
+    otps?: OtpUncheckedUpdateManyWithoutUserNestedInput
+    password_tokens?: Password_tokenUncheckedUpdateManyWithoutUserNestedInput
+    privacy_settings?: Privacy_settingsUncheckedUpdateManyWithoutUserNestedInput
+    created_roles?: RoleUncheckedUpdateManyWithoutCreatorNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutUserNestedInput
+    service_requests?: ServiceRequestUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
+    plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type ServiceRequestUpsertWithoutInvoiceInput = {
+    update: XOR<ServiceRequestUpdateWithoutInvoiceInput, ServiceRequestUncheckedUpdateWithoutInvoiceInput>
+    create: XOR<ServiceRequestCreateWithoutInvoiceInput, ServiceRequestUncheckedCreateWithoutInvoiceInput>
+    where?: ServiceRequestWhereInput
+  }
+
+  export type ServiceRequestUpdateToOneWithWhereWithoutInvoiceInput = {
+    where?: ServiceRequestWhereInput
+    data: XOR<ServiceRequestUpdateWithoutInvoiceInput, ServiceRequestUncheckedUpdateWithoutInvoiceInput>
+  }
+
+  export type ServiceRequestUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    plan_name?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    formData?: JsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutService_requestsNestedInput
+    service?: ServiceUpdateOneRequiredWithoutService_requestsNestedInput
+    milestones?: MilestoneUpdateManyWithoutService_requestNestedInput
+    Plan?: PlanUpdateOneWithoutService_requestsNestedInput
+  }
+
+  export type ServiceRequestUncheckedUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    service_id?: StringFieldUpdateOperationsInput | string
+    plan_name?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    formData?: JsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    planId?: NullableStringFieldUpdateOperationsInput | string | null
+    milestones?: MilestoneUncheckedUpdateManyWithoutService_requestNestedInput
+  }
+
   export type ServiceCreateWithoutCaseStudiesInput = {
     id?: string
     title: string
@@ -30093,7 +33713,7 @@ export namespace Prisma {
     faqs?: FaqCreateNestedManyWithoutServiceInput
     service_requests?: ServiceRequestCreateNestedManyWithoutServiceInput
     user: UserCreateNestedOneWithoutServicesInput
-    ServiceForm?: ServiceFormCreateNestedOneWithoutServiceInput
+    form?: ServiceFormCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutCaseStudiesInput = {
@@ -30114,7 +33734,7 @@ export namespace Prisma {
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutServiceInput
     faqs?: FaqUncheckedCreateNestedManyWithoutServiceInput
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutServiceInput
-    ServiceForm?: ServiceFormUncheckedCreateNestedOneWithoutServiceInput
+    form?: ServiceFormUncheckedCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutCaseStudiesInput = {
@@ -30190,7 +33810,7 @@ export namespace Prisma {
     faqs?: FaqUpdateManyWithoutServiceNestedInput
     service_requests?: ServiceRequestUpdateManyWithoutServiceNestedInput
     user?: UserUpdateOneRequiredWithoutServicesNestedInput
-    ServiceForm?: ServiceFormUpdateOneWithoutServiceNestedInput
+    form?: ServiceFormUpdateOneWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutCaseStudiesInput = {
@@ -30211,7 +33831,7 @@ export namespace Prisma {
     testimonials?: TestimonialUncheckedUpdateManyWithoutServiceNestedInput
     faqs?: FaqUncheckedUpdateManyWithoutServiceNestedInput
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutServiceNestedInput
-    ServiceForm?: ServiceFormUncheckedUpdateOneWithoutServiceNestedInput
+    form?: ServiceFormUncheckedUpdateOneWithoutServiceNestedInput
   }
 
   export type OrganisationUpsertWithoutCaseStudiesInput = {
@@ -30277,7 +33897,7 @@ export namespace Prisma {
     faqs?: FaqCreateNestedManyWithoutServiceInput
     service_requests?: ServiceRequestCreateNestedManyWithoutServiceInput
     user: UserCreateNestedOneWithoutServicesInput
-    ServiceForm?: ServiceFormCreateNestedOneWithoutServiceInput
+    form?: ServiceFormCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutTestimonialsInput = {
@@ -30298,7 +33918,7 @@ export namespace Prisma {
     caseStudies?: CaseStudyUncheckedCreateNestedManyWithoutServiceInput
     faqs?: FaqUncheckedCreateNestedManyWithoutServiceInput
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutServiceInput
-    ServiceForm?: ServiceFormUncheckedCreateNestedOneWithoutServiceInput
+    form?: ServiceFormUncheckedCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutTestimonialsInput = {
@@ -30334,6 +33954,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeCreateNestedManyWithoutUserInput
     role: RoleCreateNestedOneWithoutUsersInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTestimonialsInput = {
@@ -30364,6 +33985,7 @@ export namespace Prisma {
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTestimonialsInput = {
@@ -30400,7 +34022,7 @@ export namespace Prisma {
     faqs?: FaqUpdateManyWithoutServiceNestedInput
     service_requests?: ServiceRequestUpdateManyWithoutServiceNestedInput
     user?: UserUpdateOneRequiredWithoutServicesNestedInput
-    ServiceForm?: ServiceFormUpdateOneWithoutServiceNestedInput
+    form?: ServiceFormUpdateOneWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutTestimonialsInput = {
@@ -30421,7 +34043,7 @@ export namespace Prisma {
     caseStudies?: CaseStudyUncheckedUpdateManyWithoutServiceNestedInput
     faqs?: FaqUncheckedUpdateManyWithoutServiceNestedInput
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutServiceNestedInput
-    ServiceForm?: ServiceFormUncheckedUpdateOneWithoutServiceNestedInput
+    form?: ServiceFormUncheckedUpdateOneWithoutServiceNestedInput
   }
 
   export type UserUpsertWithoutTestimonialsInput = {
@@ -30463,6 +34085,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTestimonialsInput = {
@@ -30493,6 +34116,7 @@ export namespace Prisma {
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ServiceCreateWithoutFaqsInput = {
@@ -30513,7 +34137,7 @@ export namespace Prisma {
     testimonials?: TestimonialCreateNestedManyWithoutServiceInput
     service_requests?: ServiceRequestCreateNestedManyWithoutServiceInput
     user: UserCreateNestedOneWithoutServicesInput
-    ServiceForm?: ServiceFormCreateNestedOneWithoutServiceInput
+    form?: ServiceFormCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutFaqsInput = {
@@ -30534,7 +34158,7 @@ export namespace Prisma {
     caseStudies?: CaseStudyUncheckedCreateNestedManyWithoutServiceInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutServiceInput
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutServiceInput
-    ServiceForm?: ServiceFormUncheckedCreateNestedOneWithoutServiceInput
+    form?: ServiceFormUncheckedCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutFaqsInput = {
@@ -30571,7 +34195,7 @@ export namespace Prisma {
     testimonials?: TestimonialUpdateManyWithoutServiceNestedInput
     service_requests?: ServiceRequestUpdateManyWithoutServiceNestedInput
     user?: UserUpdateOneRequiredWithoutServicesNestedInput
-    ServiceForm?: ServiceFormUpdateOneWithoutServiceNestedInput
+    form?: ServiceFormUpdateOneWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutFaqsInput = {
@@ -30592,7 +34216,7 @@ export namespace Prisma {
     caseStudies?: CaseStudyUncheckedUpdateManyWithoutServiceNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutServiceNestedInput
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutServiceNestedInput
-    ServiceForm?: ServiceFormUncheckedUpdateOneWithoutServiceNestedInput
+    form?: ServiceFormUncheckedUpdateOneWithoutServiceNestedInput
   }
 
   export type UserCreateWithoutService_requestsInput = {
@@ -30623,6 +34247,7 @@ export namespace Prisma {
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeCreateNestedManyWithoutUserInput
     role: RoleCreateNestedOneWithoutUsersInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutService_requestsInput = {
@@ -30653,6 +34278,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutService_requestsInput = {
@@ -30678,7 +34304,7 @@ export namespace Prisma {
     testimonials?: TestimonialCreateNestedManyWithoutServiceInput
     faqs?: FaqCreateNestedManyWithoutServiceInput
     user: UserCreateNestedOneWithoutServicesInput
-    ServiceForm?: ServiceFormCreateNestedOneWithoutServiceInput
+    form?: ServiceFormCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceUncheckedCreateWithoutService_requestsInput = {
@@ -30699,12 +34325,77 @@ export namespace Prisma {
     caseStudies?: CaseStudyUncheckedCreateNestedManyWithoutServiceInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutServiceInput
     faqs?: FaqUncheckedCreateNestedManyWithoutServiceInput
-    ServiceForm?: ServiceFormUncheckedCreateNestedOneWithoutServiceInput
+    form?: ServiceFormUncheckedCreateNestedOneWithoutServiceInput
   }
 
   export type ServiceCreateOrConnectWithoutService_requestsInput = {
     where: ServiceWhereUniqueInput
     create: XOR<ServiceCreateWithoutService_requestsInput, ServiceUncheckedCreateWithoutService_requestsInput>
+  }
+
+  export type InvoiceCreateWithoutService_requestInput = {
+    id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    status: string
+    due_date: Date | string
+    paid_at?: Date | string | null
+    payment_method?: string | null
+    payment_reference?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    user: UserCreateNestedOneWithoutInvoiceInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutService_requestInput = {
+    id?: string
+    user_id: string
+    amount: Decimal | DecimalJsLike | number | string
+    status: string
+    due_date: Date | string
+    paid_at?: Date | string | null
+    payment_method?: string | null
+    payment_reference?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type InvoiceCreateOrConnectWithoutService_requestInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutService_requestInput, InvoiceUncheckedCreateWithoutService_requestInput>
+  }
+
+  export type MilestoneCreateWithoutService_requestInput = {
+    id?: string
+    title: string
+    deadline: Date | string
+    deliverable_url?: string | null
+    deliverable_name?: string | null
+    status?: $Enums.MilestoneStatus
+    rejection_reason?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type MilestoneUncheckedCreateWithoutService_requestInput = {
+    id?: string
+    title: string
+    deadline: Date | string
+    deliverable_url?: string | null
+    deliverable_name?: string | null
+    status?: $Enums.MilestoneStatus
+    rejection_reason?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type MilestoneCreateOrConnectWithoutService_requestInput = {
+    where: MilestoneWhereUniqueInput
+    create: XOR<MilestoneCreateWithoutService_requestInput, MilestoneUncheckedCreateWithoutService_requestInput>
+  }
+
+  export type MilestoneCreateManyService_requestInputEnvelope = {
+    data: MilestoneCreateManyService_requestInput | MilestoneCreateManyService_requestInput[]
+    skipDuplicates?: boolean
   }
 
   export type PlanCreateWithoutService_requestsInput = {
@@ -30777,6 +34468,7 @@ export namespace Prisma {
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutService_requestsInput = {
@@ -30807,6 +34499,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ServiceUpsertWithoutService_requestsInput = {
@@ -30838,7 +34531,7 @@ export namespace Prisma {
     testimonials?: TestimonialUpdateManyWithoutServiceNestedInput
     faqs?: FaqUpdateManyWithoutServiceNestedInput
     user?: UserUpdateOneRequiredWithoutServicesNestedInput
-    ServiceForm?: ServiceFormUpdateOneWithoutServiceNestedInput
+    form?: ServiceFormUpdateOneWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutService_requestsInput = {
@@ -30859,7 +34552,76 @@ export namespace Prisma {
     caseStudies?: CaseStudyUncheckedUpdateManyWithoutServiceNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutServiceNestedInput
     faqs?: FaqUncheckedUpdateManyWithoutServiceNestedInput
-    ServiceForm?: ServiceFormUncheckedUpdateOneWithoutServiceNestedInput
+    form?: ServiceFormUncheckedUpdateOneWithoutServiceNestedInput
+  }
+
+  export type InvoiceUpsertWithoutService_requestInput = {
+    update: XOR<InvoiceUpdateWithoutService_requestInput, InvoiceUncheckedUpdateWithoutService_requestInput>
+    create: XOR<InvoiceCreateWithoutService_requestInput, InvoiceUncheckedCreateWithoutService_requestInput>
+    where?: InvoiceWhereInput
+  }
+
+  export type InvoiceUpdateToOneWithWhereWithoutService_requestInput = {
+    where?: InvoiceWhereInput
+    data: XOR<InvoiceUpdateWithoutService_requestInput, InvoiceUncheckedUpdateWithoutService_requestInput>
+  }
+
+  export type InvoiceUpdateWithoutService_requestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    due_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutService_requestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    due_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MilestoneUpsertWithWhereUniqueWithoutService_requestInput = {
+    where: MilestoneWhereUniqueInput
+    update: XOR<MilestoneUpdateWithoutService_requestInput, MilestoneUncheckedUpdateWithoutService_requestInput>
+    create: XOR<MilestoneCreateWithoutService_requestInput, MilestoneUncheckedCreateWithoutService_requestInput>
+  }
+
+  export type MilestoneUpdateWithWhereUniqueWithoutService_requestInput = {
+    where: MilestoneWhereUniqueInput
+    data: XOR<MilestoneUpdateWithoutService_requestInput, MilestoneUncheckedUpdateWithoutService_requestInput>
+  }
+
+  export type MilestoneUpdateManyWithWhereWithoutService_requestInput = {
+    where: MilestoneScalarWhereInput
+    data: XOR<MilestoneUpdateManyMutationInput, MilestoneUncheckedUpdateManyWithoutService_requestInput>
+  }
+
+  export type MilestoneScalarWhereInput = {
+    AND?: MilestoneScalarWhereInput | MilestoneScalarWhereInput[]
+    OR?: MilestoneScalarWhereInput[]
+    NOT?: MilestoneScalarWhereInput | MilestoneScalarWhereInput[]
+    id?: StringFilter<"Milestone"> | string
+    service_request_id?: StringFilter<"Milestone"> | string
+    title?: StringFilter<"Milestone"> | string
+    deadline?: DateTimeFilter<"Milestone"> | Date | string
+    deliverable_url?: StringNullableFilter<"Milestone"> | string | null
+    deliverable_name?: StringNullableFilter<"Milestone"> | string | null
+    status?: EnumMilestoneStatusFilter<"Milestone"> | $Enums.MilestoneStatus
+    rejection_reason?: StringNullableFilter<"Milestone"> | string | null
+    created_at?: DateTimeFilter<"Milestone"> | Date | string
+    updated_at?: DateTimeFilter<"Milestone"> | Date | string
   }
 
   export type PlanUpsertWithoutService_requestsInput = {
@@ -30897,6 +34659,82 @@ export namespace Prisma {
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutPlanNestedInput
+  }
+
+  export type ServiceRequestCreateWithoutMilestonesInput = {
+    id?: string
+    plan_name: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    formData: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    user: UserCreateNestedOneWithoutService_requestsInput
+    service: ServiceCreateNestedOneWithoutService_requestsInput
+    invoice?: InvoiceCreateNestedOneWithoutService_requestInput
+    Plan?: PlanCreateNestedOneWithoutService_requestsInput
+  }
+
+  export type ServiceRequestUncheckedCreateWithoutMilestonesInput = {
+    id?: string
+    user_id: string
+    service_id: string
+    plan_name: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
+    formData: JsonNullValueInput | InputJsonValue
+    created_at?: Date | string
+    updated_at?: Date | string
+    planId?: string | null
+    invoice?: InvoiceUncheckedCreateNestedOneWithoutService_requestInput
+  }
+
+  export type ServiceRequestCreateOrConnectWithoutMilestonesInput = {
+    where: ServiceRequestWhereUniqueInput
+    create: XOR<ServiceRequestCreateWithoutMilestonesInput, ServiceRequestUncheckedCreateWithoutMilestonesInput>
+  }
+
+  export type ServiceRequestUpsertWithoutMilestonesInput = {
+    update: XOR<ServiceRequestUpdateWithoutMilestonesInput, ServiceRequestUncheckedUpdateWithoutMilestonesInput>
+    create: XOR<ServiceRequestCreateWithoutMilestonesInput, ServiceRequestUncheckedCreateWithoutMilestonesInput>
+    where?: ServiceRequestWhereInput
+  }
+
+  export type ServiceRequestUpdateToOneWithWhereWithoutMilestonesInput = {
+    where?: ServiceRequestWhereInput
+    data: XOR<ServiceRequestUpdateWithoutMilestonesInput, ServiceRequestUncheckedUpdateWithoutMilestonesInput>
+  }
+
+  export type ServiceRequestUpdateWithoutMilestonesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    plan_name?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    formData?: JsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutService_requestsNestedInput
+    service?: ServiceUpdateOneRequiredWithoutService_requestsNestedInput
+    invoice?: InvoiceUpdateOneWithoutService_requestNestedInput
+    Plan?: PlanUpdateOneWithoutService_requestsNestedInput
+  }
+
+  export type ServiceRequestUncheckedUpdateWithoutMilestonesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    service_id?: StringFieldUpdateOperationsInput | string
+    plan_name?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    formData?: JsonNullValueInput | InputJsonValue
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    planId?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice?: InvoiceUncheckedUpdateOneWithoutService_requestNestedInput
   }
 
   export type OrganisationCreateWithoutContactsInput = {
@@ -31011,6 +34849,7 @@ export namespace Prisma {
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeCreateNestedManyWithoutUserInput
     role: RoleCreateNestedOneWithoutUsersInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutOtpsInput = {
@@ -31041,6 +34880,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutOtpsInput = {
@@ -31087,6 +34927,7 @@ export namespace Prisma {
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutOtpsInput = {
@@ -31117,6 +34958,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPassword_tokensInput = {
@@ -31147,6 +34989,7 @@ export namespace Prisma {
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeCreateNestedManyWithoutUserInput
     role: RoleCreateNestedOneWithoutUsersInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPassword_tokensInput = {
@@ -31177,6 +35020,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPassword_tokensInput = {
@@ -31223,6 +35067,7 @@ export namespace Prisma {
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPassword_tokensInput = {
@@ -31253,6 +35098,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotificationsInput = {
@@ -31283,6 +35129,7 @@ export namespace Prisma {
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeCreateNestedManyWithoutUserInput
     role: RoleCreateNestedOneWithoutUsersInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -31313,6 +35160,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -31359,6 +35207,7 @@ export namespace Prisma {
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -31389,6 +35238,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPrivacy_settingsInput = {
@@ -31419,6 +35269,7 @@ export namespace Prisma {
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeCreateNestedManyWithoutUserInput
     role: RoleCreateNestedOneWithoutUsersInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPrivacy_settingsInput = {
@@ -31449,6 +35300,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPrivacy_settingsInput = {
@@ -31495,6 +35347,7 @@ export namespace Prisma {
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPrivacy_settingsInput = {
@@ -31525,6 +35378,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutNotification_settingsInput = {
@@ -31555,6 +35409,7 @@ export namespace Prisma {
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeCreateNestedManyWithoutUserInput
     role: RoleCreateNestedOneWithoutUsersInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotification_settingsInput = {
@@ -31585,6 +35440,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotification_settingsInput = {
@@ -31631,6 +35487,7 @@ export namespace Prisma {
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotification_settingsInput = {
@@ -31661,6 +35518,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPlan_typesInput = {
@@ -31691,6 +35549,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
     role: RoleCreateNestedOneWithoutUsersInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPlan_typesInput = {
@@ -31721,6 +35580,7 @@ export namespace Prisma {
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutUserInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPlan_typesInput = {
@@ -31803,6 +35663,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPlan_typesInput = {
@@ -31833,6 +35694,7 @@ export namespace Prisma {
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutUserNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type PlanUpsertWithWhereUniqueWithoutPlan_typeInput = {
@@ -31962,6 +35824,7 @@ export namespace Prisma {
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeCreateNestedManyWithoutUserInput
     role: RoleCreateNestedOneWithoutUsersInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSubscriptionsInput = {
@@ -31992,6 +35855,7 @@ export namespace Prisma {
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutUserInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSubscriptionsInput = {
@@ -32075,6 +35939,7 @@ export namespace Prisma {
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubscriptionsInput = {
@@ -32105,6 +35970,7 @@ export namespace Prisma {
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutUserNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutCreated_rolesInput = {
@@ -32135,6 +36001,7 @@ export namespace Prisma {
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeCreateNestedManyWithoutUserInput
     role: RoleCreateNestedOneWithoutUsersInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCreated_rolesInput = {
@@ -32165,6 +36032,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCreated_rolesInput = {
@@ -32200,6 +36068,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
     testimonials?: TestimonialCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutRoleInput = {
@@ -32230,6 +36099,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
     testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
     plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutRoleInput = {
@@ -32281,6 +36151,7 @@ export namespace Prisma {
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
     role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCreated_rolesInput = {
@@ -32311,6 +36182,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutRoleInput = {
@@ -32431,7 +36303,9 @@ export namespace Prisma {
     id?: string
     service_id: string
     plan_name: string
-    status?: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     formData: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -32461,6 +36335,19 @@ export namespace Prisma {
     name: string
     created_at?: Date | string
     deleted_at?: Date | string | null
+  }
+
+  export type InvoiceCreateManyUserInput = {
+    id?: string
+    service_request_id?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    status: string
+    due_date: Date | string
+    paid_at?: Date | string | null
+    payment_method?: string | null
+    payment_reference?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type NotificationUpdateWithoutUserInput = {
@@ -32670,7 +36557,7 @@ export namespace Prisma {
     testimonials?: TestimonialUpdateManyWithoutServiceNestedInput
     faqs?: FaqUpdateManyWithoutServiceNestedInput
     service_requests?: ServiceRequestUpdateManyWithoutServiceNestedInput
-    ServiceForm?: ServiceFormUpdateOneWithoutServiceNestedInput
+    form?: ServiceFormUpdateOneWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateWithoutUserInput = {
@@ -32691,7 +36578,7 @@ export namespace Prisma {
     testimonials?: TestimonialUncheckedUpdateManyWithoutServiceNestedInput
     faqs?: FaqUncheckedUpdateManyWithoutServiceNestedInput
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutServiceNestedInput
-    ServiceForm?: ServiceFormUncheckedUpdateOneWithoutServiceNestedInput
+    form?: ServiceFormUncheckedUpdateOneWithoutServiceNestedInput
   }
 
   export type ServiceUncheckedUpdateManyWithoutUserInput = {
@@ -32712,11 +36599,15 @@ export namespace Prisma {
   export type ServiceRequestUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     plan_name?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     formData?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     service?: ServiceUpdateOneRequiredWithoutService_requestsNestedInput
+    invoice?: InvoiceUpdateOneWithoutService_requestNestedInput
+    milestones?: MilestoneUpdateManyWithoutService_requestNestedInput
     Plan?: PlanUpdateOneWithoutService_requestsNestedInput
   }
 
@@ -32724,18 +36615,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     service_id?: StringFieldUpdateOperationsInput | string
     plan_name?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     formData?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     planId?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice?: InvoiceUncheckedUpdateOneWithoutService_requestNestedInput
+    milestones?: MilestoneUncheckedUpdateManyWithoutService_requestNestedInput
   }
 
   export type ServiceRequestUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     service_id?: StringFieldUpdateOperationsInput | string
     plan_name?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     formData?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32817,6 +36714,45 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type InvoiceUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    due_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    service_request?: ServiceRequestUpdateOneWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    service_request_id?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    due_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InvoiceUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    service_request_id?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    due_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CaseStudyCreateManyOrganisationInput = {
@@ -32956,7 +36892,9 @@ export namespace Prisma {
     id?: string
     user_id: string
     plan_name: string
-    status?: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     formData: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -33093,11 +37031,15 @@ export namespace Prisma {
   export type ServiceRequestUpdateWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     plan_name?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     formData?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutService_requestsNestedInput
+    invoice?: InvoiceUpdateOneWithoutService_requestNestedInput
+    milestones?: MilestoneUpdateManyWithoutService_requestNestedInput
     Plan?: PlanUpdateOneWithoutService_requestsNestedInput
   }
 
@@ -33105,18 +37047,24 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     plan_name?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     formData?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     planId?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice?: InvoiceUncheckedUpdateOneWithoutService_requestNestedInput
+    milestones?: MilestoneUncheckedUpdateManyWithoutService_requestNestedInput
   }
 
   export type ServiceRequestUncheckedUpdateManyWithoutServiceInput = {
     id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
     plan_name?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     formData?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33128,7 +37076,9 @@ export namespace Prisma {
     user_id: string
     service_id: string
     plan_name: string
-    status?: string
+    status?: $Enums.ServiceRequestStatus
+    start_date?: Date | string | null
+    end_date?: Date | string | null
     formData: JsonNullValueInput | InputJsonValue
     created_at?: Date | string
     updated_at?: Date | string
@@ -33145,12 +37095,16 @@ export namespace Prisma {
   export type ServiceRequestUpdateWithoutPlanInput = {
     id?: StringFieldUpdateOperationsInput | string
     plan_name?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     formData?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutService_requestsNestedInput
     service?: ServiceUpdateOneRequiredWithoutService_requestsNestedInput
+    invoice?: InvoiceUpdateOneWithoutService_requestNestedInput
+    milestones?: MilestoneUpdateManyWithoutService_requestNestedInput
   }
 
   export type ServiceRequestUncheckedUpdateWithoutPlanInput = {
@@ -33158,10 +37112,14 @@ export namespace Prisma {
     user_id?: StringFieldUpdateOperationsInput | string
     service_id?: StringFieldUpdateOperationsInput | string
     plan_name?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     formData?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    invoice?: InvoiceUncheckedUpdateOneWithoutService_requestNestedInput
+    milestones?: MilestoneUncheckedUpdateManyWithoutService_requestNestedInput
   }
 
   export type ServiceRequestUncheckedUpdateManyWithoutPlanInput = {
@@ -33169,7 +37127,9 @@ export namespace Prisma {
     user_id?: StringFieldUpdateOperationsInput | string
     service_id?: StringFieldUpdateOperationsInput | string
     plan_name?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumServiceRequestStatusFieldUpdateOperationsInput | $Enums.ServiceRequestStatus
+    start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     formData?: JsonNullValueInput | InputJsonValue
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33197,6 +37157,54 @@ export namespace Prisma {
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type MilestoneCreateManyService_requestInput = {
+    id?: string
+    title: string
+    deadline: Date | string
+    deliverable_url?: string | null
+    deliverable_name?: string | null
+    status?: $Enums.MilestoneStatus
+    rejection_reason?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type MilestoneUpdateWithoutService_requestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliverable_url?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_name?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMilestoneStatusFieldUpdateOperationsInput | $Enums.MilestoneStatus
+    rejection_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MilestoneUncheckedUpdateWithoutService_requestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliverable_url?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_name?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMilestoneStatusFieldUpdateOperationsInput | $Enums.MilestoneStatus
+    rejection_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type MilestoneUncheckedUpdateManyWithoutService_requestInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    deadline?: DateTimeFieldUpdateOperationsInput | Date | string
+    deliverable_url?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_name?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMilestoneStatusFieldUpdateOperationsInput | $Enums.MilestoneStatus
+    rejection_reason?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlanCreateManyPlan_typeInput = {
@@ -33341,6 +37349,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
     testimonials?: TestimonialUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRoleInput = {
@@ -33371,6 +37380,7 @@ export namespace Prisma {
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
     testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
     plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutRoleInput = {

@@ -9,7 +9,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
+// Renamed to PascalCase for consistency
+model User {
   id                         String    @id @default(uuid()) @db.Char(36)
   name                       String    @db.VarChar(100)
   email                      String    @unique(map: "email") @db.VarChar(255)
@@ -27,113 +28,156 @@ model user {
   created_at                 DateTime? @default(now()) @db.Timestamp(0)
   deleted_at                 DateTime? @db.Timestamp(0)
 
-  notification          notification[]
-  notification_settings notification_settings[]
-  organisation          organisation[]
-  otp                   otp[]
-  password_token        password_token[]
-  privacy_settings      privacy_settings[]
-  created_role          role[]                  @relation("RoleCreator")
-  service               service[]
-  service_request       service_request[]
-  subscription          subscription[]
-  testimonial           testimonial[]
-  plan_type             plan_type[]
-  role                  role                    @relation("UserRole", fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  // Corrected relations
+  notifications         Notification[]
+  notification_settings Notification_settings[]
+  organisations         Organisation[]
+  otps                  Otp[]
+  password_tokens       Password_token[]
+  privacy_settings      Privacy_settings[]
+  created_roles         Role[]                  @relation("RoleCreator")
+  services              Service[]
+  service_requests      ServiceRequest[]
+  subscriptions         Subscription[]
+  testimonials          Testimonial[]
+  plan_types            Plan_type[]
+  role                  Role                    @relation("UserRole", fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   @@index([role_id], map: "user_role_id_fkey")
 }
 
-model organisation {
-  id           String         @id @default(uuid()) @db.Char(36)
-  name         String         @db.VarChar(100)
-  email        String         @unique(map: "email") @db.VarChar(255)
-  address      String         @db.Text
-  country      String         @db.VarChar(64)
-  industry     String         @db.Text
-  logo_url     String         @db.Text
-  rc_number    String         @unique(map: "rc_number") @db.VarChar(20)
-  staff_size   String         @db.VarChar(15)
-  type         String         @db.VarChar(50)
-  created_at   DateTime       @default(now()) @db.Timestamp(0)
-  user_id      String         @db.Char(36)
-  deleted_at   DateTime?      @db.Timestamp(0)
-  case_studies case_studies[]
-  contact      contact[]
-  user         user           @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@index([user_id])
+// Renamed to PascalCase for consistency
+model Organisation {
+  id          String      @id @default(uuid()) @db.Char(36)
+  name        String      @db.VarChar(100)
+  email       String      @unique(map: "email") @db.VarChar(255)
+  address     String      @db.Text
+  country     String      @db.VarChar(64)
+  industry    String      @db.Text
+  logo_url    String      @db.Text
+  rc_number   String      @unique(map: "rc_number") @db.VarChar(20)
+  staff_size  String      @db.VarChar(15)
+  type        String      @db.VarChar(50)
+  created_at  DateTime    @default(now()) @db.Timestamp(0)
+  user_id     String      @db.Char(36)
+  deleted_at  DateTime?   @db.Timestamp(0)
+  caseStudies CaseStudy[] // Corrected
+  contacts    Contact[]
+  user        User        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model service {
-  id              String            @id @default(uuid()) @db.Char(36)
-  title           String            @db.VarChar(100)
-  description     String            @db.Text
-  subtitle        String            @db.VarChar(100)
-  created_at      DateTime?         @default(now()) @db.Timestamp(0)
-  admin_id        String            @db.Char(36)
-  banner_url      String            @db.Text
-  deleted_at      DateTime?         @db.Timestamp(0)
-  user            user              @relation(fields: [admin_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  service_request service_request[]
-  case_studies    case_studies[]
-  testimonial     testimonial[]
-  plan            plan[]
+model Service {
+  id                 String           @id @default(uuid()) @db.Char(36)
+  title              String           @db.VarChar(255)
+  isPublic           Boolean          @default(true)
+  heroHeadline       String?          @db.Text
+  heroParagraph      String?          @db.Text
+  heroImageUrl       String?          @db.Text
+  blueprintHeadline  String?          @db.Text
+  blueprintParagraph String?          @db.Text
+  blueprintImageUrl  String?          @db.Text
+  bannerText         String?          @db.Text
+  admin_id           String           @db.Char(36)
+  created_at         DateTime?        @default(now()) @db.Timestamp(0)
+  deleted_at         DateTime?        @db.Timestamp(0)
+  plans              Plan[]
+  caseStudies        CaseStudy[]
+  testimonials       Testimonial[]
+  faqs               Faq[]
+  service_requests   ServiceRequest[] // Corrected
+  user               User             @relation(fields: [admin_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@index([admin_id])
+  form ServiceForm?
 }
 
-model service_request {
-  id           String   @id @default(uuid()) @db.Char(36)
-  message      String   @db.Text
-  service_id   String   @db.Char(36)
-  user_id      String   @db.Char(36)
-  requested_at DateTime @default(now()) @db.Timestamp(0)
-  status       String   @db.VarChar(15)
-  plan_id      String   @db.Char(36)
-  plan         plan     @relation(fields: [plan_id], references: [id])
-  service      service  @relation(fields: [service_id], references: [id])
-  user         user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@index([user_id])
-  @@index([service_id])
-  @@index([plan_id])
+model ServiceForm {
+  id         String    @id @default(uuid())
+  service    Service   @relation(fields: [service_id], references: [id])
+  service_id String    @unique // Each service has only one form definition
+  formFields Json // Stores the JSON array of form field definitions
+  created_at DateTime? @default(now())
+  updated_at DateTime? @updatedAt
 }
 
-model case_studies {
-  id              String       @id @default(uuid()) @db.Char(36)
-  banner          String       @db.Text
-  challenge       String       @db.Text
-  challenge_img   String       @db.Text
-  solution        String       @db.Text
-  solution_img    String       @db.Text
-  result          String       @db.Text
-  result_img      String       @db.Text
-  service_id      String       @db.Char(36)
-  organisation_id String       @db.Char(36)
-  organisation    organisation @relation(fields: [organisation_id], references: [id])
-  service         service      @relation(fields: [service_id], references: [id])
+model Plan {
+  id               String           @id @default(uuid()) @db.Char(36)
+  name             String           @db.VarChar(100)
+  price            String
+  priceUnit        String           @db.VarChar(20)
+  audience         String           @db.VarChar(100)
+  features         Json
+  service_id       String           @db.Char(36)
+  service          Service          @relation(fields: [service_id], references: [id], onDelete: Cascade)
+  // Corrected relations
+  service_requests ServiceRequest[]
+  subscriptions    Subscription[]
+  Plan_type        Plan_type?       @relation(fields: [plan_typeId], references: [id])
+  plan_typeId      String?          @db.Char(36)
+  Billing_cycle    Billing_cycle?   @relation(fields: [billing_cycleId], references: [id])
+  billing_cycleId  String?          @db.Char(36)
 
-  @@index([organisation_id])
-  @@index([service_id])
-}
-
-model testimonial {
-  id         String    @id @default(uuid()) @db.Char(36)
-  message    String    @db.Text
-  user_id    String    @db.Char(36)
-  service_id String    @db.Char(36)
-  stars      Decimal   @db.Decimal(2, 1)
-  user_title String    @db.Text
-  deleted_at DateTime? @db.Timestamp(0)
-  service    service   @relation(fields: [service_id], references: [id])
-  user       user      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@index([user_id])
   @@index([service_id])
 }
 
-model contact {
+model CaseStudy {
+  id                String        @id @default(uuid()) @db.Char(36)
+  title             String        @db.VarChar(255)
+  subtitle          String        @db.VarChar(255)
+  bannerImageUrl    String?       @db.Text
+  challenge         String?       @db.Text
+  challengeImageUrl String?       @db.Text
+  solution          String?       @db.Text
+  solutionImageUrl  String?       @db.Text
+  result            String?       @db.Text
+  resultImageUrl    String?       @db.Text
+  service_id        String        @db.Char(36)
+  service           Service       @relation(fields: [service_id], references: [id], onDelete: Cascade)
+  Organisation      Organisation? @relation(fields: [organisationId], references: [id])
+  organisationId    String?       @db.Char(36)
+
+  @@index([service_id])
+}
+
+model Testimonial {
+  id             String  @id @default(uuid()) @db.Char(36)
+  quote          String  @db.Text
+  authorName     String  @db.VarChar(100)
+  authorTitle    String  @db.VarChar(100)
+  stars          Int     @default(5)
+  authorImageUrl String? @db.Text
+  service_id     String  @db.Char(36)
+  service        Service @relation(fields: [service_id], references: [id], onDelete: Cascade)
+  user_id        String  @db.Char(36)
+  user           User    @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model Faq {
+  id         String  @id @default(uuid()) @db.Char(36)
+  question   String  @db.Text
+  answer     String  @db.Text
+  service_id String  @db.Char(36)
+  service    Service @relation(fields: [service_id], references: [id], onDelete: Cascade)
+
+  @@index([service_id])
+}
+
+model ServiceRequest {
+  id         String   @id @default(uuid())
+  user       User     @relation(fields: [user_id], references: [id])
+  user_id    String
+  service    Service  @relation(fields: [service_id], references: [id])
+  service_id String
+  plan_name  String // Which plan did they select?
+  status     String   @default("Pending") // e.g., Pending, In Progress, Completed
+  formData   Json // Stores the user's submitted form data as a JSON object
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  Plan       Plan?    @relation(fields: [planId], references: [id])
+  planId     String?  @db.Char(36)
+}
+
+// Renamed to PascalCase
+model Contact {
   id              String       @id @default(uuid()) @db.Char(36)
   name            String       @db.VarChar(100)
   pfp_url         String       @db.Text
@@ -141,56 +185,51 @@ model contact {
   id_url          Json
   created_at      DateTime?    @default(now()) @db.Timestamp(0)
   deleted_at      DateTime?    @db.Timestamp(0)
-  organisation    organisation @relation(fields: [organisation_id], references: [id])
-
-  @@index([organisation_id])
+  organisation    Organisation @relation(fields: [organisation_id], references: [id])
 }
 
-model otp {
+// Renamed to PascalCase
+model Otp {
   id         String    @id @default(uuid()) @db.Char(36)
   otp        String    @db.Text
   expires_at DateTime? @db.Timestamp(0)
   created_at DateTime? @default(now()) @db.Timestamp(0)
   user_id    String    @db.Char(36)
-  user       user      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@index([user_id])
+  user       User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
-model password_token {
+// Renamed to PascalCase
+model Password_token {
   id         String    @id @default(uuid()) @db.Char(36)
   token      String    @db.Text
   created_at DateTime? @default(now()) @db.Timestamp(0)
   expires_at DateTime? @db.Timestamp(0)
   user_id    String    @db.Char(36)
-  user       user      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@index([user_id])
+  user       User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
-model notification {
+// Renamed to PascalCase
+model Notification {
   id           String    @id @default(uuid()) @db.Char(36)
   activity     String    @db.Text
   completed_at DateTime? @default(now()) @db.Timestamp(0)
   user_id      String    @db.Char(36)
-  user         user      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  @@index([user_id])
+  user         User      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
-model privacy_settings {
+// Renamed to PascalCase
+model Privacy_settings {
   id               String  @id @default(uuid()) @db.Char(36)
   ads              Boolean @default(true)
   data_sharing     Boolean @default(true)
   marketing_status Boolean @default(true)
   activity_status  Boolean @default(true)
   user_id          String  @db.Char(36)
-  user             user    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@index([user_id])
+  user             User    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
-model notification_settings {
+// Renamed to PascalCase
+model Notification_settings {
   id             String  @id @default(uuid()) @db.Char(36)
   alerts         Boolean @default(true)
   messages       Boolean @default(true)
@@ -199,71 +238,56 @@ model notification_settings {
   email          Boolean @default(true)
   in_app         Boolean @default(true)
   user_id        String  @db.Char(36)
-  user           user    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
-
-  @@index([user_id])
+  user           User    @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
-model plan_type {
+// Renamed to PascalCase
+model Plan_type {
   id         String    @id @default(uuid()) @db.Char(36)
   name       String    @db.VarChar(20)
   created_at DateTime  @default(now()) @db.Timestamp(0)
   created_by String    @db.Char(36)
   deleted_at DateTime? @db.Timestamp(0)
+  user       User      @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  plans      Plan[]
 
-  user user   @relation(fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  plan plan[]
+  @@index([created_by])
 }
 
-model billing_cycle {
+// Renamed to PascalCase
+model Billing_cycle {
   id               String    @id @default(uuid()) @db.Char(36)
   name             String    @db.VarChar(20)
   duration_in_days Int       @db.Int
   created_at       DateTime  @default(now()) @db.Timestamp(0)
   deleted_at       DateTime? @db.Timestamp(0)
-
-  plan plan[]
+  plans            Plan[]
 }
 
-model plan {
-  id               String @id @default(uuid()) @db.Char(36)
-  service_id       String @db.Char(36)
-  plan_type_id     String @db.Char(36)
-  billing_cycle_id String @db.Char(36)
-  price            Int    @db.Int
-  description      String @db.Text
-
-  service       service       @relation(fields: [service_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  plan_type     plan_type     @relation(fields: [plan_type_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  billing_cycle billing_cycle @relation(fields: [billing_cycle_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-
-  service_request service_request[]
-  subscription    subscription[]
-}
-
-model subscription {
+// Renamed to PascalCase
+model Subscription {
   id         String    @id @default(uuid()) @db.Char(36)
   start_date DateTime? @default(now()) @db.Timestamp(0)
   end_date   DateTime? @db.Timestamp(0)
   status     String    @db.VarChar(20)
   user_id    String    @db.Char(36)
   plan_id    String    @db.Char(36)
-  plan       plan      @relation(fields: [plan_id], references: [id])
-  user       user      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  plan       Plan      @relation(fields: [plan_id], references: [id])
+  user       User      @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@index([user_id])
   @@index([plan_id])
 }
 
-model role {
+// Renamed to PascalCase
+model Role {
   id          String    @id @default(uuid()) @db.Char(36)
   title       String    @db.VarChar(25)
   description String?   @db.Text
   created_at  DateTime  @default(now()) @db.Timestamp(0)
   created_by  String?   @db.Char(36)
   deleted_at  DateTime? @db.Timestamp(0)
-  creator     user?     @relation("RoleCreator", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  user        user[]    @relation("UserRole")
+  creator     User?     @relation("RoleCreator", fields: [created_by], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  users       User[]    @relation("UserRole")
 
   @@index([created_by])
 }

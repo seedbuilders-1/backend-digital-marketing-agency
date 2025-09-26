@@ -9,7 +9,7 @@ exports.getAllServices = async (req, res) => {
   try {
     const services = await serviceService.getAllServices();
     if (services.length === 0)
-      return sendError(res, 404, "No services are available");
+      return sendError(res, 200, "No services are available");
     return sendSuccess(res, 200, services);
   } catch (err) {
     return sendError(res, 500, "Failed to get our services", err.message);

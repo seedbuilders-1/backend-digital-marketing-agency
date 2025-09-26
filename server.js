@@ -46,8 +46,11 @@ const userRoutes = require("./routes/userRoutes");
 const orgRoutes = require("./routes/orgRoutes");
 const testimonialRoutes = require("./routes/testimonialRoutes");
 const serviceRoutes = require("./routes/serviceRoutes");
-const requestRoutes = require("./routes/requestRoutes");
+const serviceRequestRoutes = require("./routes/serviceRequestRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const invoiceRoutes = require("./routes/invoiceRoutes");
+const milestoneRoutes = require("./routes/milestoneRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 
 const jsonParser = express.json();
 app.use(cookieParser());
@@ -58,8 +61,9 @@ app.use(
       "http://localhost:3001",
       "https://digitalmarketingagency.ng",
     ],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Custom-Header"],
+    optionsSuccessStatus: 204,
   })
 );
 
@@ -68,8 +72,11 @@ app.use("/api/auth", jsonParser, authRoutes);
 app.use("/api/users", jsonParser, userRoutes);
 app.use("/api/orgs", jsonParser, orgRoutes);
 app.use("/api/testimonials", jsonParser, testimonialRoutes);
-app.use("/api/service-request", jsonParser, requestRoutes);
+app.use("/api/service-requests", jsonParser, serviceRequestRoutes);
 app.use("/api/admin", jsonParser, auth, authorizeRoles("admin"), adminRoutes);
 
-app.use("/api/services", serviceRoutes);
+app.use("/api/services", jsonParser, serviceRoutes);
+app.use("/api/invoices", jsonParser, invoiceRoutes);
+app.use("/api/milestones", jsonParser, milestoneRoutes);
+app.use("/api/payments", jsonParser, paymentRoutes);
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

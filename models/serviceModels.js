@@ -36,6 +36,7 @@ const getService = async (id) => {
       caseStudies: true,
       testimonials: true,
       faqs: true,
+      form: true,
     },
   });
   return service;
