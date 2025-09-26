@@ -64,6 +64,7 @@ app.use(
       "http://localhost:3000",
       "http://localhost:3001",
       "https://digitalmarketingagency.ng",
+      "https://www.digitalmarketingagency.ng",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Custom-Header"],
@@ -94,6 +95,7 @@ const io = new Server(server, {
       "http://localhost:3000",
       "http://localhost:3001",
       "https://digitalmarketingagency.ng",
+      "https://www.digitalmarketingagency.ng",
     ],
     // TO THIS ^^^. Make it an array that matches your Express CORS settings.
     methods: ["GET", "POST"],
