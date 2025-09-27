@@ -7,6 +7,7 @@ const {
   uploadToCloudinary,
   uploadMultipleToCloudinary,
 } = require("../services/cloudinaryService");
+const { sendEmail } = require("../utils/emailService");
 
 exports.getAllusers = async (req, res) => {
   try {
@@ -65,6 +66,37 @@ exports.createUser = async (req, res) => {
       expiresAt,
       id: user.id,
     });
+
+    const emailSubject = `Your Verification Code for DMA`;
+    const emailText = `Welcome! Your verification code is ${otp}. It will expire in 10 minutes.`;
+    const emailHtml = `
+    <div style="font-family: sans-serif; padding: 20px; color: #333;">
+      <h2 style="color: #7642FE;">Welcome to the Digital Marketing Agency!</h2>
+      <p>Thank you for registering. Please use the code below to verify your account.</p>
+      <p style="background-color: #f4f4f4; border-radius: 5px; padding: 15px; font-size: 24px; text-align: center; letter-spacing: 3px; font-weight: bold;">
+        ${otp}
+      </p>
+      <p>This code is valid for 10 minutes.</p>
+      <hr style="border: none; border-top: 1px solid #eee; margin: 20px 0;" />
+      <p style="font-size: 12px; color: #999;">If you did not request this, please ignore this email.</p>
+    </div>
+  `;
+
+    // 3. Call our reusable email service to send the email via Zoho
+    try {
+      console.log("Sending email to", user.email);
+      await sendEmail(user.email, emailSubject, emailText, emailHtml);
+    } catch (emailError) {
+      // If the email fails, we might want to still let the user be created but log the error.
+      // Or, you could reverse the user creation in a more complex transaction.
+      // For now, we'll log it and proceed.
+      console.error(
+        `Failed to send OTP email to ${user.email}, but user was created.`,
+        emailError
+      );
+    }
+
+    // --- END ZOHO EMAIL INTEGRATION ---
 
     // 4. Construct and send the final, complete success response
     const responsePayload = {
