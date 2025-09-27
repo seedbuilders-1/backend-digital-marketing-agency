@@ -5,7 +5,7 @@ const userModel = require("../models/userModels");
 
 const login = async (email, password) => {
   const user = await userModel.getuserByEmail(email);
-  if (!user) throw new Error("user not found");
+  if (!user) throw new Error("User not found");
 
   const passwordMatch = await bcrypt.compare(password, user.password);
   if (!passwordMatch) throw new Error("invalid email or password");

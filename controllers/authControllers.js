@@ -63,7 +63,7 @@ exports.login = async (req, res) => {
     return sendError(
       res,
       500,
-      "An unexpected error occurred. Please try again later."
+      err.message || "An unexpected error occurred. Please try again later."
     );
   }
 };
