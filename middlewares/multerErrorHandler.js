@@ -1,7 +1,7 @@
 // middlewares/multerErrorHandler.js
 
 const multer = require("multer");
-const { sendError } = require("../utils/responseHandler");
+const { sendError } = require("../utils/response");
 
 /**
  * A custom middleware that wraps a Multer upload instance to handle its specific errors,
