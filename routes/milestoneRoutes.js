@@ -4,6 +4,7 @@ const auth = require("../middlewares/authmiddleware");
 const { authorizeRoles } = require("../middlewares/authenticate");
 const upload = require("../middlewares/multer"); // Your configured Multer instance
 const milestoneController = require("../controllers/milestoneController");
+const handleMulterError = require("../middlewares/multerErrorHandler");
 
 /**
  * @route   POST /api/milestones
@@ -74,7 +75,7 @@ router.post(
   "/:id/deliverable",
   auth,
   authorizeRoles("admin"),
-  upload.single("deliverableFile"),
+  handleMulterError(upload.single("deliverableFile")),
   milestoneController.uploadDeliverable
 );
 

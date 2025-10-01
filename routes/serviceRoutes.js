@@ -4,11 +4,12 @@ const auth = require("../middlewares/authmiddleware");
 const serviceController = require("../controllers/serviceControllers");
 const { authorizeRoles } = require("../middlewares/authenticate");
 const upload = require("../middlewares/multer");
+const handleMulterError = require("../middlewares/multerErrorHandler");
 
 router.get("/", auth, serviceController.getAllServices);
 router.post(
   "/",
-  upload.any(), // <-- MULTER RUNS FIRST
+  handleMulterError(upload.any()), // <-- MULTER RUNS FIRST
   auth, // <-- Auth runs second, can now safely access req.body
   authorizeRoles("admin"), // <-- Roles runs third
   serviceController.createService
@@ -18,7 +19,7 @@ router.put(
   "/:id",
   auth,
   authorizeRoles("admin"),
-  upload.single("banner"),
+  handleMulterError(upload.single("banner")),
   serviceController.updateService
 );
 router.delete(

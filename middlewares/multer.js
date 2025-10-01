@@ -19,8 +19,6 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-// --- THIS IS THE CRITICAL FIX ---
-// Define explicit limits for the upload.
 const limits = {
   // Maximum file size of 5MB. Your 1MB file will be well within this.
   fileSize: 1024 * 1024 * 5,

@@ -4,6 +4,7 @@ const auth = require("../middlewares/authmiddleware");
 const { authorizeRoles } = require("../middlewares/authenticate");
 const requestController = require("../controllers/serviceRequestController");
 const upload = require("../middlewares/multer");
+const handleMulterError = require("../middlewares/multerErrorHandler");
 
 /**
  * @route   POST /api/service-requests/initialize
@@ -13,7 +14,7 @@ const upload = require("../middlewares/multer");
 router.post(
   "/initialize",
   auth,
-  upload.any(),
+  handleMulterError(upload.any()),
   requestController.initializeServiceRequest
 );
 
