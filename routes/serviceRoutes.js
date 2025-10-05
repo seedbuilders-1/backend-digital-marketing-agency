@@ -6,7 +6,13 @@ const { authorizeRoles } = require("../middlewares/authenticate");
 const upload = require("../middlewares/multer");
 const handleMulterError = require("../middlewares/multerErrorHandler");
 
-router.get("/", auth, serviceController.getAllServices);
+router.get(
+  "/",
+  auth,
+  authorizeRoles("admin"),
+  serviceController.getAllServices
+);
+router.get("/public", auth, serviceController.getAllPublicServices);
 router.post(
   "/",
   handleMulterError(upload.any()), // <-- MULTER RUNS FIRST

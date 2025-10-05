@@ -4,6 +4,10 @@ const getAllServices = async () => {
   return await serviceModel.getAllServices();
 };
 
+const getAllPublicServices = async () => {
+  return await serviceModel.getAllPublicServices();
+};
+
 const getService = async (id) => {
   return await serviceModel.getService(id);
 };
@@ -30,6 +34,7 @@ const updateServiceForm = async (serviceId, formFields) => {
 
 module.exports = {
   getAllServices,
+  getAllPublicServices,
   getService,
   createService,
   updateService,

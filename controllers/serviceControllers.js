@@ -17,6 +17,17 @@ exports.getAllServices = async (req, res) => {
   }
 };
 
+exports.getAllPublicServices = async (req, res) => {
+  try {
+    const services = await serviceService.getAllPublicServices();
+    if (services.length === 0)
+      return sendError(res, 200, "No services are available");
+    return sendSuccess(res, 200, services);
+  } catch (err) {
+    return sendError(res, 500, "Failed to get our services", err.message);
+  }
+};
+
 exports.getService = async (req, res) => {
   try {
     const { id } = req.params; // Get the ID from the URL parameters

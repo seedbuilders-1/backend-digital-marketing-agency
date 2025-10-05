@@ -19,6 +19,18 @@ const getAllServices = async () => {
   return services;
 };
 
+const getAllPublicServices = async () => {
+  const services = await prisma.service.findMany({
+    where: { deleted_at: null },
+    select: {
+      title: true,
+      heroParagraph: true,
+      heroImageUrl: true,
+    },
+  });
+  return services;
+};
+
 const getService = async (id) => {
   const service = await prisma.service.findUnique({
     where: {
@@ -204,6 +216,7 @@ const updateServiceForm = async (serviceId, formFields) => {
 
 module.exports = {
   getAllServices,
+  getAllPublicServices,
   getService,
   createService,
   createServiceWithDetails,
