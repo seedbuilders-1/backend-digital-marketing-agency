@@ -12,7 +12,7 @@ router.get(
   authorizeRoles("admin"),
   serviceController.getAllServices
 );
-router.get("/public", auth, serviceController.getAllPublicServices);
+router.get("/public", serviceController.getAllPublicServices);
 router.post(
   "/",
   handleMulterError(upload.any()), // <-- MULTER RUNS FIRST
