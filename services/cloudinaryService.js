@@ -13,7 +13,9 @@ const uploadToCloudinary = (fileBuffer, folder = "uploads") => {
       (error, result) => {
         if (error) {
           console.error("Cloudinary upload stream error:", error);
-          return reject(new Error("Failed to upload file to Cloudinary."));
+          return reject(
+            new Error("Failed to upload file to Cloudinary.", error)
+          );
         }
         resolve(result);
       }

@@ -4,6 +4,7 @@ const getUserId = require("../utils/getUserId");
 const { sendSuccess, sendError } = require("../utils/response");
 const { uploadToCloudinary } = require("../services/cloudinaryService");
 const upload = require("../middlewares/multer");
+const { slugify } = require("../utils/helpers");
 
 exports.getAllServices = async (req, res) => {
   try {
@@ -80,9 +81,10 @@ exports.createService = async (req, res) => {
 
     // 2. Upload images to Cloudinary and create a map of fieldname -> URL
     const fileUploads = req.files || [];
+    const serviceSlug = slugify(title);
     const uploadPromises = fileUploads.map((file) =>
       // Pass the file buffer directly to the upload function
-      uploadToCloudinary(file.buffer, `services/${title.replace(/\s+/g, "-")}`)
+      uploadToCloudinary(file.buffer, `services/${serviceSlug}`)
     );
     const uploadResults = await Promise.all(uploadPromises);
     const imageUrlMap = uploadResults.reduce((map, result, index) => {
@@ -196,8 +198,9 @@ exports.updateService = async (req, res) => {
 
     // 3. Upload new images to Cloudinary and create a map of fieldname -> URL
     const fileUploads = req.files || [];
+    const serviceSlug = slugify(title);
     const uploadPromises = fileUploads.map((file) =>
-      uploadToCloudinary(file.buffer, `services/${title.replace(/\s+/g, "-")}`)
+      uploadToCloudinary(file.buffer, `services/${serviceSlug}`)
     );
     const uploadResults = await Promise.all(uploadPromises);
     const newImageUrlMap = uploadResults.reduce((map, result, index) => {
