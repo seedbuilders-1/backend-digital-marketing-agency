@@ -113,27 +113,58 @@ const createServiceWithDetails = async (serviceData) => {
   });
 };
 
-const updateService = async (
-  id,
-  { title, subtitle, description, banner_url }
-) => {
-  const service = await prisma.service.update({
-    where: { id: id, deleted_at: null },
-    data: {
-      title: title,
-      subtitle: subtitle,
-      description: description,
-      banner_url: banner_url,
-    },
-    include: {
-      user: {
-        select: {
-          name: true,
-        },
+const updateService = async (id, serviceData) => {
+  const { plans, caseStudies, testimonials, faqs, ...mainServiceData } =
+    serviceData;
+
+  return await prisma.$transaction(async (tx) => {
+    // 1. Update the main service record
+    const updatedService = await tx.service.update({
+      where: { id: id },
+      data: mainServiceData,
+    });
+
+    // 2. Delete existing related records
+    await Promise.all([
+      tx.plan.deleteMany({ where: { service_id: id } }),
+      tx.caseStudy.deleteMany({ where: { service_id: id } }),
+      tx.testimonial.deleteMany({ where: { service_id: id } }),
+      tx.faq.deleteMany({ where: { service_id: id } }),
+    ]);
+
+    // 3. Create new related records with the updated data
+    if (plans && plans.length > 0) {
+      await tx.plan.createMany({
+        data: plans.map((plan) => ({ ...plan, service_id: id })),
+      });
+    }
+    if (caseStudies && caseStudies.length > 0) {
+      await tx.caseStudy.createMany({
+        data: caseStudies.map((cs) => ({ ...cs, service_id: id })),
+      });
+    }
+    if (testimonials && testimonials.length > 0) {
+      await tx.testimonial.createMany({
+        data: testimonials.map((ts) => ({ ...ts, service_id: id })),
+      });
+    }
+    if (faqs && faqs.length > 0) {
+      await tx.faq.createMany({
+        data: faqs.map((faq) => ({ ...faq, service_id: id })),
+      });
+    }
+
+    // 4. Return the fully updated service with all its new relations
+    return await tx.service.findUnique({
+      where: { id: id },
+      include: {
+        plans: true,
+        caseStudies: true,
+        testimonials: true,
+        faqs: true,
       },
-    },
+    });
   });
-  return service;
 };
 
 const deleteService = async (id) => {

@@ -19,7 +19,7 @@ router.put(
   "/:id",
   auth,
   authorizeRoles("admin"),
-  handleMulterError(upload.single("banner")),
+  handleMulterError(upload.any()),
   serviceController.updateService
 );
 router.delete(

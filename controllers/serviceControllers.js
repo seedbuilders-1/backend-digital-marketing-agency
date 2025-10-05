@@ -35,8 +35,6 @@ exports.getService = async (req, res) => {
   }
 };
 
-// In your serviceController.js
-
 exports.createService = async (req, res) => {
   try {
     // 1. Manually reconstruct nested objects from the flattened req.body
@@ -145,41 +143,130 @@ exports.createService = async (req, res) => {
   }
 };
 exports.updateService = async (req, res) => {
+  console.log("INCOMING UPDATE REQUEST BODY:", req.body);
+  console.log("INCOMING UPDATE REQUEST FILES:", req.files);
   try {
-    const id = req.params.id;
-    const { title, subtitle, description } = req.body;
-    if (!title || !subtitle || !description) {
-      return sendError(
-        res,
-        400,
-        "title, subtitle, and description fields are required"
-      );
+    const { id } = req.params;
+
+    // 1. Fetch the existing service to get current image URLs
+    const existingService = await serviceService.getService(id);
+    console.log(id);
+    if (!existingService) {
+      return sendError(res, 404, "Service not found.");
     }
 
-    const service = await serviceService.getService(id);
-    if (!service) return sendError(res, 404, "service not found");
+    // 2. Manually reconstruct nested objects from the flattened req.body
+    const reconstructedBody = {};
+    for (const key in req.body) {
+      const match = key.match(/(\w+)\[(\d+)\]\[(\w+)\]/);
+      if (match) {
+        const arrayName = match[1];
+        const index = parseInt(match[2], 10);
+        const propName = match[3];
 
-    let banner_url = service.banner_url;
-
-    if (req.file) {
-      const banner = await uploadToCloudinary(req.file.path, "services/banner");
-      banner_url = banner.secure_url;
+        if (!reconstructedBody[arrayName]) {
+          reconstructedBody[arrayName] = [];
+        }
+        if (!reconstructedBody[arrayName][index]) {
+          reconstructedBody[arrayName][index] = {};
+        }
+        reconstructedBody[arrayName][index][propName] = req.body[key];
+      } else {
+        reconstructedBody[key] = req.body[key];
+      }
     }
 
-    const updated = await serviceService.updateService(id, {
+    const {
       title,
-      subtitle,
-      description,
-      banner_url,
-    });
+      isPublic,
+      bannerText,
+      heroHeadline,
+      heroParagraph,
+      blueprintHeadline,
+      blueprintParagraph,
+      plans = [],
+      faqs = [],
+      caseStudies = [],
+      testimonials = [],
+    } = reconstructedBody;
+
+    if (!title) {
+      return sendError(res, 400, "Service title is required.");
+    }
+
+    // 3. Upload new images to Cloudinary and create a map of fieldname -> URL
+    const fileUploads = req.files || [];
+    const uploadPromises = fileUploads.map((file) =>
+      uploadToCloudinary(file.buffer, `services/${title.replace(/\s+/g, "-")}`)
+    );
+    const uploadResults = await Promise.all(uploadPromises);
+    const newImageUrlMap = uploadResults.reduce((map, result, index) => {
+      map[fileUploads[index].fieldname] = result.secure_url;
+      return map;
+    }, {});
+
+    // 4. Assemble the final data object for the database service
+    const admin_id = await getUserId.getUserIdFromHeader(req);
+    const serviceData = {
+      title,
+      admin_id,
+      isPublic: isPublic === "true",
+      heroHeadline,
+      heroParagraph,
+      heroImageUrl: newImageUrlMap["heroImage"] || existingService.heroImageUrl,
+      blueprintHeadline,
+      blueprintParagraph,
+      blueprintImageUrl:
+        newImageUrlMap["blueprintImage"] || existingService.blueprintImageUrl,
+      bannerText,
+      plans: plans.map((p) => ({
+        ...p,
+        features: JSON.parse(p.features || "[]"),
+      })),
+      faqs,
+      caseStudies: caseStudies.map((cs, index) => {
+        const existingCaseStudy = existingService.caseStudies[index] || {};
+        return {
+          ...cs,
+          bannerImageUrl:
+            newImageUrlMap[`caseStudy_${index}_bannerImage`] ||
+            existingCaseStudy.bannerImageUrl,
+          challengeImageUrl:
+            newImageUrlMap[`caseStudy_${index}_challengeImage`] ||
+            existingCaseStudy.challengeImageUrl,
+          solutionImageUrl:
+            newImageUrlMap[`caseStudy_${index}_solutionImage`] ||
+            existingCaseStudy.solutionImageUrl,
+          resultImageUrl:
+            newImageUrlMap[`caseStudy_${index}_resultImage`] ||
+            existingCaseStudy.resultImageUrl,
+        };
+      }),
+      testimonials: testimonials.map((ts, index) => {
+        const existingTestimonial = existingService.testimonials[index] || {};
+        return {
+          ...ts,
+          stars: Number(ts.stars),
+          authorImageUrl:
+            newImageUrlMap[`testimonial_${index}_authorImage`] ||
+            existingTestimonial.authorImageUrl,
+          user_id: admin_id,
+        };
+      }),
+    };
+
+    // 5. Call the service to update the data in a transaction
+    const updatedService = await serviceService.updateService(id, serviceData);
+
     return sendSuccess(
       res,
       200,
-      { service: updated },
-      "service was updated successfully!"
+      { service: updatedService },
+      "Service updated successfully!"
     );
   } catch (err) {
-    return sendError(res, 500, "Could not update service", err.message);
+    console.error("Service update failed:", err);
+    return sendError(res, 500, "Failed to update Service", err.message);
   }
 };
 
