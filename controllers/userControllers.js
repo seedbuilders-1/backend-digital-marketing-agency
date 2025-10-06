@@ -203,13 +203,13 @@ exports.profile = async (req, res) => {
     }
 
     // --- Robust Boolean Conversion for BOTH fields ---
-    const ownsBusiness = ["yes", "true", "1"].includes(
-      business_status.toLowerCase()
-    );
-    // THIS IS THE FIX: Convert the second field to a boolean as well.
-    const isRegisteredWithBusiness = ["yes", "true", "1"].includes(
-      registered_with_a_business.toLowerCase()
-    );
+    // const ownsBusiness = ["yes", "true", "1"].includes(
+    //   business_status.toLowerCase()
+    // );
+    // // THIS IS THE FIX: Convert the second field to a boolean as well.
+    // const isRegisteredWithBusiness = ["yes", "true", "1"].includes(
+    //   registered_with_a_business.toLowerCase()
+    // );
 
     // --- File Uploads (using .buffer) ---
     const profilePicBuffer = req.files["profile-pic"][0].buffer;
@@ -226,8 +226,8 @@ exports.profile = async (req, res) => {
     const profile = await userService.profile(id, {
       pfp_url: uploadResult.secure_url,
       id_url: idResults.map((img) => img.secure_url),
-      business_status: ownsBusiness,
-      registered_with_a_business: isRegisteredWithBusiness,
+      business_status: null,
+      registered_with_a_business: null,
     });
 
     if (!profile) return sendError(res, 404, "User not found");
