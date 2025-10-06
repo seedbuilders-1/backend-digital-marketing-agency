@@ -286,17 +286,24 @@ exports.updateService = async (req, res) => {
 
 exports.deleteService = async (req, res) => {
   try {
-    const id = req.params.id;
-    const service = await serviceService.deleteService(id);
-    if (!service) return sendError(res, 404, "service not found");
+    const { id } = req.params;
+
+    // The service layer now handles everything (Cloudinary + DB)
+    const deletedService = await serviceService.deleteService(id);
+
+    if (!deletedService) {
+      return sendError(res, 404, "Service not found or already deleted.");
+    }
 
     return sendSuccess(
       res,
       200,
-      { Service: service },
-      "Service has been deleted"
+      { service: deletedService },
+      "Service has been successfully soft-deleted and assets removed."
     );
   } catch (err) {
+    // This will catch errors from both Cloudinary and Prisma
+    console.error("Service deletion failed:", err);
     return sendError(res, 500, "Could not delete this service", err.message);
   }
 };

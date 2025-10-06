@@ -1,4 +1,8 @@
 const serviceModel = require("../models/serviceModels");
+const {
+  deleteFromCloudinary,
+  extractPublicIdFromUrl,
+} = require("./cloudinaryService");
 
 const getAllServices = async () => {
   return await serviceModel.getAllServices();
@@ -20,7 +24,45 @@ const updateService = async (id, serviceData) => {
   return await serviceModel.updateService(id, serviceData);
 };
 
-const deleteService = async (id) => {
+const deleteServiceAndAssets = async (id) => {
+  // 1. Fetch the full service record, including all related items with images
+  const service = await serviceModel.getService(id);
+  if (!service) {
+    return null; // The controller will handle the 404
+  }
+
+  // 2. Gather all public_ids from the service and its relations
+  const publicIds = [];
+  if (service.heroImageUrl)
+    publicIds.push(extractPublicIdFromUrl(service.heroImageUrl));
+  if (service.blueprintImageUrl)
+    publicIds.push(extractPublicIdFromUrl(service.blueprintImageUrl));
+
+  service.caseStudies.forEach((cs) => {
+    if (cs.bannerImageUrl)
+      publicIds.push(extractPublicIdFromUrl(cs.bannerImageUrl));
+    if (cs.challengeImageUrl)
+      publicIds.push(extractPublicIdFromUrl(cs.challengeImageUrl));
+    if (cs.solutionImageUrl)
+      publicIds.push(extractPublicIdFromUrl(cs.solutionImageUrl));
+    if (cs.resultImageUrl)
+      publicIds.push(extractPublicIdFromUrl(cs.resultImageUrl));
+  });
+
+  service.testimonials.forEach((ts) => {
+    if (ts.authorImageUrl)
+      publicIds.push(extractPublicIdFromUrl(ts.authorImageUrl));
+  });
+
+  // Filter out any null values that may have resulted from empty URLs
+  const validPublicIds = publicIds.filter(Boolean);
+
+  // 3. Delete the assets from Cloudinary
+  if (validPublicIds.length > 0) {
+    await deleteFromCloudinary(validPublicIds);
+  }
+
+  // 4. Soft delete the service from the database
   return await serviceModel.deleteService(id);
 };
 
@@ -38,7 +80,7 @@ module.exports = {
   getService,
   createService,
   updateService,
-  deleteService,
+  deleteService: deleteServiceAndAssets,
   getCaseStudiesByServiceId,
   updateServiceForm,
 };

@@ -59,8 +59,42 @@ const uploadMultipleToCloudinary = async (
   }
 };
 
+/**
+ * Extracts the public_id from a full Cloudinary URL.
+ * e.g., "https://.../upload/v123/services/my-image.png" => "services/my-image.png"
+ * @param {string} url The full Cloudinary URL.
+ * @returns {string|null} The public_id or null if not found.
+ */
+const extractPublicIdFromUrl = (url) => {
+  if (!url) return null;
+  const regex = /upload\/(?:v\d+\/)?([^\.]+)/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+};
+
+/**
+ * Deletes multiple files from Cloudinary by their public_ids.
+ * @param {string[]} publicIds An array of public_ids to delete.
+ */
+const deleteFromCloudinary = async (publicIds) => {
+  if (!publicIds || publicIds.length === 0) {
+    return; // Nothing to delete
+  }
+  try {
+    // Deletes up to 100 assets at a time. For more, you might need to batch.
+    await cloudinary.api.delete_resources(publicIds);
+  } catch (error) {
+    console.error("Cloudinary deletion failed:", error);
+    // Decide if you want to throw the error or just log it
+    // Throwing it will stop the database delete if Cloudinary fails
+    throw new Error("Failed to delete assets from Cloudinary.");
+  }
+};
+
 // Make sure to export both functions
 module.exports = {
   uploadToCloudinary,
-  uploadMultipleToCloudinary, // <-- Export the new function
+  uploadMultipleToCloudinary,
+  extractPublicIdFromUrl,
+  deleteFromCloudinary,
 };
