@@ -20,7 +20,7 @@ router.post(
   authorizeRoles("admin"), // <-- Roles runs third
   serviceController.createService
 );
-router.get("/:id", auth, serviceController.getService);
+router.get("/:id", serviceController.getService);
 router.put(
   "/:id",
   auth,

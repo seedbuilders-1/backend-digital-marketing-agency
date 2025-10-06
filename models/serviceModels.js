@@ -23,6 +23,7 @@ const getAllPublicServices = async () => {
   const services = await prisma.service.findMany({
     where: { deleted_at: null },
     select: {
+      id: true,
       title: true,
       heroParagraph: true,
       heroImageUrl: true,
