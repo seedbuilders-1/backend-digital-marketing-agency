@@ -91,7 +91,6 @@ const getRequestById = async (requestId) => {
  * @returns {Promise<Array>} A list of service requests for the given user.
  */
 const getRequestsByUserId = async (userId) => {
-  console.log("running");
   return await prisma.serviceRequest.findMany({
     where: {
       user_id: userId,

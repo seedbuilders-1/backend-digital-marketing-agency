@@ -53,6 +53,7 @@ exports.createUser = async (req, res) => {
       email,
       tel,
       country,
+      city,
       address,
       category,
       password, // Pass the plain password to the service
@@ -117,7 +118,8 @@ exports.createUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const { name, email, tel, country, address, category, password } = req.body;
+    const { name, email, tel, country, address, category, password, city } =
+      req.body;
     const { id } = req.params;
 
     if (
@@ -127,12 +129,13 @@ exports.updateUser = async (req, res) => {
       !country ||
       !address ||
       !category ||
-      !password
+      !password ||
+      !city
     ) {
       return sendError(
         res,
         400,
-        "All fields are required - name, email, tel, country, address, category, password"
+        "All fields are required - name, email, tel, country, address, city, category, password"
       );
     }
 
@@ -143,6 +146,7 @@ exports.updateUser = async (req, res) => {
       email,
       tel,
       country,
+      city,
       address,
       category,
       password: hashed_password,
@@ -194,13 +198,13 @@ exports.profile = async (req, res) => {
     if (!req.files || !req.files["profile-pic"] || !req.files["IDs"]) {
       return sendError(res, 400, "Profile picture and ID files are required.");
     }
-    if (!business_status || !registered_with_a_business) {
-      return sendError(
-        res,
-        400,
-        "Both business status questions are required."
-      );
-    }
+    // if (!business_status || !registered_with_a_business) {
+    //   return sendError(
+    //     res,
+    //     400,
+    //     "Both business status questions are required."
+    //   );
+    // }
 
     // --- Robust Boolean Conversion for BOTH fields ---
     // const ownsBusiness = ["yes", "true", "1"].includes(
