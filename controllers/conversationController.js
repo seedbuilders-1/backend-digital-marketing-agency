@@ -7,11 +7,12 @@ const { sendSuccess, sendError } = require("../utils/response");
 exports.getMessages = async (req, res) => {
   try {
     const { serviceRequestId } = req.params;
-    const { id: userId } = req.user;
+    const { id: userId, role: userRole } = req.user;
 
     const messages = await conversationService.getMessagesForRequest(
       serviceRequestId,
-      userId
+      userId,
+      userRole
     );
 
     return sendSuccess(res, 200, messages, "Messages retrieved successfully.");
@@ -36,6 +37,16 @@ exports.getConversations = async (req, res) => {
     if (err.name === "AuthorizationError") {
       return sendError(res, 403, "Forbidden", err.message);
     }
+    return sendError(res, 500, "Failed to retrieve conversations", err.message);
+  }
+};
+
+exports.getAdminConversations = async (req, res) => {
+  try {
+    const conversations = await conversationService.getAllConversations();
+    return sendSuccess(res, 200, conversations, "All conversations retrieved.");
+  } catch (err) {
+    console.error("Failed to retrieve admin conversations:", err);
     return sendError(res, 500, "Failed to retrieve conversations", err.message);
   }
 };
