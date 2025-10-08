@@ -28,16 +28,4 @@ router.get(
   conversationController.getMessages
 );
 
-/**
- * @route   GET /api/conversations/admin
- * @desc    Get all conversations for the admin dashboard
- * @access  Private (Admin only)
- */
-router.get(
-  "/admin",
-  auth,
-  authorizeRoles("admin"), // This middleware protects the route
-  conversationController.getAdminConversations
-);
-
 module.exports = router;
