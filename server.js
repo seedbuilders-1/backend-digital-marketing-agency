@@ -43,6 +43,27 @@ app.use(
   })
 );
 
+const winston = require("winston");
+const logger = winston.createLogger({
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: "app.log" }),
+  ],
+});
+
+logger.info("Server started");
+
+const DailyRotateFile = require("winston-daily-rotate-file");
+
+transports: [
+  new winston.transports.Console(),
+  new DailyRotateFile({
+    filename: "logs/app-%DATE%.log",
+    datePattern: "YYYY-MM-DD",
+    maxFiles: "14d",
+  }),
+];
+
 // Import different route files
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
