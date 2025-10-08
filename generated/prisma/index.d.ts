@@ -3177,7 +3177,6 @@ export namespace Prisma {
     email: string | null
     tel: string | null
     country: string | null
-    consistency: string | null
     address: string | null
     category: string | null
     pfp_url: string | null
@@ -3196,7 +3195,6 @@ export namespace Prisma {
     email: string | null
     tel: string | null
     country: string | null
-    consistency: string | null
     address: string | null
     category: string | null
     pfp_url: string | null
@@ -3215,7 +3213,6 @@ export namespace Prisma {
     email: number
     tel: number
     country: number
-    consistency: number
     address: number
     category: number
     pfp_url: number
@@ -3237,7 +3234,6 @@ export namespace Prisma {
     email?: true
     tel?: true
     country?: true
-    consistency?: true
     address?: true
     category?: true
     pfp_url?: true
@@ -3256,7 +3252,6 @@ export namespace Prisma {
     email?: true
     tel?: true
     country?: true
-    consistency?: true
     address?: true
     category?: true
     pfp_url?: true
@@ -3275,7 +3270,6 @@ export namespace Prisma {
     email?: true
     tel?: true
     country?: true
-    consistency?: true
     address?: true
     category?: true
     pfp_url?: true
@@ -3368,7 +3362,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency: string | null
     address: string
     category: string
     pfp_url: string | null
@@ -3405,7 +3398,6 @@ export namespace Prisma {
     email?: boolean
     tel?: boolean
     country?: boolean
-    consistency?: boolean
     address?: boolean
     category?: boolean
     pfp_url?: boolean
@@ -3443,7 +3435,6 @@ export namespace Prisma {
     email?: boolean
     tel?: boolean
     country?: boolean
-    consistency?: boolean
     address?: boolean
     category?: boolean
     pfp_url?: boolean
@@ -3457,7 +3448,7 @@ export namespace Prisma {
     deleted_at?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "tel" | "country" | "consistency" | "address" | "category" | "pfp_url" | "id_url" | "business_status" | "registered_with_a_business" | "password" | "status" | "role_id" | "created_at" | "deleted_at", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "tel" | "country" | "address" | "category" | "pfp_url" | "id_url" | "business_status" | "registered_with_a_business" | "password" | "status" | "role_id" | "created_at" | "deleted_at", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | User$messagesArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
@@ -3502,7 +3493,6 @@ export namespace Prisma {
       email: string
       tel: string
       country: string
-      consistency: string | null
       address: string
       category: string
       pfp_url: string | null
@@ -3903,7 +3893,6 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly tel: FieldRef<"User", 'String'>
     readonly country: FieldRef<"User", 'String'>
-    readonly consistency: FieldRef<"User", 'String'>
     readonly address: FieldRef<"User", 'String'>
     readonly category: FieldRef<"User", 'String'>
     readonly pfp_url: FieldRef<"User", 'String'>
@@ -26390,7 +26379,6 @@ export namespace Prisma {
     email: 'email',
     tel: 'tel',
     country: 'country',
-    consistency: 'consistency',
     address: 'address',
     category: 'category',
     pfp_url: 'pfp_url',
@@ -26759,7 +26747,6 @@ export namespace Prisma {
     email: 'email',
     tel: 'tel',
     country: 'country',
-    consistency: 'consistency',
     address: 'address',
     category: 'category',
     pfp_url: 'pfp_url',
@@ -27101,7 +27088,6 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     tel?: StringFilter<"User"> | string
     country?: StringFilter<"User"> | string
-    consistency?: StringNullableFilter<"User"> | string | null
     address?: StringFilter<"User"> | string
     category?: StringFilter<"User"> | string
     pfp_url?: StringNullableFilter<"User"> | string | null
@@ -27136,7 +27122,6 @@ export namespace Prisma {
     email?: SortOrder
     tel?: SortOrder
     country?: SortOrder
-    consistency?: SortOrderInput | SortOrder
     address?: SortOrder
     category?: SortOrder
     pfp_url?: SortOrderInput | SortOrder
@@ -27175,7 +27160,6 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     country?: StringFilter<"User"> | string
-    consistency?: StringNullableFilter<"User"> | string | null
     address?: StringFilter<"User"> | string
     category?: StringFilter<"User"> | string
     pfp_url?: StringNullableFilter<"User"> | string | null
@@ -27210,7 +27194,6 @@ export namespace Prisma {
     email?: SortOrder
     tel?: SortOrder
     country?: SortOrder
-    consistency?: SortOrderInput | SortOrder
     address?: SortOrder
     category?: SortOrder
     pfp_url?: SortOrderInput | SortOrder
@@ -27236,7 +27219,6 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     tel?: StringWithAggregatesFilter<"User"> | string
     country?: StringWithAggregatesFilter<"User"> | string
-    consistency?: StringNullableWithAggregatesFilter<"User"> | string | null
     address?: StringWithAggregatesFilter<"User"> | string
     category?: StringWithAggregatesFilter<"User"> | string
     pfp_url?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -28849,7 +28831,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -28883,7 +28864,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -28917,7 +28897,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28951,7 +28930,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28985,7 +28963,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -29005,7 +28982,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29024,7 +29000,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30926,7 +30901,6 @@ export namespace Prisma {
     email?: SortOrder
     tel?: SortOrder
     country?: SortOrder
-    consistency?: SortOrder
     address?: SortOrder
     category?: SortOrder
     pfp_url?: SortOrder
@@ -30946,7 +30920,6 @@ export namespace Prisma {
     email?: SortOrder
     tel?: SortOrder
     country?: SortOrder
-    consistency?: SortOrder
     address?: SortOrder
     category?: SortOrder
     pfp_url?: SortOrder
@@ -30965,7 +30938,6 @@ export namespace Prisma {
     email?: SortOrder
     tel?: SortOrder
     country?: SortOrder
-    consistency?: SortOrder
     address?: SortOrder
     category?: SortOrder
     pfp_url?: SortOrder
@@ -35258,7 +35230,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -35291,7 +35262,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -35403,7 +35373,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35436,7 +35405,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35637,7 +35605,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -35670,7 +35637,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -35843,7 +35809,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35876,7 +35841,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36330,7 +36294,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -36363,7 +36326,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -36449,7 +36411,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36482,7 +36443,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36805,7 +36765,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -36838,7 +36797,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -36940,7 +36898,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36973,7 +36930,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37106,7 +37062,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -37139,7 +37094,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -37350,7 +37304,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37383,7 +37336,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37780,7 +37732,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -37813,7 +37764,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -37862,7 +37812,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37895,7 +37844,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38067,7 +38015,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38100,7 +38047,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38174,7 +38120,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38207,7 +38152,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38240,7 +38184,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38273,7 +38216,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38322,7 +38264,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38355,7 +38296,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38388,7 +38328,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38421,7 +38360,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38470,7 +38408,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38503,7 +38440,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38536,7 +38472,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38569,7 +38504,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38618,7 +38552,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38651,7 +38584,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38684,7 +38616,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38717,7 +38648,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38766,7 +38696,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38799,7 +38728,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38832,7 +38760,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38865,7 +38792,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38950,7 +38876,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38983,7 +38908,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39115,7 +39039,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -39148,7 +39071,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -39234,7 +39156,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39267,7 +39188,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39300,7 +39220,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -39333,7 +39252,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -39371,7 +39289,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -39404,7 +39321,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -39458,7 +39374,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39491,7 +39406,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39543,7 +39457,6 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     tel?: StringFilter<"User"> | string
     country?: StringFilter<"User"> | string
-    consistency?: StringNullableFilter<"User"> | string | null
     address?: StringFilter<"User"> | string
     category?: StringFilter<"User"> | string
     pfp_url?: StringNullableFilter<"User"> | string | null
@@ -40641,7 +40554,6 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
-    consistency?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -40660,7 +40572,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40693,7 +40604,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40726,7 +40636,6 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    consistency?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null

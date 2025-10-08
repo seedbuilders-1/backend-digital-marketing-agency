@@ -194,13 +194,13 @@ exports.profile = async (req, res) => {
     if (!req.files || !req.files["profile-pic"] || !req.files["IDs"]) {
       return sendError(res, 400, "Profile picture and ID files are required.");
     }
-    if (!business_status || !registered_with_a_business) {
-      return sendError(
-        res,
-        400,
-        "Both business status questions are required."
-      );
-    }
+    // if (!business_status || !registered_with_a_business) {
+    //   return sendError(
+    //     res,
+    //     400,
+    //     "Both business status questions are required."
+    //   );
+    // }
 
     // --- Robust Boolean Conversion for BOTH fields ---
     // const ownsBusiness = ["yes", "true", "1"].includes(

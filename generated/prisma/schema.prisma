@@ -27,11 +27,12 @@ model User {
   role_id                    String    @db.Char(36)
   created_at                 DateTime? @default(now()) @db.Timestamp(0)
   deleted_at                 DateTime? @db.Timestamp(0)
+  messages                   Message[]
 
   // Corrected relations
   notifications         Notification[]
   notification_settings Notification_settings[]
-  organisations         Organisation[]
+  organisation          Organisation?
   otps                  Otp[]
   password_tokens       Password_token[]
   privacy_settings      Privacy_settings[]
@@ -42,28 +43,37 @@ model User {
   testimonials          Testimonial[]
   plan_types            Plan_type[]
   role                  Role                    @relation("UserRole", fields: [role_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Invoice               Invoice[]
 
   @@index([role_id], map: "user_role_id_fkey")
 }
 
-// Renamed to PascalCase for consistency
 model Organisation {
-  id          String      @id @default(uuid()) @db.Char(36)
-  name        String      @db.VarChar(100)
-  email       String      @unique(map: "email") @db.VarChar(255)
-  address     String      @db.Text
-  country     String      @db.VarChar(64)
-  industry    String      @db.Text
-  logo_url    String      @db.Text
-  rc_number   String      @unique(map: "rc_number") @db.VarChar(20)
-  staff_size  String      @db.VarChar(15)
-  type        String      @db.VarChar(50)
-  created_at  DateTime    @default(now()) @db.Timestamp(0)
-  user_id     String      @db.Char(36)
-  deleted_at  DateTime?   @db.Timestamp(0)
-  caseStudies CaseStudy[] // Corrected
+  id         String @id @default(uuid()) @db.Char(36)
+  name       String @db.VarChar(100)
+  email      String @unique(map: "email") @db.VarChar(255)
+  address    String @db.Text
+  country    String @db.VarChar(64)
+  industry   String @db.Text
+  logo_url   String @db.Text
+  rc_number  String @unique(map: "rc_number") @db.VarChar(20)
+  staff_size String @db.VarChar(15)
+  type       String @db.VarChar(50)
+
+  // --- NEW REQUIRED DOCUMENT FIELDS ---
+  cert_of_inc_url           String @db.Text // Certificate of Incorporation
+  mem_of_assoc_url          String @db.Text // Memorandum of Association
+  proof_of_address_url      String @db.Text // Proof of Business Address
+  company_status_report_url String @db.Text // Company Status Report
+
+  created_at DateTime  @default(now()) @db.Timestamp(0)
+  user_id    String    @unique @db.Char(36)
+  deleted_at DateTime? @db.Timestamp(0)
+
+  // --- RELATIONS ---
+  caseStudies CaseStudy[]
   contacts    Contact[]
-  user        User        @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user        User        @relation(fields: [user_id], references: [id])
 }
 
 model Service {
@@ -119,6 +129,22 @@ model Plan {
   @@index([service_id])
 }
 
+model Invoice {
+  id                 String          @id @default(uuid())
+  user               User            @relation(fields: [user_id], references: [id])
+  user_id            String
+  service_request    ServiceRequest? @relation(fields: [service_request_id], references: [id])
+  service_request_id String?         @unique // An invoice is for one request
+  amount             Decimal         @db.Decimal(10, 2)
+  status             String // "Unpaid", "Paid", "Overdue"
+  due_date           DateTime
+  paid_at            DateTime?
+  payment_method     String? // e.g., "Paystack", "Stripe"
+  payment_reference  String?         @unique
+  created_at         DateTime        @default(now())
+  updated_at         DateTime        @updatedAt
+}
+
 model CaseStudy {
   id                String        @id @default(uuid()) @db.Char(36)
   title             String        @db.VarChar(255)
@@ -161,19 +187,57 @@ model Faq {
   @@index([service_id])
 }
 
+enum ServiceRequestStatus {
+  PENDING_APPROVAL // A new request that the admin needs to review
+  ACTIVE // Admin has accepted and is working on it
+  COMPLETED // The project is finished
+  DECLINED // Admin has declined the request
+  CANCELLED // Client has cancelled
+}
+
+enum MilestoneStatus {
+  PENDING_ADMIN_UPLOAD // Default: Waiting for the admin to upload the first deliverable.
+  PENDING_CLIENT_APPROVAL // Admin has uploaded, waiting for the client to review.
+  APPROVED // Client has approved the deliverable.
+  REJECTED // Client has rejected the deliverable.
+}
+
 model ServiceRequest {
-  id         String   @id @default(uuid())
-  user       User     @relation(fields: [user_id], references: [id])
+  id         String  @id @default(uuid())
+  user       User    @relation(fields: [user_id], references: [id])
   user_id    String
-  service    Service  @relation(fields: [service_id], references: [id])
+  service    Service @relation(fields: [service_id], references: [id])
   service_id String
-  plan_name  String // Which plan did they select?
-  status     String   @default("Pending") // e.g., Pending, In Progress, Completed
-  formData   Json // Stores the user's submitted form data as a JSON object
+  plan_name  String
+
+  // --- NEW & UPDATED FIELDS ---
+  status     ServiceRequestStatus @default(PENDING_APPROVAL) // Use the enum
+  start_date DateTime? // Client provides this
+  end_date   DateTime? // Client provides this
+
+  formData   Json
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  Plan       Plan?    @relation(fields: [planId], references: [id])
-  planId     String?  @db.Char(36)
+
+  invoice      Invoice?
+  milestones   Milestone[] // A request can have many milestones
+  Plan         Plan?         @relation(fields: [planId], references: [id])
+  planId       String?       @db.Char(36)
+  conversation Conversation?
+}
+
+model Milestone {
+  id                 String          @id @default(uuid())
+  service_request    ServiceRequest  @relation(fields: [service_request_id], references: [id])
+  service_request_id String
+  title              String // e.g., "Initial Design Mockup"
+  deadline           DateTime
+  deliverable_url    String? // Link to the uploaded file on Cloudinary
+  deliverable_name   String? // e.g., "mockup_v1.pdf"
+  status             MilestoneStatus @default(PENDING_ADMIN_UPLOAD)
+  rejection_reason   String? // Stores the client's reason fo
+  created_at         DateTime        @default(now())
+  updated_at         DateTime        @updatedAt
 }
 
 // Renamed to PascalCase
@@ -196,6 +260,25 @@ model Otp {
   created_at DateTime? @default(now()) @db.Timestamp(0)
   user_id    String    @db.Char(36)
   user       User      @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model Conversation {
+  id                 String         @id @default(uuid())
+  service_request    ServiceRequest @relation(fields: [service_request_id], references: [id])
+  service_request_id String         @unique // Enforces one conversation per service request
+  messages           Message[]
+  created_at         DateTime       @default(now())
+  updated_at         DateTime       @updatedAt
+}
+
+model Message {
+  id              String       @id @default(uuid())
+  conversation    Conversation @relation(fields: [conversation_id], references: [id])
+  conversation_id String
+  sender          User         @relation(fields: [sender_id], references: [id])
+  sender_id       String
+  text            String       @db.Text
+  created_at      DateTime     @default(now())
 }
 
 // Renamed to PascalCase
