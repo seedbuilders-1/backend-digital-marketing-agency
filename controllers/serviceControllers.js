@@ -5,6 +5,7 @@ const { sendSuccess, sendError } = require("../utils/response");
 const { uploadToCloudinary } = require("../services/cloudinaryService");
 const upload = require("../middlewares/multer");
 const { slugify } = require("../utils/helpers");
+const { logger } = require("../server");
 
 exports.getAllServices = async (req, res) => {
   try {
@@ -156,14 +157,14 @@ exports.createService = async (req, res) => {
   }
 };
 exports.updateService = async (req, res) => {
-  console.log("INCOMING UPDATE REQUEST BODY:", req.body);
-  console.log("INCOMING UPDATE REQUEST FILES:", req.files);
+  logger.info("INCOMING UPDATE REQUEST BODY:", req.body);
+  logger.log("INCOMING UPDATE REQUEST FILES:", req.files);
   try {
     const { id } = req.params;
 
     // 1. Fetch the existing service to get current image URLs
     const existingService = await serviceService.getService(id);
-    console.log(id);
+    logger.log("id", id);
     if (!existingService) {
       return sendError(res, 404, "Service not found.");
     }
@@ -279,7 +280,7 @@ exports.updateService = async (req, res) => {
       "Service updated successfully!"
     );
   } catch (err) {
-    console.error("Service update failed:", err);
+    logger.error("Service update failed:", err);
     return sendError(res, 500, "Failed to update Service", err.message);
   }
 };
