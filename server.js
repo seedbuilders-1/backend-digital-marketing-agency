@@ -11,6 +11,7 @@ const swaggerUi = require("swagger-ui-express");
 const http = require("http");
 const { Server } = require("socket.io");
 const initializeSocket = require("./socket");
+const morgan = require("morgan");
 
 const options = {
   definition: {
@@ -43,27 +44,6 @@ app.use(
   })
 );
 
-const winston = require("winston");
-export const logger = winston.createLogger({
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: "app.log" }),
-  ],
-});
-
-logger.info("Server started");
-
-const DailyRotateFile = require("winston-daily-rotate-file");
-
-transports: [
-  new winston.transports.Console(),
-  new DailyRotateFile({
-    filename: "logs/app-%DATE%.log",
-    datePattern: "YYYY-MM-DD",
-    maxFiles: "14d",
-  }),
-];
-
 // Import different route files
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -76,6 +56,7 @@ const invoiceRoutes = require("./routes/invoiceRoutes");
 const milestoneRoutes = require("./routes/milestoneRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const conversationRoutes = require("./routes/conversationRoutes");
+const logger = require("./utils/logger");
 
 const jsonParser = express.json();
 app.use(cookieParser());
@@ -92,6 +73,13 @@ app.use(
     optionsSuccessStatus: 204,
   })
 );
+
+// Custom stream for Winston
+const stream = {
+  write: (message) => logger.http(message.trim()),
+};
+
+app.use(morgan("combined", { stream }));
 
 // Mount routes to different paths
 app.use("/api/auth", jsonParser, authRoutes);
