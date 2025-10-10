@@ -29,6 +29,26 @@ exports.getuserById = async (req, res) => {
   }
 };
 
+exports.getMe = async (req, res) => {
+  try {
+    // 1. Get the user ID securely from the token payload, NOT from the request body or params.
+    const userId = req.user.id;
+
+    // 2. Call the existing user service to get the full user profile.
+    const user = await userService.getuserById(userId);
+
+    // This check is good for edge cases (e.g., user was deleted after token was issued)
+    if (!user) {
+      return sendError(res, 404, "User associated with this token not found.");
+    }
+
+    // 3. Send the user's profile back.
+    return sendSuccess(res, 200, user, "User profile fetched successfully.");
+  } catch (err) {
+    return sendError(res, 500, "Could not get user profile", err.message);
+  }
+};
+
 exports.createUser = async (req, res) => {
   try {
     const { name, email, tel, country, address, category, password, city } =

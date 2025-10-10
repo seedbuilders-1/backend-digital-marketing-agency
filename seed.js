@@ -6,70 +6,72 @@ const { PrismaClient } = require("./generated/prisma");
 
 const prisma = new PrismaClient();
 
-// Define your default Role IDs here for consistency
-const defaultUserRoleId = "your-default-user-role-id"; // IMPORTANT: Replace if different
-const defaultAdminRoleId = "your-default-admin-role-id"; // IMPORTANT: Replace if different
+const defaultUserRoleTitle = "user";
+const defaultAdminRoleTitle = "admin";
 
 async function main() {
   console.log("🚀 Starting the seeding process...");
 
   // --- 1. Seed Roles ---
   console.log("Checking and seeding roles...");
-  const roles = [
-    {
-      id: defaultUserRoleId,
-      title: "user",
-      description: "Default user role",
+
+  await prisma.role.upsert({
+    where: { title: defaultUserRoleTitle },
+    update: {},
+    create: {
+      title: defaultUserRoleTitle,
+      description: "Default user role with client permissions.",
     },
-    {
-      id: defaultAdminRoleId,
-      title: "admin",
-      description: "Administrator role with full permissions",
+  });
+
+  await prisma.role.upsert({
+    where: { title: defaultAdminRoleTitle },
+    update: {},
+    create: {
+      title: defaultAdminRoleTitle,
+      description: "Administrator role with full permissions.",
     },
-  ];
+  });
 
-  for (const role of roles) {
-    const existingRole = await prisma.role.findUnique({
-      where: { id: role.id },
-    });
+  console.log("✅ Roles are in sync.");
 
-    if (!existingRole) {
-      await prisma.role.create({ data: role });
-      console.log(`Role created: ${role.title}`);
-    } else {
-      console.log(`Role already exists: ${role.title}`);
-    }
-  }
-
-  // --- Create a default user if it doesn't exist ---
+  // --- 2. Seed Default Admin User ---
+  console.log("Checking and seeding default admin user...");
   const defaultAdminEmail = "admin@dma.com";
-
-  const existingUser = await prisma.user.findUnique({
+  const existingAdmin = await prisma.user.findUnique({
     where: { email: defaultAdminEmail },
   });
 
-  if (!existingUser) {
-    const hashedPassword = await bcrypt.hash("password123", 10);
-
-    const newUser = await prisma.user.create({
-      data: {
-        name: "Admin",
-        email: defaultAdminEmail,
-        tel: "+1234567890",
-        country: "Unknown",
-        city: "unknown",
-        address: "Default Address",
-        category: "Individual",
-        password: hashedPassword,
-        role_id: defaultAdminRoleId, // assign default user role
-      },
+  if (!existingAdmin) {
+    const adminRole = await prisma.role.findUnique({
+      where: { title: defaultAdminRoleTitle },
     });
 
-    console.log("Default admin created:", newUser);
-  } else {
-    console.log("Default user already exists:", existingUser.email);
-  }
+    if (!adminRole) {
+      throw new Error(
+        "Could not find 'admin' role to create default admin user. Seeding cannot continue."
+      );
+    }
 
+    const hashedPassword = await bcrypt.hash("password123", 10);
+
+    await prisma.user.create({
+      data: {
+        name: "Admin User",
+        email: defaultAdminEmail,
+        tel: "00000000000",
+        country: "Nigeria",
+        address: "Admin Address",
+        category: "organisation",
+        password: hashedPassword,
+        status: "verified",
+        role_id: adminRole.id,
+      },
+    });
+    console.log("✅ Default admin user created.");
+  } else {
+    console.log("Default admin user already exists.");
+  }
   const adminUser = await prisma.user.findUnique({
     where: { email: defaultAdminEmail },
   });
@@ -77,7 +79,7 @@ async function main() {
     console.error(
       "Critical error: Default admin user not found. Cannot seed services."
     );
-    process.exit(1); // Exit the script if the admin doesn't exist
+    process.exit(1);
   }
 
   // --- 3. Seed Services and All Related Data ---

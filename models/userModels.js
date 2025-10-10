@@ -114,6 +114,19 @@ const createUser = async ({
   category,
   password,
 }) => {
+  const userRole = await prisma.role.findUnique({
+    where: {
+      title: "user",
+    },
+  });
+
+  // 2. Add a crucial safety check. If the 'user' role doesn't exist,
+  //    the system is in an invalid state. We must throw an error.
+  if (!userRole) {
+    throw new Error(
+      "Default 'user' role not found in the database. Please seed the database."
+    );
+  }
   const user = await prisma.user.create({
     data: {
       name: name,
@@ -124,7 +137,7 @@ const createUser = async ({
       address: address,
       category: category,
       password: password,
-      role_id: defaultUserRoleId,
+      role_id: userRole?.id,
     },
     omit: {
       password: true,
