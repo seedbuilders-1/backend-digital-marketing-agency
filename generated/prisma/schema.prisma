@@ -16,6 +16,7 @@ model User {
   email                      String    @unique(map: "email") @db.VarChar(255)
   tel                        String    @unique(map: "tel") @db.VarChar(20)
   country                    String    @db.VarChar(64)
+  city                       String?   @db.VarChar(64)
   address                    String    @db.Text
   category                   String    @db.VarChar(15)
   pfp_url                    String?   @db.Text
@@ -120,6 +121,7 @@ model Plan {
   service          Service          @relation(fields: [service_id], references: [id], onDelete: Cascade)
   // Corrected relations
   service_requests ServiceRequest[]
+  position         Int              @default(0)
   subscriptions    Subscription[]
   Plan_type        Plan_type?       @relation(fields: [plan_typeId], references: [id])
   plan_typeId      String?          @db.Char(36)
@@ -227,17 +229,18 @@ model ServiceRequest {
 }
 
 model Milestone {
-  id                 String          @id @default(uuid())
-  service_request    ServiceRequest  @relation(fields: [service_request_id], references: [id])
-  service_request_id String
-  title              String // e.g., "Initial Design Mockup"
-  deadline           DateTime
-  deliverable_url    String? // Link to the uploaded file on Cloudinary
-  deliverable_name   String? // e.g., "mockup_v1.pdf"
-  status             MilestoneStatus @default(PENDING_ADMIN_UPLOAD)
-  rejection_reason   String? // Stores the client's reason fo
-  created_at         DateTime        @default(now())
-  updated_at         DateTime        @updatedAt
+  id                    String          @id @default(uuid())
+  service_request       ServiceRequest  @relation(fields: [service_request_id], references: [id])
+  service_request_id    String
+  title                 String // e.g., "Initial Design Mockup"
+  deadline              DateTime
+  deliverable_file_url  String? // Will store the Cloudinary URL for the uploaded file
+  deliverable_file_name String? // Will store the original filename
+  deliverable_link_url  String?
+  status                MilestoneStatus @default(PENDING_ADMIN_UPLOAD)
+  rejection_reason      String? // Stores the client's reason fo
+  created_at            DateTime        @default(now())
+  updated_at            DateTime        @updatedAt
 }
 
 // Renamed to PascalCase

@@ -76,7 +76,7 @@ router.post(
   auth,
   authorizeRoles("admin"),
   handleMulterError(upload.single("deliverableFile")),
-  milestoneController.uploadDeliverable
+  milestoneController.submitDeliverable
 );
 
 /**

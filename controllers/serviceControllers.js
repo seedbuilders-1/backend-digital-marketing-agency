@@ -1,7 +1,9 @@
 const serviceService = require("../services/serviceServices");
+const testimonialService = require("../services/testimonialServices");
 const getUserId = require("../utils/getUserId");
 const { sendSuccess, sendError } = require("../utils/response");
 const { uploadToCloudinary } = require("../services/cloudinaryService");
+const upload = require("../middlewares/multer");
 const { slugify } = require("../utils/helpers");
 const logger = require("../utils/logger");
 
@@ -46,103 +48,134 @@ exports.getService = async (req, res) => {
   }
 };
 
+const parseJson = (jsonString, defaultValue = []) => {
+  try {
+    return jsonString ? JSON.parse(jsonString) : defaultValue;
+  } catch (e) {
+    logger.error("Failed to parse JSON string:", jsonString, e);
+    return defaultValue;
+  }
+};
+
+// Reusable helper to build the service data object for create and update
+const buildServiceData = async (body, files, existingService = {}, adminId) => {
+  const {
+    title,
+    isPublic,
+    bannerText,
+    heroHeadline,
+    heroParagraph,
+    blueprintHeadline,
+    blueprintParagraph,
+  } = body;
+
+  // 1. Upload all new files in parallel and create a map of their URLs.
+  const fileUploads = files || [];
+  const serviceSlug = slugify(title);
+
+  const uploadPromises = fileUploads.map((file) =>
+    uploadToCloudinary(file.buffer, `services/${serviceSlug}`).then(
+      (result) => ({
+        fieldname: file.fieldname,
+        url: result.secure_url,
+      })
+    )
+  );
+  const uploadResults = await Promise.all(uploadPromises);
+
+  // Creates a simple map like { heroImage: 'url1', caseStudy_0_bannerImage: 'url2' }
+  const imageUrlMap = uploadResults.reduce((map, result) => {
+    map[result.fieldname] = result.url;
+    return map;
+  }, {});
+
+  // 2. Parse all array data from their JSON string format.
+  const plans = parseJson(body.plans);
+  const faqs = parseJson(body.faqs);
+  const caseStudiesText = parseJson(body.caseStudies);
+  const testimonialsText = parseJson(body.testimonials);
+
+  // 3. Construct the final object, merging new data with existing data.
+  return {
+    title,
+    admin_id: adminId,
+    isPublic: isPublic === "true",
+    heroHeadline,
+    heroParagraph,
+    // Use the new image URL if it exists in the map, otherwise keep the existing one.
+    heroImageUrl:
+      imageUrlMap["heroImage"] || existingService.heroImageUrl || null,
+    blueprintHeadline,
+    blueprintParagraph,
+    blueprintImageUrl:
+      imageUrlMap["blueprintImage"] ||
+      existingService.blueprintImageUrl ||
+      null,
+    bannerText,
+
+    // The `plans` variable is now a proper JS array, so .map() works.
+    // We add the `position` index here for database sorting.
+    plans: plans.map((p, index) => ({
+      ...p,
+      position: index,
+      // The `features` property inside `p` is already a correct array.
+    })),
+
+    faqs, // faqs is a simple array of objects.
+
+    // For nested items, merge the text data with new or existing image URLs.
+    caseStudies: caseStudiesText.map((cs, index) => {
+      const existingCS = existingService.caseStudies?.[index] || {};
+      return {
+        ...cs,
+        bannerImageUrl:
+          imageUrlMap[`caseStudy_${index}_bannerImage`] ||
+          existingCS.bannerImageUrl,
+        challengeImageUrl:
+          imageUrlMap[`caseStudy_${index}_challengeImage`] ||
+          existingCS.challengeImageUrl,
+        solutionImageUrl:
+          imageUrlMap[`caseStudy_${index}_solutionImage`] ||
+          existingCS.solutionImageUrl,
+        resultImageUrl:
+          imageUrlMap[`caseStudy_${index}_resultImage`] ||
+          existingCS.resultImageUrl,
+      };
+    }),
+
+    testimonials: testimonialsText.map((ts, index) => {
+      const existingTs = existingService.testimonials?.[index] || {};
+      return {
+        ...ts,
+        stars: Number(ts.stars),
+        authorImageUrl:
+          imageUrlMap[`testimonial_${index}_authorImage`] ||
+          existingTs.authorImageUrl,
+        user_id: adminId,
+      };
+    }),
+  };
+};
+
+// --- CONTROLLERS ---
+// Your controllers are now extremely clean because all the heavy lifting
+// is done by the buildServiceData helper.
+
 exports.createService = async (req, res) => {
   try {
-    // 1. Manually reconstruct nested objects from the flattened req.body
-    const reconstructedBody = {};
-    for (const key in req.body) {
-      // Use regex to match array syntax like 'plans[0][name]'
-      const match = key.match(/(\w+)\[(\d+)\]\[(\w+)\]/);
-      if (match) {
-        const arrayName = match[1];
-        const index = parseInt(match[2], 10);
-        const propName = match[3];
+    const { title } = req.body;
+    if (!title) return sendError(res, 400, "Service title is required.");
 
-        if (!reconstructedBody[arrayName]) {
-          reconstructedBody[arrayName] = [];
-        }
-        if (!reconstructedBody[arrayName][index]) {
-          reconstructedBody[arrayName][index] = {};
-        }
-        reconstructedBody[arrayName][index][propName] = req.body[key];
-      } else {
-        // Handle simple, non-array fields
-        reconstructedBody[key] = req.body[key];
-      }
-    }
-
-    const {
-      title,
-      isPublic,
-      bannerText,
-      heroHeadline,
-      heroParagraph,
-      blueprintHeadline,
-      blueprintParagraph,
-      plans = [], // Default to empty arrays if not present
-      faqs = [],
-      caseStudies = [],
-      testimonials = [],
-    } = reconstructedBody;
-
-    if (!title) {
-      return sendError(res, 400, "Service title is required.");
-    }
-
-    // 2. Upload images to Cloudinary and create a map of fieldname -> URL
-    const fileUploads = req.files || [];
-    const serviceSlug = slugify(title);
-    const uploadPromises = fileUploads.map((file) =>
-      // Pass the file buffer directly to the upload function
-      uploadToCloudinary(file.buffer, `services/${serviceSlug}`)
+    const adminId = getUserId.getUserIdFromHeader(req);
+    // Call the builder with an empty object for existingService
+    const serviceData = await buildServiceData(
+      req.body,
+      req.files,
+      {},
+      adminId
     );
-    const uploadResults = await Promise.all(uploadPromises);
-    const imageUrlMap = uploadResults.reduce((map, result, index) => {
-      map[fileUploads[index].fieldname] = result.secure_url;
-      return map;
-    }, {});
 
-    // 3. Assemble the final data object for the database service
-    const admin_id = await getUserId.getUserIdFromHeader(req);
-    const serviceData = {
-      title,
-      admin_id,
-      isPublic: isPublic === "true",
-      heroHeadline,
-      heroParagraph,
-      heroImageUrl: imageUrlMap["heroImage"] || null,
-      blueprintHeadline,
-      blueprintParagraph,
-      blueprintImageUrl: imageUrlMap["blueprintImage"] || null,
-      bannerText,
-      // Parse the inner JSON string for features
-      plans: plans.map((p) => ({
-        ...p,
-        features: JSON.parse(p.features || "[]"),
-      })),
-      faqs,
-      // Re-associate images with the text data
-      caseStudies: caseStudies.map((cs, index) => ({
-        ...cs,
-        bannerImageUrl: imageUrlMap[`caseStudy_${index}_bannerImage`] || null,
-        challengeImageUrl:
-          imageUrlMap[`caseStudy_${index}_challengeImage`] || null,
-        solutionImageUrl:
-          imageUrlMap[`caseStudy_${index}_solutionImage`] || null,
-        resultImageUrl: imageUrlMap[`caseStudy_${index}_resultImage`] || null,
-      })),
-      testimonials: testimonials.map((ts, index) => ({
-        ...ts,
-        // Convert stars back to a number
-        stars: Number(ts.stars),
-        authorImageUrl: imageUrlMap[`testimonial_${index}_authorImage`] || null,
-        user_id: admin_id,
-      })),
-    };
-
-    // 4. Call the service to create the data in a transaction
     const newService = await serviceService.createService(serviceData);
-
     return sendSuccess(
       res,
       201,
@@ -150,127 +183,30 @@ exports.createService = async (req, res) => {
       "Service created successfully!"
     );
   } catch (err) {
-    console.error("Service creation failed:", err);
+    logger.error("Service creation failed:", err);
     return sendError(res, 500, "Failed to create Service", err.message);
   }
 };
+
 exports.updateService = async (req, res) => {
-  logger.info("INCOMING UPDATE REQUEST BODY:", req.body);
-  logger.info("INCOMING UPDATE REQUEST FILES:", req.files);
   try {
     const { id } = req.params;
-
-    // 1. Fetch the existing service to get current image URLs
     const existingService = await serviceService.getService(id);
-    logger.log("id", id);
-    if (!existingService) {
-      return sendError(res, 404, "Service not found.");
-    }
+    if (!existingService) return sendError(res, 404, "Service not found.");
 
-    // 2. Manually reconstruct nested objects from the flattened req.body
-    const reconstructedBody = {};
-    for (const key in req.body) {
-      const match = key.match(/(\w+)\[(\d+)\]\[(\w+)\]/);
-      if (match) {
-        const arrayName = match[1];
-        const index = parseInt(match[2], 10);
-        const propName = match[3];
+    const { title } = req.body;
+    if (!title) return sendError(res, 400, "Service title is required.");
 
-        if (!reconstructedBody[arrayName]) {
-          reconstructedBody[arrayName] = [];
-        }
-        if (!reconstructedBody[arrayName][index]) {
-          reconstructedBody[arrayName][index] = {};
-        }
-        reconstructedBody[arrayName][index][propName] = req.body[key];
-      } else {
-        reconstructedBody[key] = req.body[key];
-      }
-    }
-
-    const {
-      title,
-      isPublic,
-      bannerText,
-      heroHeadline,
-      heroParagraph,
-      blueprintHeadline,
-      blueprintParagraph,
-      plans = [],
-      faqs = [],
-      caseStudies = [],
-      testimonials = [],
-    } = reconstructedBody;
-
-    if (!title) {
-      return sendError(res, 400, "Service title is required.");
-    }
-
-    // 3. Upload new images to Cloudinary and create a map of fieldname -> URL
-    const fileUploads = req.files || [];
-    const serviceSlug = slugify(title);
-    const uploadPromises = fileUploads.map((file) =>
-      uploadToCloudinary(file.buffer, `services/${serviceSlug}`)
+    const adminId = getUserId.getUserIdFromHeader(req);
+    // Call the builder and pass the existingService object
+    const serviceData = await buildServiceData(
+      req.body,
+      req.files,
+      existingService,
+      adminId
     );
-    const uploadResults = await Promise.all(uploadPromises);
-    const newImageUrlMap = uploadResults.reduce((map, result, index) => {
-      map[fileUploads[index].fieldname] = result.secure_url;
-      return map;
-    }, {});
 
-    // 4. Assemble the final data object for the database service
-    const admin_id = await getUserId.getUserIdFromHeader(req);
-    const serviceData = {
-      title,
-      admin_id,
-      isPublic: isPublic === "true",
-      heroHeadline,
-      heroParagraph,
-      heroImageUrl: newImageUrlMap["heroImage"] || existingService.heroImageUrl,
-      blueprintHeadline,
-      blueprintParagraph,
-      blueprintImageUrl:
-        newImageUrlMap["blueprintImage"] || existingService.blueprintImageUrl,
-      bannerText,
-      plans: plans.map((p) => ({
-        ...p,
-        features: JSON.parse(p.features || "[]"),
-      })),
-      faqs,
-      caseStudies: caseStudies.map((cs, index) => {
-        const existingCaseStudy = existingService.caseStudies[index] || {};
-        return {
-          ...cs,
-          bannerImageUrl:
-            newImageUrlMap[`caseStudy_${index}_bannerImage`] ||
-            existingCaseStudy.bannerImageUrl,
-          challengeImageUrl:
-            newImageUrlMap[`caseStudy_${index}_challengeImage`] ||
-            existingCaseStudy.challengeImageUrl,
-          solutionImageUrl:
-            newImageUrlMap[`caseStudy_${index}_solutionImage`] ||
-            existingCaseStudy.solutionImageUrl,
-          resultImageUrl:
-            newImageUrlMap[`caseStudy_${index}_resultImage`] ||
-            existingCaseStudy.resultImageUrl,
-        };
-      }),
-      testimonials: testimonials.map((ts, index) => {
-        const existingTestimonial = existingService.testimonials[index] || {};
-        return {
-          ...ts,
-          stars: Number(ts.stars),
-          authorImageUrl:
-            newImageUrlMap[`testimonial_${index}_authorImage`] ||
-            existingTestimonial.authorImageUrl,
-          user_id: admin_id,
-        };
-      }),
-    };
-
-    // 5. Call the service to update the data in a transaction
     const updatedService = await serviceService.updateService(id, serviceData);
-
     return sendSuccess(
       res,
       200,

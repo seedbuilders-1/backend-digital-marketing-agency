@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `plan` ADD COLUMN `position` INTEGER NOT NULL DEFAULT 0;

@@ -43,24 +43,19 @@ const updateMilestone = async (milestoneId, updateData) => {
 };
 
 /**
- * Updates a milestone with the URL and name of its new deliverable.
- * @param {string} milestoneId - The ID of the milestone to update.
- * @param {object} deliverableData - The data for the deliverable.
- * @param {string} deliverableData.url - The Cloudinary URL of the uploaded file.
- * @param {string} deliverableData.name - The original name of the uploaded file.
- * @returns {Promise<object>} The updated milestone object.
+ * Updates a milestone with any provided deliverable URLs (file and/or link)
+ * and sets its status to PENDING_CLIENT_APPROVAL.
  */
 const updateMilestoneDeliverable = async (milestoneId, deliverableData) => {
-  const { url, name } = deliverableData;
+  // `deliverableData` will be an object like:
+  // { deliverable_link_url: '...', deliverable_file_url: '...', deliverable_file_name: '...' }
+  // Prisma's `update` will only update the fields that are present in the object.
 
   return await prisma.milestone.update({
-    where: {
-      id: milestoneId,
-    },
+    where: { id: milestoneId },
     data: {
-      deliverable_url: url,
-      deliverable_name: name,
-      status: "PENDING_CLIENT_APPROVAL", // Change status to trigger client review
+      ...deliverableData,
+      status: "PENDING_CLIENT_APPROVAL",
       rejection_reason: null,
     },
   });

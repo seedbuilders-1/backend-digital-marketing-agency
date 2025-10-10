@@ -126,6 +126,7 @@ exports.Prisma.UserScalarFieldEnum = {
   email: 'email',
   tel: 'tel',
   country: 'country',
+  city: 'city',
   address: 'address',
   category: 'category',
   pfp_url: 'pfp_url',
@@ -191,6 +192,7 @@ exports.Prisma.PlanScalarFieldEnum = {
   audience: 'audience',
   features: 'features',
   service_id: 'service_id',
+  position: 'position',
   plan_typeId: 'plan_typeId',
   billing_cycleId: 'billing_cycleId'
 };
@@ -261,8 +263,9 @@ exports.Prisma.MilestoneScalarFieldEnum = {
   service_request_id: 'service_request_id',
   title: 'title',
   deadline: 'deadline',
-  deliverable_url: 'deliverable_url',
-  deliverable_name: 'deliverable_name',
+  deliverable_file_url: 'deliverable_file_url',
+  deliverable_file_name: 'deliverable_file_name',
+  deliverable_link_url: 'deliverable_link_url',
   status: 'status',
   rejection_reason: 'rejection_reason',
   created_at: 'created_at',
@@ -407,6 +410,7 @@ exports.Prisma.UserOrderByRelevanceFieldEnum = {
   email: 'email',
   tel: 'tel',
   country: 'country',
+  city: 'city',
   address: 'address',
   category: 'category',
   pfp_url: 'pfp_url',
@@ -515,8 +519,9 @@ exports.Prisma.MilestoneOrderByRelevanceFieldEnum = {
   id: 'id',
   service_request_id: 'service_request_id',
   title: 'title',
-  deliverable_url: 'deliverable_url',
-  deliverable_name: 'deliverable_name',
+  deliverable_file_url: 'deliverable_file_url',
+  deliverable_file_name: 'deliverable_file_name',
+  deliverable_link_url: 'deliverable_link_url',
   rejection_reason: 'rejection_reason'
 };
 

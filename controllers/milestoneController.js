@@ -125,6 +125,55 @@ exports.uploadDeliverable = async (req, res) => {
 };
 
 /**
+ * Controller to handle the submission of a deliverable, which can include
+ * a file, a URL, or both.
+ */
+exports.submitDeliverable = async (req, res) => {
+  try {
+    const { id: milestoneId } = req.params;
+    const { deliverableLink } = req.body; // The external link is now a text field in the form
+    const file = req.file; // The file is optional
+
+    // --- Validation ---
+    // A submission must contain AT LEAST one of them.
+    if (!file && !deliverableLink) {
+      return sendError(
+        res,
+        400,
+        "You must provide either a file or a link to submit."
+      );
+    }
+
+    // Optional: If a link is provided, validate its format.
+    if (
+      deliverableLink &&
+      !/^(ftp|http|https|):\/\/[^ "]+$/.test(deliverableLink)
+    ) {
+      return sendError(res, 400, "The provided link is not a valid URL.");
+    }
+
+    // Pass everything to the service layer to handle the logic.
+    const updatedMilestone = await milestoneService.submitDeliverable(
+      milestoneId,
+      {
+        file,
+        link: deliverableLink,
+      }
+    );
+
+    return sendSuccess(
+      res,
+      200,
+      updatedMilestone,
+      "Deliverable submitted successfully."
+    );
+  } catch (err) {
+    console.error("Failed to submit deliverable:", err);
+    return sendError(res, 500, "Failed to submit deliverable", err.message);
+  }
+};
+
+/**
  * Controller for a client to review a milestone deliverable (approve or reject).
  */
 exports.reviewMilestone = async (req, res) => {

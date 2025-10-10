@@ -3177,6 +3177,7 @@ export namespace Prisma {
     email: string | null
     tel: string | null
     country: string | null
+    city: string | null
     address: string | null
     category: string | null
     pfp_url: string | null
@@ -3195,6 +3196,7 @@ export namespace Prisma {
     email: string | null
     tel: string | null
     country: string | null
+    city: string | null
     address: string | null
     category: string | null
     pfp_url: string | null
@@ -3213,6 +3215,7 @@ export namespace Prisma {
     email: number
     tel: number
     country: number
+    city: number
     address: number
     category: number
     pfp_url: number
@@ -3234,6 +3237,7 @@ export namespace Prisma {
     email?: true
     tel?: true
     country?: true
+    city?: true
     address?: true
     category?: true
     pfp_url?: true
@@ -3252,6 +3256,7 @@ export namespace Prisma {
     email?: true
     tel?: true
     country?: true
+    city?: true
     address?: true
     category?: true
     pfp_url?: true
@@ -3270,6 +3275,7 @@ export namespace Prisma {
     email?: true
     tel?: true
     country?: true
+    city?: true
     address?: true
     category?: true
     pfp_url?: true
@@ -3362,6 +3368,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city: string | null
     address: string
     category: string
     pfp_url: string | null
@@ -3398,6 +3405,7 @@ export namespace Prisma {
     email?: boolean
     tel?: boolean
     country?: boolean
+    city?: boolean
     address?: boolean
     category?: boolean
     pfp_url?: boolean
@@ -3435,6 +3443,7 @@ export namespace Prisma {
     email?: boolean
     tel?: boolean
     country?: boolean
+    city?: boolean
     address?: boolean
     category?: boolean
     pfp_url?: boolean
@@ -3448,7 +3457,7 @@ export namespace Prisma {
     deleted_at?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "tel" | "country" | "address" | "category" | "pfp_url" | "id_url" | "business_status" | "registered_with_a_business" | "password" | "status" | "role_id" | "created_at" | "deleted_at", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "tel" | "country" | "city" | "address" | "category" | "pfp_url" | "id_url" | "business_status" | "registered_with_a_business" | "password" | "status" | "role_id" | "created_at" | "deleted_at", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | User$messagesArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
@@ -3493,6 +3502,7 @@ export namespace Prisma {
       email: string
       tel: string
       country: string
+      city: string | null
       address: string
       category: string
       pfp_url: string | null
@@ -3893,6 +3903,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly tel: FieldRef<"User", 'String'>
     readonly country: FieldRef<"User", 'String'>
+    readonly city: FieldRef<"User", 'String'>
     readonly address: FieldRef<"User", 'String'>
     readonly category: FieldRef<"User", 'String'>
     readonly pfp_url: FieldRef<"User", 'String'>
@@ -7828,8 +7839,18 @@ export namespace Prisma {
 
   export type AggregatePlan = {
     _count: PlanCountAggregateOutputType | null
+    _avg: PlanAvgAggregateOutputType | null
+    _sum: PlanSumAggregateOutputType | null
     _min: PlanMinAggregateOutputType | null
     _max: PlanMaxAggregateOutputType | null
+  }
+
+  export type PlanAvgAggregateOutputType = {
+    position: number | null
+  }
+
+  export type PlanSumAggregateOutputType = {
+    position: number | null
   }
 
   export type PlanMinAggregateOutputType = {
@@ -7839,6 +7860,7 @@ export namespace Prisma {
     priceUnit: string | null
     audience: string | null
     service_id: string | null
+    position: number | null
     plan_typeId: string | null
     billing_cycleId: string | null
   }
@@ -7850,6 +7872,7 @@ export namespace Prisma {
     priceUnit: string | null
     audience: string | null
     service_id: string | null
+    position: number | null
     plan_typeId: string | null
     billing_cycleId: string | null
   }
@@ -7862,11 +7885,20 @@ export namespace Prisma {
     audience: number
     features: number
     service_id: number
+    position: number
     plan_typeId: number
     billing_cycleId: number
     _all: number
   }
 
+
+  export type PlanAvgAggregateInputType = {
+    position?: true
+  }
+
+  export type PlanSumAggregateInputType = {
+    position?: true
+  }
 
   export type PlanMinAggregateInputType = {
     id?: true
@@ -7875,6 +7907,7 @@ export namespace Prisma {
     priceUnit?: true
     audience?: true
     service_id?: true
+    position?: true
     plan_typeId?: true
     billing_cycleId?: true
   }
@@ -7886,6 +7919,7 @@ export namespace Prisma {
     priceUnit?: true
     audience?: true
     service_id?: true
+    position?: true
     plan_typeId?: true
     billing_cycleId?: true
   }
@@ -7898,6 +7932,7 @@ export namespace Prisma {
     audience?: true
     features?: true
     service_id?: true
+    position?: true
     plan_typeId?: true
     billing_cycleId?: true
     _all?: true
@@ -7941,6 +7976,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: PlanAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PlanSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: PlanMinAggregateInputType
@@ -7971,6 +8018,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: PlanCountAggregateInputType | true
+    _avg?: PlanAvgAggregateInputType
+    _sum?: PlanSumAggregateInputType
     _min?: PlanMinAggregateInputType
     _max?: PlanMaxAggregateInputType
   }
@@ -7983,9 +8032,12 @@ export namespace Prisma {
     audience: string
     features: JsonValue
     service_id: string
+    position: number
     plan_typeId: string | null
     billing_cycleId: string | null
     _count: PlanCountAggregateOutputType | null
+    _avg: PlanAvgAggregateOutputType | null
+    _sum: PlanSumAggregateOutputType | null
     _min: PlanMinAggregateOutputType | null
     _max: PlanMaxAggregateOutputType | null
   }
@@ -8012,6 +8064,7 @@ export namespace Prisma {
     audience?: boolean
     features?: boolean
     service_id?: boolean
+    position?: boolean
     plan_typeId?: boolean
     billing_cycleId?: boolean
     service?: boolean | ServiceDefaultArgs<ExtArgs>
@@ -8032,11 +8085,12 @@ export namespace Prisma {
     audience?: boolean
     features?: boolean
     service_id?: boolean
+    position?: boolean
     plan_typeId?: boolean
     billing_cycleId?: boolean
   }
 
-  export type PlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "priceUnit" | "audience" | "features" | "service_id" | "plan_typeId" | "billing_cycleId", ExtArgs["result"]["plan"]>
+  export type PlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "priceUnit" | "audience" | "features" | "service_id" | "position" | "plan_typeId" | "billing_cycleId", ExtArgs["result"]["plan"]>
   export type PlanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     service?: boolean | ServiceDefaultArgs<ExtArgs>
     service_requests?: boolean | Plan$service_requestsArgs<ExtArgs>
@@ -8063,6 +8117,7 @@ export namespace Prisma {
       audience: string
       features: Prisma.JsonValue
       service_id: string
+      position: number
       plan_typeId: string | null
       billing_cycleId: string | null
     }, ExtArgs["result"]["plan"]>
@@ -8446,6 +8501,7 @@ export namespace Prisma {
     readonly audience: FieldRef<"Plan", 'String'>
     readonly features: FieldRef<"Plan", 'Json'>
     readonly service_id: FieldRef<"Plan", 'String'>
+    readonly position: FieldRef<"Plan", 'Int'>
     readonly plan_typeId: FieldRef<"Plan", 'String'>
     readonly billing_cycleId: FieldRef<"Plan", 'String'>
   }
@@ -14003,8 +14059,9 @@ export namespace Prisma {
     service_request_id: string | null
     title: string | null
     deadline: Date | null
-    deliverable_url: string | null
-    deliverable_name: string | null
+    deliverable_file_url: string | null
+    deliverable_file_name: string | null
+    deliverable_link_url: string | null
     status: $Enums.MilestoneStatus | null
     rejection_reason: string | null
     created_at: Date | null
@@ -14016,8 +14073,9 @@ export namespace Prisma {
     service_request_id: string | null
     title: string | null
     deadline: Date | null
-    deliverable_url: string | null
-    deliverable_name: string | null
+    deliverable_file_url: string | null
+    deliverable_file_name: string | null
+    deliverable_link_url: string | null
     status: $Enums.MilestoneStatus | null
     rejection_reason: string | null
     created_at: Date | null
@@ -14029,8 +14087,9 @@ export namespace Prisma {
     service_request_id: number
     title: number
     deadline: number
-    deliverable_url: number
-    deliverable_name: number
+    deliverable_file_url: number
+    deliverable_file_name: number
+    deliverable_link_url: number
     status: number
     rejection_reason: number
     created_at: number
@@ -14044,8 +14103,9 @@ export namespace Prisma {
     service_request_id?: true
     title?: true
     deadline?: true
-    deliverable_url?: true
-    deliverable_name?: true
+    deliverable_file_url?: true
+    deliverable_file_name?: true
+    deliverable_link_url?: true
     status?: true
     rejection_reason?: true
     created_at?: true
@@ -14057,8 +14117,9 @@ export namespace Prisma {
     service_request_id?: true
     title?: true
     deadline?: true
-    deliverable_url?: true
-    deliverable_name?: true
+    deliverable_file_url?: true
+    deliverable_file_name?: true
+    deliverable_link_url?: true
     status?: true
     rejection_reason?: true
     created_at?: true
@@ -14070,8 +14131,9 @@ export namespace Prisma {
     service_request_id?: true
     title?: true
     deadline?: true
-    deliverable_url?: true
-    deliverable_name?: true
+    deliverable_file_url?: true
+    deliverable_file_name?: true
+    deliverable_link_url?: true
     status?: true
     rejection_reason?: true
     created_at?: true
@@ -14156,8 +14218,9 @@ export namespace Prisma {
     service_request_id: string
     title: string
     deadline: Date
-    deliverable_url: string | null
-    deliverable_name: string | null
+    deliverable_file_url: string | null
+    deliverable_file_name: string | null
+    deliverable_link_url: string | null
     status: $Enums.MilestoneStatus
     rejection_reason: string | null
     created_at: Date
@@ -14186,8 +14249,9 @@ export namespace Prisma {
     service_request_id?: boolean
     title?: boolean
     deadline?: boolean
-    deliverable_url?: boolean
-    deliverable_name?: boolean
+    deliverable_file_url?: boolean
+    deliverable_file_name?: boolean
+    deliverable_link_url?: boolean
     status?: boolean
     rejection_reason?: boolean
     created_at?: boolean
@@ -14202,15 +14266,16 @@ export namespace Prisma {
     service_request_id?: boolean
     title?: boolean
     deadline?: boolean
-    deliverable_url?: boolean
-    deliverable_name?: boolean
+    deliverable_file_url?: boolean
+    deliverable_file_name?: boolean
+    deliverable_link_url?: boolean
     status?: boolean
     rejection_reason?: boolean
     created_at?: boolean
     updated_at?: boolean
   }
 
-  export type MilestoneOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "service_request_id" | "title" | "deadline" | "deliverable_url" | "deliverable_name" | "status" | "rejection_reason" | "created_at" | "updated_at", ExtArgs["result"]["milestone"]>
+  export type MilestoneOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "service_request_id" | "title" | "deadline" | "deliverable_file_url" | "deliverable_file_name" | "deliverable_link_url" | "status" | "rejection_reason" | "created_at" | "updated_at", ExtArgs["result"]["milestone"]>
   export type MilestoneInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     service_request?: boolean | ServiceRequestDefaultArgs<ExtArgs>
   }
@@ -14225,8 +14290,9 @@ export namespace Prisma {
       service_request_id: string
       title: string
       deadline: Date
-      deliverable_url: string | null
-      deliverable_name: string | null
+      deliverable_file_url: string | null
+      deliverable_file_name: string | null
+      deliverable_link_url: string | null
       status: $Enums.MilestoneStatus
       rejection_reason: string | null
       created_at: Date
@@ -14605,8 +14671,9 @@ export namespace Prisma {
     readonly service_request_id: FieldRef<"Milestone", 'String'>
     readonly title: FieldRef<"Milestone", 'String'>
     readonly deadline: FieldRef<"Milestone", 'DateTime'>
-    readonly deliverable_url: FieldRef<"Milestone", 'String'>
-    readonly deliverable_name: FieldRef<"Milestone", 'String'>
+    readonly deliverable_file_url: FieldRef<"Milestone", 'String'>
+    readonly deliverable_file_name: FieldRef<"Milestone", 'String'>
+    readonly deliverable_link_url: FieldRef<"Milestone", 'String'>
     readonly status: FieldRef<"Milestone", 'MilestoneStatus'>
     readonly rejection_reason: FieldRef<"Milestone", 'String'>
     readonly created_at: FieldRef<"Milestone", 'DateTime'>
@@ -26379,6 +26446,7 @@ export namespace Prisma {
     email: 'email',
     tel: 'tel',
     country: 'country',
+    city: 'city',
     address: 'address',
     category: 'category',
     pfp_url: 'pfp_url',
@@ -26456,6 +26524,7 @@ export namespace Prisma {
     audience: 'audience',
     features: 'features',
     service_id: 'service_id',
+    position: 'position',
     plan_typeId: 'plan_typeId',
     billing_cycleId: 'billing_cycleId'
   };
@@ -26544,8 +26613,9 @@ export namespace Prisma {
     service_request_id: 'service_request_id',
     title: 'title',
     deadline: 'deadline',
-    deliverable_url: 'deliverable_url',
-    deliverable_name: 'deliverable_name',
+    deliverable_file_url: 'deliverable_file_url',
+    deliverable_file_name: 'deliverable_file_name',
+    deliverable_link_url: 'deliverable_link_url',
     status: 'status',
     rejection_reason: 'rejection_reason',
     created_at: 'created_at',
@@ -26747,6 +26817,7 @@ export namespace Prisma {
     email: 'email',
     tel: 'tel',
     country: 'country',
+    city: 'city',
     address: 'address',
     category: 'category',
     pfp_url: 'pfp_url',
@@ -26885,8 +26956,9 @@ export namespace Prisma {
     id: 'id',
     service_request_id: 'service_request_id',
     title: 'title',
-    deliverable_url: 'deliverable_url',
-    deliverable_name: 'deliverable_name',
+    deliverable_file_url: 'deliverable_file_url',
+    deliverable_file_name: 'deliverable_file_name',
+    deliverable_link_url: 'deliverable_link_url',
     rejection_reason: 'rejection_reason'
   };
 
@@ -27042,16 +27114,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Decimal'
+   * Reference to a field of type 'Int'
    */
-  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
     
 
 
   /**
-   * Reference to a field of type 'Int'
+   * Reference to a field of type 'Decimal'
    */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
     
 
 
@@ -27088,6 +27160,7 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     tel?: StringFilter<"User"> | string
     country?: StringFilter<"User"> | string
+    city?: StringNullableFilter<"User"> | string | null
     address?: StringFilter<"User"> | string
     category?: StringFilter<"User"> | string
     pfp_url?: StringNullableFilter<"User"> | string | null
@@ -27122,6 +27195,7 @@ export namespace Prisma {
     email?: SortOrder
     tel?: SortOrder
     country?: SortOrder
+    city?: SortOrderInput | SortOrder
     address?: SortOrder
     category?: SortOrder
     pfp_url?: SortOrderInput | SortOrder
@@ -27160,6 +27234,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     country?: StringFilter<"User"> | string
+    city?: StringNullableFilter<"User"> | string | null
     address?: StringFilter<"User"> | string
     category?: StringFilter<"User"> | string
     pfp_url?: StringNullableFilter<"User"> | string | null
@@ -27194,6 +27269,7 @@ export namespace Prisma {
     email?: SortOrder
     tel?: SortOrder
     country?: SortOrder
+    city?: SortOrderInput | SortOrder
     address?: SortOrder
     category?: SortOrder
     pfp_url?: SortOrderInput | SortOrder
@@ -27219,6 +27295,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     tel?: StringWithAggregatesFilter<"User"> | string
     country?: StringWithAggregatesFilter<"User"> | string
+    city?: StringNullableWithAggregatesFilter<"User"> | string | null
     address?: StringWithAggregatesFilter<"User"> | string
     category?: StringWithAggregatesFilter<"User"> | string
     pfp_url?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -27535,6 +27612,7 @@ export namespace Prisma {
     audience?: StringFilter<"Plan"> | string
     features?: JsonFilter<"Plan">
     service_id?: StringFilter<"Plan"> | string
+    position?: IntFilter<"Plan"> | number
     plan_typeId?: StringNullableFilter<"Plan"> | string | null
     billing_cycleId?: StringNullableFilter<"Plan"> | string | null
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
@@ -27552,6 +27630,7 @@ export namespace Prisma {
     audience?: SortOrder
     features?: SortOrder
     service_id?: SortOrder
+    position?: SortOrder
     plan_typeId?: SortOrderInput | SortOrder
     billing_cycleId?: SortOrderInput | SortOrder
     service?: ServiceOrderByWithRelationInput
@@ -27573,6 +27652,7 @@ export namespace Prisma {
     audience?: StringFilter<"Plan"> | string
     features?: JsonFilter<"Plan">
     service_id?: StringFilter<"Plan"> | string
+    position?: IntFilter<"Plan"> | number
     plan_typeId?: StringNullableFilter<"Plan"> | string | null
     billing_cycleId?: StringNullableFilter<"Plan"> | string | null
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
@@ -27590,11 +27670,14 @@ export namespace Prisma {
     audience?: SortOrder
     features?: SortOrder
     service_id?: SortOrder
+    position?: SortOrder
     plan_typeId?: SortOrderInput | SortOrder
     billing_cycleId?: SortOrderInput | SortOrder
     _count?: PlanCountOrderByAggregateInput
+    _avg?: PlanAvgOrderByAggregateInput
     _max?: PlanMaxOrderByAggregateInput
     _min?: PlanMinOrderByAggregateInput
+    _sum?: PlanSumOrderByAggregateInput
   }
 
   export type PlanScalarWhereWithAggregatesInput = {
@@ -27608,6 +27691,7 @@ export namespace Prisma {
     audience?: StringWithAggregatesFilter<"Plan"> | string
     features?: JsonWithAggregatesFilter<"Plan">
     service_id?: StringWithAggregatesFilter<"Plan"> | string
+    position?: IntWithAggregatesFilter<"Plan"> | number
     plan_typeId?: StringNullableWithAggregatesFilter<"Plan"> | string | null
     billing_cycleId?: StringNullableWithAggregatesFilter<"Plan"> | string | null
   }
@@ -28033,8 +28117,9 @@ export namespace Prisma {
     service_request_id?: StringFilter<"Milestone"> | string
     title?: StringFilter<"Milestone"> | string
     deadline?: DateTimeFilter<"Milestone"> | Date | string
-    deliverable_url?: StringNullableFilter<"Milestone"> | string | null
-    deliverable_name?: StringNullableFilter<"Milestone"> | string | null
+    deliverable_file_url?: StringNullableFilter<"Milestone"> | string | null
+    deliverable_file_name?: StringNullableFilter<"Milestone"> | string | null
+    deliverable_link_url?: StringNullableFilter<"Milestone"> | string | null
     status?: EnumMilestoneStatusFilter<"Milestone"> | $Enums.MilestoneStatus
     rejection_reason?: StringNullableFilter<"Milestone"> | string | null
     created_at?: DateTimeFilter<"Milestone"> | Date | string
@@ -28047,8 +28132,9 @@ export namespace Prisma {
     service_request_id?: SortOrder
     title?: SortOrder
     deadline?: SortOrder
-    deliverable_url?: SortOrderInput | SortOrder
-    deliverable_name?: SortOrderInput | SortOrder
+    deliverable_file_url?: SortOrderInput | SortOrder
+    deliverable_file_name?: SortOrderInput | SortOrder
+    deliverable_link_url?: SortOrderInput | SortOrder
     status?: SortOrder
     rejection_reason?: SortOrderInput | SortOrder
     created_at?: SortOrder
@@ -28065,8 +28151,9 @@ export namespace Prisma {
     service_request_id?: StringFilter<"Milestone"> | string
     title?: StringFilter<"Milestone"> | string
     deadline?: DateTimeFilter<"Milestone"> | Date | string
-    deliverable_url?: StringNullableFilter<"Milestone"> | string | null
-    deliverable_name?: StringNullableFilter<"Milestone"> | string | null
+    deliverable_file_url?: StringNullableFilter<"Milestone"> | string | null
+    deliverable_file_name?: StringNullableFilter<"Milestone"> | string | null
+    deliverable_link_url?: StringNullableFilter<"Milestone"> | string | null
     status?: EnumMilestoneStatusFilter<"Milestone"> | $Enums.MilestoneStatus
     rejection_reason?: StringNullableFilter<"Milestone"> | string | null
     created_at?: DateTimeFilter<"Milestone"> | Date | string
@@ -28079,8 +28166,9 @@ export namespace Prisma {
     service_request_id?: SortOrder
     title?: SortOrder
     deadline?: SortOrder
-    deliverable_url?: SortOrderInput | SortOrder
-    deliverable_name?: SortOrderInput | SortOrder
+    deliverable_file_url?: SortOrderInput | SortOrder
+    deliverable_file_name?: SortOrderInput | SortOrder
+    deliverable_link_url?: SortOrderInput | SortOrder
     status?: SortOrder
     rejection_reason?: SortOrderInput | SortOrder
     created_at?: SortOrder
@@ -28098,8 +28186,9 @@ export namespace Prisma {
     service_request_id?: StringWithAggregatesFilter<"Milestone"> | string
     title?: StringWithAggregatesFilter<"Milestone"> | string
     deadline?: DateTimeWithAggregatesFilter<"Milestone"> | Date | string
-    deliverable_url?: StringNullableWithAggregatesFilter<"Milestone"> | string | null
-    deliverable_name?: StringNullableWithAggregatesFilter<"Milestone"> | string | null
+    deliverable_file_url?: StringNullableWithAggregatesFilter<"Milestone"> | string | null
+    deliverable_file_name?: StringNullableWithAggregatesFilter<"Milestone"> | string | null
+    deliverable_link_url?: StringNullableWithAggregatesFilter<"Milestone"> | string | null
     status?: EnumMilestoneStatusWithAggregatesFilter<"Milestone"> | $Enums.MilestoneStatus
     rejection_reason?: StringNullableWithAggregatesFilter<"Milestone"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"Milestone"> | Date | string
@@ -28831,6 +28920,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -28864,6 +28954,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -28897,6 +28988,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28930,6 +29022,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28963,6 +29056,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -28982,6 +29076,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29000,6 +29095,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29357,6 +29453,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    position?: number
     service: ServiceCreateNestedOneWithoutPlansInput
     service_requests?: ServiceRequestCreateNestedManyWithoutPlanInput
     subscriptions?: SubscriptionCreateNestedManyWithoutPlanInput
@@ -29372,6 +29469,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    position?: number
     plan_typeId?: string | null
     billing_cycleId?: string | null
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutPlanInput
@@ -29385,6 +29483,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    position?: IntFieldUpdateOperationsInput | number
     service?: ServiceUpdateOneRequiredWithoutPlansNestedInput
     service_requests?: ServiceRequestUpdateManyWithoutPlanNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutPlanNestedInput
@@ -29400,6 +29499,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutPlanNestedInput
@@ -29414,6 +29514,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    position?: number
     plan_typeId?: string | null
     billing_cycleId?: string | null
   }
@@ -29425,6 +29526,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    position?: IntFieldUpdateOperationsInput | number
   }
 
   export type PlanUncheckedUpdateManyInput = {
@@ -29435,6 +29537,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -29872,8 +29975,9 @@ export namespace Prisma {
     id?: string
     title: string
     deadline: Date | string
-    deliverable_url?: string | null
-    deliverable_name?: string | null
+    deliverable_file_url?: string | null
+    deliverable_file_name?: string | null
+    deliverable_link_url?: string | null
     status?: $Enums.MilestoneStatus
     rejection_reason?: string | null
     created_at?: Date | string
@@ -29886,8 +29990,9 @@ export namespace Prisma {
     service_request_id: string
     title: string
     deadline: Date | string
-    deliverable_url?: string | null
-    deliverable_name?: string | null
+    deliverable_file_url?: string | null
+    deliverable_file_name?: string | null
+    deliverable_link_url?: string | null
     status?: $Enums.MilestoneStatus
     rejection_reason?: string | null
     created_at?: Date | string
@@ -29898,8 +30003,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     deadline?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliverable_url?: NullableStringFieldUpdateOperationsInput | string | null
-    deliverable_name?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_file_url?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_file_name?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_link_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMilestoneStatusFieldUpdateOperationsInput | $Enums.MilestoneStatus
     rejection_reason?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29912,8 +30018,9 @@ export namespace Prisma {
     service_request_id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     deadline?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliverable_url?: NullableStringFieldUpdateOperationsInput | string | null
-    deliverable_name?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_file_url?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_file_name?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_link_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMilestoneStatusFieldUpdateOperationsInput | $Enums.MilestoneStatus
     rejection_reason?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29925,8 +30032,9 @@ export namespace Prisma {
     service_request_id: string
     title: string
     deadline: Date | string
-    deliverable_url?: string | null
-    deliverable_name?: string | null
+    deliverable_file_url?: string | null
+    deliverable_file_name?: string | null
+    deliverable_link_url?: string | null
     status?: $Enums.MilestoneStatus
     rejection_reason?: string | null
     created_at?: Date | string
@@ -29937,8 +30045,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     deadline?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliverable_url?: NullableStringFieldUpdateOperationsInput | string | null
-    deliverable_name?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_file_url?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_file_name?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_link_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMilestoneStatusFieldUpdateOperationsInput | $Enums.MilestoneStatus
     rejection_reason?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29950,8 +30059,9 @@ export namespace Prisma {
     service_request_id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     deadline?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliverable_url?: NullableStringFieldUpdateOperationsInput | string | null
-    deliverable_name?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_file_url?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_file_name?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_link_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMilestoneStatusFieldUpdateOperationsInput | $Enums.MilestoneStatus
     rejection_reason?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30901,6 +31011,7 @@ export namespace Prisma {
     email?: SortOrder
     tel?: SortOrder
     country?: SortOrder
+    city?: SortOrder
     address?: SortOrder
     category?: SortOrder
     pfp_url?: SortOrder
@@ -30920,6 +31031,7 @@ export namespace Prisma {
     email?: SortOrder
     tel?: SortOrder
     country?: SortOrder
+    city?: SortOrder
     address?: SortOrder
     category?: SortOrder
     pfp_url?: SortOrder
@@ -30938,6 +31050,7 @@ export namespace Prisma {
     email?: SortOrder
     tel?: SortOrder
     country?: SortOrder
+    city?: SortOrder
     address?: SortOrder
     category?: SortOrder
     pfp_url?: SortOrder
@@ -31324,6 +31437,17 @@ export namespace Prisma {
     _max?: NestedJsonFilter<$PrismaModel>
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type Plan_typeNullableScalarRelationFilter = {
     is?: Plan_typeWhereInput | null
     isNot?: Plan_typeWhereInput | null
@@ -31348,8 +31472,13 @@ export namespace Prisma {
     audience?: SortOrder
     features?: SortOrder
     service_id?: SortOrder
+    position?: SortOrder
     plan_typeId?: SortOrder
     billing_cycleId?: SortOrder
+  }
+
+  export type PlanAvgOrderByAggregateInput = {
+    position?: SortOrder
   }
 
   export type PlanMaxOrderByAggregateInput = {
@@ -31359,6 +31488,7 @@ export namespace Prisma {
     priceUnit?: SortOrder
     audience?: SortOrder
     service_id?: SortOrder
+    position?: SortOrder
     plan_typeId?: SortOrder
     billing_cycleId?: SortOrder
   }
@@ -31370,8 +31500,29 @@ export namespace Prisma {
     priceUnit?: SortOrder
     audience?: SortOrder
     service_id?: SortOrder
+    position?: SortOrder
     plan_typeId?: SortOrder
     billing_cycleId?: SortOrder
+  }
+
+  export type PlanSumOrderByAggregateInput = {
+    position?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[]
+    notIn?: number[]
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type DecimalFilter<$PrismaModel = never> = {
@@ -31513,17 +31664,6 @@ export namespace Prisma {
     organisationId?: SortOrder
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type TestimonialOrderByRelevanceInput = {
     fields: TestimonialOrderByRelevanceFieldEnum | TestimonialOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -31569,22 +31709,6 @@ export namespace Prisma {
 
   export type TestimonialSumOrderByAggregateInput = {
     stars?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[]
-    notIn?: number[]
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type FaqOrderByRelevanceInput = {
@@ -31725,8 +31849,9 @@ export namespace Prisma {
     service_request_id?: SortOrder
     title?: SortOrder
     deadline?: SortOrder
-    deliverable_url?: SortOrder
-    deliverable_name?: SortOrder
+    deliverable_file_url?: SortOrder
+    deliverable_file_name?: SortOrder
+    deliverable_link_url?: SortOrder
     status?: SortOrder
     rejection_reason?: SortOrder
     created_at?: SortOrder
@@ -31738,8 +31863,9 @@ export namespace Prisma {
     service_request_id?: SortOrder
     title?: SortOrder
     deadline?: SortOrder
-    deliverable_url?: SortOrder
-    deliverable_name?: SortOrder
+    deliverable_file_url?: SortOrder
+    deliverable_file_name?: SortOrder
+    deliverable_link_url?: SortOrder
     status?: SortOrder
     rejection_reason?: SortOrder
     created_at?: SortOrder
@@ -31751,8 +31877,9 @@ export namespace Prisma {
     service_request_id?: SortOrder
     title?: SortOrder
     deadline?: SortOrder
-    deliverable_url?: SortOrder
-    deliverable_name?: SortOrder
+    deliverable_file_url?: SortOrder
+    deliverable_file_name?: SortOrder
+    deliverable_link_url?: SortOrder
     status?: SortOrder
     rejection_reason?: SortOrder
     created_at?: SortOrder
@@ -33213,6 +33340,14 @@ export namespace Prisma {
     connect?: SubscriptionWhereUniqueInput | SubscriptionWhereUniqueInput[]
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type ServiceUpdateOneRequiredWithoutPlansNestedInput = {
     create?: XOR<ServiceCreateWithoutPlansInput, ServiceUncheckedCreateWithoutPlansInput>
     connectOrCreate?: ServiceCreateOrConnectWithoutPlansInput
@@ -33375,14 +33510,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutTestimonialsInput, UserUncheckedCreateWithoutTestimonialsInput>
     connectOrCreate?: UserCreateOrConnectWithoutTestimonialsInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type ServiceUpdateOneRequiredWithoutTestimonialsNestedInput = {
@@ -34149,33 +34276,6 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type NestedDecimalFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-  }
-
-  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
-    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
-    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedDecimalFilter<$PrismaModel>
-    _sum?: NestedDecimalFilter<$PrismaModel>
-    _min?: NestedDecimalFilter<$PrismaModel>
-    _max?: NestedDecimalFilter<$PrismaModel>
-  }
-
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -34201,6 +34301,33 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedDecimalFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+  }
+
+  export type NestedDecimalWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[]
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedDecimalFilter<$PrismaModel>
+    _sum?: NestedDecimalFilter<$PrismaModel>
+    _min?: NestedDecimalFilter<$PrismaModel>
+    _max?: NestedDecimalFilter<$PrismaModel>
   }
 
   export type NestedEnumServiceRequestStatusFilter<$PrismaModel = never> = {
@@ -35230,6 +35357,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -35262,6 +35390,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -35373,6 +35502,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35405,6 +35535,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35438,6 +35569,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    position?: number
     service_requests?: ServiceRequestCreateNestedManyWithoutPlanInput
     subscriptions?: SubscriptionCreateNestedManyWithoutPlanInput
     Plan_type?: Plan_typeCreateNestedOneWithoutPlansInput
@@ -35451,6 +35583,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    position?: number
     plan_typeId?: string | null
     billing_cycleId?: string | null
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutPlanInput
@@ -35605,6 +35738,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -35637,6 +35771,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -35714,6 +35849,7 @@ export namespace Prisma {
     audience?: StringFilter<"Plan"> | string
     features?: JsonFilter<"Plan">
     service_id?: StringFilter<"Plan"> | string
+    position?: IntFilter<"Plan"> | number
     plan_typeId?: StringNullableFilter<"Plan"> | string | null
     billing_cycleId?: StringNullableFilter<"Plan"> | string | null
   }
@@ -35809,6 +35945,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35841,6 +35978,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36294,6 +36432,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -36326,6 +36465,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -36411,6 +36551,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36443,6 +36584,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36765,6 +36907,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -36797,6 +36940,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -36898,6 +37042,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36930,6 +37075,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37062,6 +37208,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -37094,6 +37241,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -37207,8 +37355,9 @@ export namespace Prisma {
     id?: string
     title: string
     deadline: Date | string
-    deliverable_url?: string | null
-    deliverable_name?: string | null
+    deliverable_file_url?: string | null
+    deliverable_file_name?: string | null
+    deliverable_link_url?: string | null
     status?: $Enums.MilestoneStatus
     rejection_reason?: string | null
     created_at?: Date | string
@@ -37219,8 +37368,9 @@ export namespace Prisma {
     id?: string
     title: string
     deadline: Date | string
-    deliverable_url?: string | null
-    deliverable_name?: string | null
+    deliverable_file_url?: string | null
+    deliverable_file_name?: string | null
+    deliverable_link_url?: string | null
     status?: $Enums.MilestoneStatus
     rejection_reason?: string | null
     created_at?: Date | string
@@ -37244,6 +37394,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    position?: number
     service: ServiceCreateNestedOneWithoutPlansInput
     subscriptions?: SubscriptionCreateNestedManyWithoutPlanInput
     Plan_type?: Plan_typeCreateNestedOneWithoutPlansInput
@@ -37258,6 +37409,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    position?: number
     plan_typeId?: string | null
     billing_cycleId?: string | null
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutPlanInput
@@ -37304,6 +37456,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37336,6 +37489,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37476,8 +37630,9 @@ export namespace Prisma {
     service_request_id?: StringFilter<"Milestone"> | string
     title?: StringFilter<"Milestone"> | string
     deadline?: DateTimeFilter<"Milestone"> | Date | string
-    deliverable_url?: StringNullableFilter<"Milestone"> | string | null
-    deliverable_name?: StringNullableFilter<"Milestone"> | string | null
+    deliverable_file_url?: StringNullableFilter<"Milestone"> | string | null
+    deliverable_file_name?: StringNullableFilter<"Milestone"> | string | null
+    deliverable_link_url?: StringNullableFilter<"Milestone"> | string | null
     status?: EnumMilestoneStatusFilter<"Milestone"> | $Enums.MilestoneStatus
     rejection_reason?: StringNullableFilter<"Milestone"> | string | null
     created_at?: DateTimeFilter<"Milestone"> | Date | string
@@ -37502,6 +37657,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    position?: IntFieldUpdateOperationsInput | number
     service?: ServiceUpdateOneRequiredWithoutPlansNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutPlanNestedInput
     Plan_type?: Plan_typeUpdateOneWithoutPlansNestedInput
@@ -37516,6 +37672,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutPlanNestedInput
@@ -37732,6 +37889,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -37764,6 +37922,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -37812,6 +37971,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37844,6 +38004,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38015,6 +38176,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38047,6 +38209,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38120,6 +38283,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38152,6 +38316,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38184,6 +38349,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38216,6 +38382,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38264,6 +38431,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38296,6 +38464,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38328,6 +38497,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38360,6 +38530,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38408,6 +38579,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38440,6 +38612,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38472,6 +38645,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38504,6 +38678,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38552,6 +38727,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38584,6 +38760,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38616,6 +38793,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38648,6 +38826,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38696,6 +38875,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38728,6 +38908,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38760,6 +38941,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38792,6 +38974,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -38830,6 +39013,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    position?: number
     service: ServiceCreateNestedOneWithoutPlansInput
     service_requests?: ServiceRequestCreateNestedManyWithoutPlanInput
     subscriptions?: SubscriptionCreateNestedManyWithoutPlanInput
@@ -38844,6 +39028,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    position?: number
     billing_cycleId?: string | null
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutPlanInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutPlanInput
@@ -38876,6 +39061,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38908,6 +39094,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38957,6 +39144,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    position?: number
     service: ServiceCreateNestedOneWithoutPlansInput
     service_requests?: ServiceRequestCreateNestedManyWithoutPlanInput
     subscriptions?: SubscriptionCreateNestedManyWithoutPlanInput
@@ -38971,6 +39159,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    position?: number
     plan_typeId?: string | null
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutPlanInput
     subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutPlanInput
@@ -39009,6 +39198,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    position?: number
     service: ServiceCreateNestedOneWithoutPlansInput
     service_requests?: ServiceRequestCreateNestedManyWithoutPlanInput
     Plan_type?: Plan_typeCreateNestedOneWithoutPlansInput
@@ -39023,6 +39213,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    position?: number
     plan_typeId?: string | null
     billing_cycleId?: string | null
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutPlanInput
@@ -39039,6 +39230,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -39071,6 +39263,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -39120,6 +39313,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    position?: IntFieldUpdateOperationsInput | number
     service?: ServiceUpdateOneRequiredWithoutPlansNestedInput
     service_requests?: ServiceRequestUpdateManyWithoutPlanNestedInput
     Plan_type?: Plan_typeUpdateOneWithoutPlansNestedInput
@@ -39134,6 +39328,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutPlanNestedInput
@@ -39156,6 +39351,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39188,6 +39384,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39220,6 +39417,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -39252,6 +39450,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -39289,6 +39488,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -39321,6 +39521,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -39374,6 +39575,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39406,6 +39608,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -39457,6 +39660,7 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     tel?: StringFilter<"User"> | string
     country?: StringFilter<"User"> | string
+    city?: StringNullableFilter<"User"> | string | null
     address?: StringFilter<"User"> | string
     category?: StringFilter<"User"> | string
     pfp_url?: StringNullableFilter<"User"> | string | null
@@ -40067,6 +40271,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    position?: number
     plan_typeId?: string | null
     billing_cycleId?: string | null
   }
@@ -40121,6 +40326,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    position?: IntFieldUpdateOperationsInput | number
     service_requests?: ServiceRequestUpdateManyWithoutPlanNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutPlanNestedInput
     Plan_type?: Plan_typeUpdateOneWithoutPlansNestedInput
@@ -40134,6 +40340,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutPlanNestedInput
@@ -40147,6 +40354,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -40380,8 +40588,9 @@ export namespace Prisma {
     id?: string
     title: string
     deadline: Date | string
-    deliverable_url?: string | null
-    deliverable_name?: string | null
+    deliverable_file_url?: string | null
+    deliverable_file_name?: string | null
+    deliverable_link_url?: string | null
     status?: $Enums.MilestoneStatus
     rejection_reason?: string | null
     created_at?: Date | string
@@ -40392,8 +40601,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     deadline?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliverable_url?: NullableStringFieldUpdateOperationsInput | string | null
-    deliverable_name?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_file_url?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_file_name?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_link_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMilestoneStatusFieldUpdateOperationsInput | $Enums.MilestoneStatus
     rejection_reason?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40404,8 +40614,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     deadline?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliverable_url?: NullableStringFieldUpdateOperationsInput | string | null
-    deliverable_name?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_file_url?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_file_name?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_link_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMilestoneStatusFieldUpdateOperationsInput | $Enums.MilestoneStatus
     rejection_reason?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40416,8 +40627,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     deadline?: DateTimeFieldUpdateOperationsInput | Date | string
-    deliverable_url?: NullableStringFieldUpdateOperationsInput | string | null
-    deliverable_name?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_file_url?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_file_name?: NullableStringFieldUpdateOperationsInput | string | null
+    deliverable_link_url?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumMilestoneStatusFieldUpdateOperationsInput | $Enums.MilestoneStatus
     rejection_reason?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -40460,6 +40672,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    position?: number
     billing_cycleId?: string | null
   }
 
@@ -40470,6 +40683,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    position?: IntFieldUpdateOperationsInput | number
     service?: ServiceUpdateOneRequiredWithoutPlansNestedInput
     service_requests?: ServiceRequestUpdateManyWithoutPlanNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutPlanNestedInput
@@ -40484,6 +40698,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutPlanNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutPlanNestedInput
@@ -40497,6 +40712,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -40508,6 +40724,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    position?: number
     plan_typeId?: string | null
   }
 
@@ -40518,6 +40735,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    position?: IntFieldUpdateOperationsInput | number
     service?: ServiceUpdateOneRequiredWithoutPlansNestedInput
     service_requests?: ServiceRequestUpdateManyWithoutPlanNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutPlanNestedInput
@@ -40532,6 +40750,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutPlanNestedInput
     subscriptions?: SubscriptionUncheckedUpdateManyWithoutPlanNestedInput
@@ -40545,6 +40764,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -40554,6 +40774,7 @@ export namespace Prisma {
     email: string
     tel: string
     country: string
+    city?: string | null
     address: string
     category: string
     pfp_url?: string | null
@@ -40572,6 +40793,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40604,6 +40826,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40636,6 +40859,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     tel?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     category?: StringFieldUpdateOperationsInput | string
     pfp_url?: NullableStringFieldUpdateOperationsInput | string | null

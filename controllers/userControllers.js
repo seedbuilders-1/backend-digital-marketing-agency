@@ -31,7 +31,8 @@ exports.getuserById = async (req, res) => {
 
 exports.createUser = async (req, res) => {
   try {
-    const { name, email, tel, country, address, category, password } = req.body;
+    const { name, email, tel, country, address, category, password, city } =
+      req.body;
 
     // 1. Basic validation remains
     if (
@@ -39,6 +40,7 @@ exports.createUser = async (req, res) => {
       !email ||
       !tel ||
       !country ||
+      !city ||
       !address ||
       !category ||
       !password
@@ -53,6 +55,7 @@ exports.createUser = async (req, res) => {
       email,
       tel,
       country,
+      city,
       address,
       category,
       password, // Pass the plain password to the service
@@ -117,7 +120,8 @@ exports.createUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const { name, email, tel, country, address, category, password } = req.body;
+    const { name, email, tel, country, address, category, password, city } =
+      req.body;
     const { id } = req.params;
 
     if (
@@ -125,6 +129,7 @@ exports.updateUser = async (req, res) => {
       !email ||
       !tel ||
       !country ||
+      !city ||
       !address ||
       !category ||
       !password
@@ -132,7 +137,7 @@ exports.updateUser = async (req, res) => {
       return sendError(
         res,
         400,
-        "All fields are required - name, email, tel, country, address, category, password"
+        "All fields are required - name, email, tel, country, city, address, category, password"
       );
     }
 
@@ -143,6 +148,7 @@ exports.updateUser = async (req, res) => {
       email,
       tel,
       country,
+      city,
       address,
       category,
       password: hashed_password,
@@ -188,7 +194,7 @@ exports.profile = async (req, res) => {
   try {
     const id = req.params.id;
     // Get the string values from the multipart form body
-    let { business_status, registered_with_a_business } = req.body;
+    // let { business_status, registered_with_a_business } = req.body;
 
     // --- Validation ---
     if (!req.files || !req.files["profile-pic"] || !req.files["IDs"]) {

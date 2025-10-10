@@ -78,6 +78,37 @@ const uploadDeliverable = async (milestoneId, file) => {
 };
 
 /**
+ * Handles the business logic for submitting a deliverable (file, link, or both).
+ * @param {string} milestoneId The ID of the milestone.
+ * @param {object} deliverables An object containing the optional file and link.
+ * @param {File} [deliverables.file] The uploaded file object from Multer.
+ * @param {string} [deliverables.link] The submitted external URL.
+ * @returns {Promise<object>} The updated milestone object.
+ */
+const submitDeliverable = async (milestoneId, { file, link }) => {
+  // Start with the link data if it exists.
+  const deliverableData = {
+    deliverable_link_url: link || null,
+  };
+
+  // If a file was also uploaded, process it and add its data.
+  if (file) {
+    const uploadResult = await uploadToCloudinary(
+      file.buffer,
+      `deliverables/${milestoneId}`
+    );
+    deliverableData.deliverable_file_url = uploadResult.secure_url;
+    deliverableData.deliverable_file_name = file.originalname;
+  }
+
+  // Call the model with the combined data object.
+  return await milestoneModel.updateMilestoneDeliverable(
+    milestoneId,
+    deliverableData
+  );
+};
+
+/**
  * Handles the business logic for a client reviewing a milestone deliverable.
  * @param {string} milestoneId - The ID of the milestone being reviewed.
  * @param {string} userId - The ID of the client performing the review.
@@ -147,4 +178,5 @@ module.exports = {
   deleteMilestone,
   uploadDeliverable,
   reviewMilestone,
+  submitDeliverable,
 };

@@ -38,6 +38,7 @@ const getService = async (id) => {
       id: id,
       deleted_at: null, // Ensure we don't fetch soft-deleted services
     },
+
     // Include all the nested data you need for the detail page
     include: {
       user: {
@@ -45,7 +46,9 @@ const getService = async (id) => {
           name: true,
         },
       },
-      plans: true,
+      plans: {
+        orderBy: { position: "asc" },
+      },
       caseStudies: true,
       testimonials: true,
       faqs: true,
@@ -93,6 +96,8 @@ const createServiceWithDetails = async (serviceData) => {
 
     // 2. Create all related records, linking them with the new service's ID
     if (plans && plans.length > 0) {
+      console.log("plans", plans);
+
       await tx.plan.createMany({
         data: plans.map((plan) => ({ ...plan, service_id: newService.id })),
       });
