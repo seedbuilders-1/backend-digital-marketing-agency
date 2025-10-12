@@ -23,6 +23,8 @@ router.post(
 router.get("/:id", serviceController.getService);
 router.put(
   "/:id",
+  auth,
+  authorizeRoles("admin"),
   handleMulterError(upload.any()),
   serviceController.updateService
 );

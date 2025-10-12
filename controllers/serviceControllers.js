@@ -197,7 +197,7 @@ exports.updateService = async (req, res) => {
     const { title } = req.body;
     if (!title) return sendError(res, 400, "Service title is required.");
 
-    const adminId = "a20b1f85-d726-4ff1-9259-872f2d2b0b1f";
+    const adminId = getUserId.getUserIdFromHeader(req);
     // Call the builder and pass the existingService object
     const serviceData = await buildServiceData(
       req.body,
