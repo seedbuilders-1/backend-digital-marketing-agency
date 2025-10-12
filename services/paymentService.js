@@ -28,7 +28,7 @@ const initializePaystackTransaction = async (invoiceId, userId, email) => {
   }
 
   // 2. Prepare data for Paystack API
-  const amountInKobo = Math.round(invoice.amount * 0.5 * 100);
+  const amountInKobo = Math.round(invoice.amount * 100);
   const reference = uuidv4(); // Generate a unique reference for this transaction
 
   // Store the reference with the invoice for later verification

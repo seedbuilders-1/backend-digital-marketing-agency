@@ -44,6 +44,11 @@ export type Plan = $Result.DefaultSelection<Prisma.$PlanPayload>
  */
 export type Invoice = $Result.DefaultSelection<Prisma.$InvoicePayload>
 /**
+ * Model Referral
+ * 
+ */
+export type Referral = $Result.DefaultSelection<Prisma.$ReferralPayload>
+/**
  * Model CaseStudy
  * 
  */
@@ -347,6 +352,16 @@ export class PrismaClient<
     * ```
     */
   get invoice(): Prisma.InvoiceDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.referral`: Exposes CRUD operations for the **Referral** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Referrals
+    * const referrals = await prisma.referral.findMany()
+    * ```
+    */
+  get referral(): Prisma.ReferralDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.caseStudy`: Exposes CRUD operations for the **CaseStudy** model.
@@ -963,6 +978,7 @@ export namespace Prisma {
     ServiceForm: 'ServiceForm',
     Plan: 'Plan',
     Invoice: 'Invoice',
+    Referral: 'Referral',
     CaseStudy: 'CaseStudy',
     Testimonial: 'Testimonial',
     Faq: 'Faq',
@@ -998,7 +1014,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "organisation" | "service" | "serviceForm" | "plan" | "invoice" | "caseStudy" | "testimonial" | "faq" | "serviceRequest" | "milestone" | "contact" | "otp" | "conversation" | "message" | "password_token" | "notification" | "privacy_settings" | "notification_settings" | "plan_type" | "billing_cycle" | "subscription" | "role"
+      modelProps: "user" | "organisation" | "service" | "serviceForm" | "plan" | "invoice" | "referral" | "caseStudy" | "testimonial" | "faq" | "serviceRequest" | "milestone" | "contact" | "otp" | "conversation" | "message" | "password_token" | "notification" | "privacy_settings" | "notification_settings" | "plan_type" | "billing_cycle" | "subscription" | "role"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1395,6 +1411,72 @@ export namespace Prisma {
           count: {
             args: Prisma.InvoiceCountArgs<ExtArgs>
             result: $Utils.Optional<InvoiceCountAggregateOutputType> | number
+          }
+        }
+      }
+      Referral: {
+        payload: Prisma.$ReferralPayload<ExtArgs>
+        fields: Prisma.ReferralFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ReferralFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReferralPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ReferralFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReferralPayload>
+          }
+          findFirst: {
+            args: Prisma.ReferralFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReferralPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ReferralFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReferralPayload>
+          }
+          findMany: {
+            args: Prisma.ReferralFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReferralPayload>[]
+          }
+          create: {
+            args: Prisma.ReferralCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReferralPayload>
+          }
+          createMany: {
+            args: Prisma.ReferralCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          delete: {
+            args: Prisma.ReferralDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReferralPayload>
+          }
+          update: {
+            args: Prisma.ReferralUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReferralPayload>
+          }
+          deleteMany: {
+            args: Prisma.ReferralDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ReferralUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.ReferralUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ReferralPayload>
+          }
+          aggregate: {
+            args: Prisma.ReferralAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateReferral>
+          }
+          groupBy: {
+            args: Prisma.ReferralGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ReferralGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ReferralCountArgs<ExtArgs>
+            result: $Utils.Optional<ReferralCountAggregateOutputType> | number
           }
         }
       }
@@ -2610,6 +2692,7 @@ export namespace Prisma {
     serviceForm?: ServiceFormOmit
     plan?: PlanOmit
     invoice?: InvoiceOmit
+    referral?: ReferralOmit
     caseStudy?: CaseStudyOmit
     testimonial?: TestimonialOmit
     faq?: FaqOmit
@@ -2722,6 +2805,7 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     messages: number
+    sent_referrals: number
     notifications: number
     notification_settings: number
     otps: number
@@ -2738,6 +2822,7 @@ export namespace Prisma {
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | UserCountOutputTypeCountMessagesArgs
+    sent_referrals?: boolean | UserCountOutputTypeCountSent_referralsArgs
     notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
     notification_settings?: boolean | UserCountOutputTypeCountNotification_settingsArgs
     otps?: boolean | UserCountOutputTypeCountOtpsArgs
@@ -2768,6 +2853,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountMessagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MessageWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSent_referralsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReferralWhereInput
   }
 
   /**
@@ -3418,6 +3510,8 @@ export namespace Prisma {
     created_at?: boolean
     deleted_at?: boolean
     messages?: boolean | User$messagesArgs<ExtArgs>
+    sent_referrals?: boolean | User$sent_referralsArgs<ExtArgs>
+    received_referral?: boolean | User$received_referralArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
     notification_settings?: boolean | User$notification_settingsArgs<ExtArgs>
     organisation?: boolean | User$organisationArgs<ExtArgs>
@@ -3460,6 +3554,8 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "tel" | "country" | "city" | "address" | "category" | "pfp_url" | "id_url" | "business_status" | "registered_with_a_business" | "password" | "status" | "role_id" | "created_at" | "deleted_at", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | User$messagesArgs<ExtArgs>
+    sent_referrals?: boolean | User$sent_referralsArgs<ExtArgs>
+    received_referral?: boolean | User$received_referralArgs<ExtArgs>
     notifications?: boolean | User$notificationsArgs<ExtArgs>
     notification_settings?: boolean | User$notification_settingsArgs<ExtArgs>
     organisation?: boolean | User$organisationArgs<ExtArgs>
@@ -3481,6 +3577,8 @@ export namespace Prisma {
     name: "User"
     objects: {
       messages: Prisma.$MessagePayload<ExtArgs>[]
+      sent_referrals: Prisma.$ReferralPayload<ExtArgs>[]
+      received_referral: Prisma.$ReferralPayload<ExtArgs> | null
       notifications: Prisma.$NotificationPayload<ExtArgs>[]
       notification_settings: Prisma.$Notification_settingsPayload<ExtArgs>[]
       organisation: Prisma.$OrganisationPayload<ExtArgs> | null
@@ -3855,6 +3953,8 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     messages<T extends User$messagesArgs<ExtArgs> = {}>(args?: Subset<T, User$messagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sent_referrals<T extends User$sent_referralsArgs<ExtArgs> = {}>(args?: Subset<T, User$sent_referralsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    received_referral<T extends User$received_referralArgs<ExtArgs> = {}>(args?: Subset<T, User$received_referralArgs<ExtArgs>>): Prisma__ReferralClient<$Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     notification_settings<T extends User$notification_settingsArgs<ExtArgs> = {}>(args?: Subset<T, User$notification_settingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Notification_settingsPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     organisation<T extends User$organisationArgs<ExtArgs> = {}>(args?: Subset<T, User$organisationArgs<ExtArgs>>): Prisma__OrganisationClient<$Result.GetResult<Prisma.$OrganisationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
@@ -4279,6 +4379,49 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MessageScalarFieldEnum | MessageScalarFieldEnum[]
+  }
+
+  /**
+   * User.sent_referrals
+   */
+  export type User$sent_referralsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Referral
+     */
+    select?: ReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Referral
+     */
+    omit?: ReferralOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReferralInclude<ExtArgs> | null
+    where?: ReferralWhereInput
+    orderBy?: ReferralOrderByWithRelationInput | ReferralOrderByWithRelationInput[]
+    cursor?: ReferralWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ReferralScalarFieldEnum | ReferralScalarFieldEnum[]
+  }
+
+  /**
+   * User.received_referral
+   */
+  export type User$received_referralArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Referral
+     */
+    select?: ReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Referral
+     */
+    omit?: ReferralOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReferralInclude<ExtArgs> | null
+    where?: ReferralWhereInput
   }
 
   /**
@@ -9199,6 +9342,7 @@ export namespace Prisma {
     updated_at?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     service_request?: boolean | Invoice$service_requestArgs<ExtArgs>
+    referral?: boolean | Invoice$referralArgs<ExtArgs>
   }, ExtArgs["result"]["invoice"]>
 
 
@@ -9221,6 +9365,7 @@ export namespace Prisma {
   export type InvoiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     service_request?: boolean | Invoice$service_requestArgs<ExtArgs>
+    referral?: boolean | Invoice$referralArgs<ExtArgs>
   }
 
   export type $InvoicePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9228,6 +9373,7 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       service_request: Prisma.$ServiceRequestPayload<ExtArgs> | null
+      referral: Prisma.$ReferralPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -9583,6 +9729,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     service_request<T extends Invoice$service_requestArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$service_requestArgs<ExtArgs>>): Prisma__ServiceRequestClient<$Result.GetResult<Prisma.$ServiceRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    referral<T extends Invoice$referralArgs<ExtArgs> = {}>(args?: Subset<T, Invoice$referralArgs<ExtArgs>>): Prisma__ReferralClient<$Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -9985,6 +10132,25 @@ export namespace Prisma {
   }
 
   /**
+   * Invoice.referral
+   */
+  export type Invoice$referralArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Referral
+     */
+    select?: ReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Referral
+     */
+    omit?: ReferralOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReferralInclude<ExtArgs> | null
+    where?: ReferralWhereInput
+  }
+
+  /**
    * Invoice without action
    */
   export type InvoiceDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10000,6 +10166,1014 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: InvoiceInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Referral
+   */
+
+  export type AggregateReferral = {
+    _count: ReferralCountAggregateOutputType | null
+    _min: ReferralMinAggregateOutputType | null
+    _max: ReferralMaxAggregateOutputType | null
+  }
+
+  export type ReferralMinAggregateOutputType = {
+    id: string | null
+    referrer_id: string | null
+    referred_email: string | null
+    referred_user_id: string | null
+    invoice_id: string | null
+    status: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ReferralMaxAggregateOutputType = {
+    id: string | null
+    referrer_id: string | null
+    referred_email: string | null
+    referred_user_id: string | null
+    invoice_id: string | null
+    status: string | null
+    created_at: Date | null
+    updated_at: Date | null
+  }
+
+  export type ReferralCountAggregateOutputType = {
+    id: number
+    referrer_id: number
+    referred_email: number
+    referred_user_id: number
+    invoice_id: number
+    status: number
+    created_at: number
+    updated_at: number
+    _all: number
+  }
+
+
+  export type ReferralMinAggregateInputType = {
+    id?: true
+    referrer_id?: true
+    referred_email?: true
+    referred_user_id?: true
+    invoice_id?: true
+    status?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ReferralMaxAggregateInputType = {
+    id?: true
+    referrer_id?: true
+    referred_email?: true
+    referred_user_id?: true
+    invoice_id?: true
+    status?: true
+    created_at?: true
+    updated_at?: true
+  }
+
+  export type ReferralCountAggregateInputType = {
+    id?: true
+    referrer_id?: true
+    referred_email?: true
+    referred_user_id?: true
+    invoice_id?: true
+    status?: true
+    created_at?: true
+    updated_at?: true
+    _all?: true
+  }
+
+  export type ReferralAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Referral to aggregate.
+     */
+    where?: ReferralWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Referrals to fetch.
+     */
+    orderBy?: ReferralOrderByWithRelationInput | ReferralOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ReferralWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Referrals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Referrals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Referrals
+    **/
+    _count?: true | ReferralCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ReferralMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ReferralMaxAggregateInputType
+  }
+
+  export type GetReferralAggregateType<T extends ReferralAggregateArgs> = {
+        [P in keyof T & keyof AggregateReferral]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateReferral[P]>
+      : GetScalarType<T[P], AggregateReferral[P]>
+  }
+
+
+
+
+  export type ReferralGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ReferralWhereInput
+    orderBy?: ReferralOrderByWithAggregationInput | ReferralOrderByWithAggregationInput[]
+    by: ReferralScalarFieldEnum[] | ReferralScalarFieldEnum
+    having?: ReferralScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ReferralCountAggregateInputType | true
+    _min?: ReferralMinAggregateInputType
+    _max?: ReferralMaxAggregateInputType
+  }
+
+  export type ReferralGroupByOutputType = {
+    id: string
+    referrer_id: string
+    referred_email: string
+    referred_user_id: string | null
+    invoice_id: string | null
+    status: string
+    created_at: Date
+    updated_at: Date
+    _count: ReferralCountAggregateOutputType | null
+    _min: ReferralMinAggregateOutputType | null
+    _max: ReferralMaxAggregateOutputType | null
+  }
+
+  type GetReferralGroupByPayload<T extends ReferralGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ReferralGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ReferralGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ReferralGroupByOutputType[P]>
+            : GetScalarType<T[P], ReferralGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ReferralSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    referrer_id?: boolean
+    referred_email?: boolean
+    referred_user_id?: boolean
+    invoice_id?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+    referrer?: boolean | UserDefaultArgs<ExtArgs>
+    referred_user?: boolean | Referral$referred_userArgs<ExtArgs>
+    invoice?: boolean | Referral$invoiceArgs<ExtArgs>
+  }, ExtArgs["result"]["referral"]>
+
+
+
+  export type ReferralSelectScalar = {
+    id?: boolean
+    referrer_id?: boolean
+    referred_email?: boolean
+    referred_user_id?: boolean
+    invoice_id?: boolean
+    status?: boolean
+    created_at?: boolean
+    updated_at?: boolean
+  }
+
+  export type ReferralOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "referrer_id" | "referred_email" | "referred_user_id" | "invoice_id" | "status" | "created_at" | "updated_at", ExtArgs["result"]["referral"]>
+  export type ReferralInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    referrer?: boolean | UserDefaultArgs<ExtArgs>
+    referred_user?: boolean | Referral$referred_userArgs<ExtArgs>
+    invoice?: boolean | Referral$invoiceArgs<ExtArgs>
+  }
+
+  export type $ReferralPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Referral"
+    objects: {
+      referrer: Prisma.$UserPayload<ExtArgs>
+      referred_user: Prisma.$UserPayload<ExtArgs> | null
+      invoice: Prisma.$InvoicePayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      referrer_id: string
+      referred_email: string
+      referred_user_id: string | null
+      invoice_id: string | null
+      status: string
+      created_at: Date
+      updated_at: Date
+    }, ExtArgs["result"]["referral"]>
+    composites: {}
+  }
+
+  type ReferralGetPayload<S extends boolean | null | undefined | ReferralDefaultArgs> = $Result.GetResult<Prisma.$ReferralPayload, S>
+
+  type ReferralCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ReferralFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ReferralCountAggregateInputType | true
+    }
+
+  export interface ReferralDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Referral'], meta: { name: 'Referral' } }
+    /**
+     * Find zero or one Referral that matches the filter.
+     * @param {ReferralFindUniqueArgs} args - Arguments to find a Referral
+     * @example
+     * // Get one Referral
+     * const referral = await prisma.referral.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ReferralFindUniqueArgs>(args: SelectSubset<T, ReferralFindUniqueArgs<ExtArgs>>): Prisma__ReferralClient<$Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Referral that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ReferralFindUniqueOrThrowArgs} args - Arguments to find a Referral
+     * @example
+     * // Get one Referral
+     * const referral = await prisma.referral.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ReferralFindUniqueOrThrowArgs>(args: SelectSubset<T, ReferralFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ReferralClient<$Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Referral that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReferralFindFirstArgs} args - Arguments to find a Referral
+     * @example
+     * // Get one Referral
+     * const referral = await prisma.referral.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ReferralFindFirstArgs>(args?: SelectSubset<T, ReferralFindFirstArgs<ExtArgs>>): Prisma__ReferralClient<$Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Referral that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReferralFindFirstOrThrowArgs} args - Arguments to find a Referral
+     * @example
+     * // Get one Referral
+     * const referral = await prisma.referral.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ReferralFindFirstOrThrowArgs>(args?: SelectSubset<T, ReferralFindFirstOrThrowArgs<ExtArgs>>): Prisma__ReferralClient<$Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Referrals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReferralFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Referrals
+     * const referrals = await prisma.referral.findMany()
+     * 
+     * // Get first 10 Referrals
+     * const referrals = await prisma.referral.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const referralWithIdOnly = await prisma.referral.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ReferralFindManyArgs>(args?: SelectSubset<T, ReferralFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Referral.
+     * @param {ReferralCreateArgs} args - Arguments to create a Referral.
+     * @example
+     * // Create one Referral
+     * const Referral = await prisma.referral.create({
+     *   data: {
+     *     // ... data to create a Referral
+     *   }
+     * })
+     * 
+     */
+    create<T extends ReferralCreateArgs>(args: SelectSubset<T, ReferralCreateArgs<ExtArgs>>): Prisma__ReferralClient<$Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Referrals.
+     * @param {ReferralCreateManyArgs} args - Arguments to create many Referrals.
+     * @example
+     * // Create many Referrals
+     * const referral = await prisma.referral.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ReferralCreateManyArgs>(args?: SelectSubset<T, ReferralCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Referral.
+     * @param {ReferralDeleteArgs} args - Arguments to delete one Referral.
+     * @example
+     * // Delete one Referral
+     * const Referral = await prisma.referral.delete({
+     *   where: {
+     *     // ... filter to delete one Referral
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ReferralDeleteArgs>(args: SelectSubset<T, ReferralDeleteArgs<ExtArgs>>): Prisma__ReferralClient<$Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Referral.
+     * @param {ReferralUpdateArgs} args - Arguments to update one Referral.
+     * @example
+     * // Update one Referral
+     * const referral = await prisma.referral.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ReferralUpdateArgs>(args: SelectSubset<T, ReferralUpdateArgs<ExtArgs>>): Prisma__ReferralClient<$Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Referrals.
+     * @param {ReferralDeleteManyArgs} args - Arguments to filter Referrals to delete.
+     * @example
+     * // Delete a few Referrals
+     * const { count } = await prisma.referral.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ReferralDeleteManyArgs>(args?: SelectSubset<T, ReferralDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Referrals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReferralUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Referrals
+     * const referral = await prisma.referral.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ReferralUpdateManyArgs>(args: SelectSubset<T, ReferralUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Referral.
+     * @param {ReferralUpsertArgs} args - Arguments to update or create a Referral.
+     * @example
+     * // Update or create a Referral
+     * const referral = await prisma.referral.upsert({
+     *   create: {
+     *     // ... data to create a Referral
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Referral we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ReferralUpsertArgs>(args: SelectSubset<T, ReferralUpsertArgs<ExtArgs>>): Prisma__ReferralClient<$Result.GetResult<Prisma.$ReferralPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Referrals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReferralCountArgs} args - Arguments to filter Referrals to count.
+     * @example
+     * // Count the number of Referrals
+     * const count = await prisma.referral.count({
+     *   where: {
+     *     // ... the filter for the Referrals we want to count
+     *   }
+     * })
+    **/
+    count<T extends ReferralCountArgs>(
+      args?: Subset<T, ReferralCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ReferralCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Referral.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReferralAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ReferralAggregateArgs>(args: Subset<T, ReferralAggregateArgs>): Prisma.PrismaPromise<GetReferralAggregateType<T>>
+
+    /**
+     * Group by Referral.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ReferralGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ReferralGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ReferralGroupByArgs['orderBy'] }
+        : { orderBy?: ReferralGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ReferralGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetReferralGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Referral model
+   */
+  readonly fields: ReferralFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Referral.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ReferralClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    referrer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    referred_user<T extends Referral$referred_userArgs<ExtArgs> = {}>(args?: Subset<T, Referral$referred_userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    invoice<T extends Referral$invoiceArgs<ExtArgs> = {}>(args?: Subset<T, Referral$invoiceArgs<ExtArgs>>): Prisma__InvoiceClient<$Result.GetResult<Prisma.$InvoicePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Referral model
+   */
+  interface ReferralFieldRefs {
+    readonly id: FieldRef<"Referral", 'String'>
+    readonly referrer_id: FieldRef<"Referral", 'String'>
+    readonly referred_email: FieldRef<"Referral", 'String'>
+    readonly referred_user_id: FieldRef<"Referral", 'String'>
+    readonly invoice_id: FieldRef<"Referral", 'String'>
+    readonly status: FieldRef<"Referral", 'String'>
+    readonly created_at: FieldRef<"Referral", 'DateTime'>
+    readonly updated_at: FieldRef<"Referral", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Referral findUnique
+   */
+  export type ReferralFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Referral
+     */
+    select?: ReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Referral
+     */
+    omit?: ReferralOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReferralInclude<ExtArgs> | null
+    /**
+     * Filter, which Referral to fetch.
+     */
+    where: ReferralWhereUniqueInput
+  }
+
+  /**
+   * Referral findUniqueOrThrow
+   */
+  export type ReferralFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Referral
+     */
+    select?: ReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Referral
+     */
+    omit?: ReferralOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReferralInclude<ExtArgs> | null
+    /**
+     * Filter, which Referral to fetch.
+     */
+    where: ReferralWhereUniqueInput
+  }
+
+  /**
+   * Referral findFirst
+   */
+  export type ReferralFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Referral
+     */
+    select?: ReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Referral
+     */
+    omit?: ReferralOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReferralInclude<ExtArgs> | null
+    /**
+     * Filter, which Referral to fetch.
+     */
+    where?: ReferralWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Referrals to fetch.
+     */
+    orderBy?: ReferralOrderByWithRelationInput | ReferralOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Referrals.
+     */
+    cursor?: ReferralWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Referrals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Referrals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Referrals.
+     */
+    distinct?: ReferralScalarFieldEnum | ReferralScalarFieldEnum[]
+  }
+
+  /**
+   * Referral findFirstOrThrow
+   */
+  export type ReferralFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Referral
+     */
+    select?: ReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Referral
+     */
+    omit?: ReferralOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReferralInclude<ExtArgs> | null
+    /**
+     * Filter, which Referral to fetch.
+     */
+    where?: ReferralWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Referrals to fetch.
+     */
+    orderBy?: ReferralOrderByWithRelationInput | ReferralOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Referrals.
+     */
+    cursor?: ReferralWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Referrals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Referrals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Referrals.
+     */
+    distinct?: ReferralScalarFieldEnum | ReferralScalarFieldEnum[]
+  }
+
+  /**
+   * Referral findMany
+   */
+  export type ReferralFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Referral
+     */
+    select?: ReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Referral
+     */
+    omit?: ReferralOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReferralInclude<ExtArgs> | null
+    /**
+     * Filter, which Referrals to fetch.
+     */
+    where?: ReferralWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Referrals to fetch.
+     */
+    orderBy?: ReferralOrderByWithRelationInput | ReferralOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Referrals.
+     */
+    cursor?: ReferralWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Referrals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Referrals.
+     */
+    skip?: number
+    distinct?: ReferralScalarFieldEnum | ReferralScalarFieldEnum[]
+  }
+
+  /**
+   * Referral create
+   */
+  export type ReferralCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Referral
+     */
+    select?: ReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Referral
+     */
+    omit?: ReferralOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReferralInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Referral.
+     */
+    data: XOR<ReferralCreateInput, ReferralUncheckedCreateInput>
+  }
+
+  /**
+   * Referral createMany
+   */
+  export type ReferralCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Referrals.
+     */
+    data: ReferralCreateManyInput | ReferralCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Referral update
+   */
+  export type ReferralUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Referral
+     */
+    select?: ReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Referral
+     */
+    omit?: ReferralOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReferralInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Referral.
+     */
+    data: XOR<ReferralUpdateInput, ReferralUncheckedUpdateInput>
+    /**
+     * Choose, which Referral to update.
+     */
+    where: ReferralWhereUniqueInput
+  }
+
+  /**
+   * Referral updateMany
+   */
+  export type ReferralUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Referrals.
+     */
+    data: XOR<ReferralUpdateManyMutationInput, ReferralUncheckedUpdateManyInput>
+    /**
+     * Filter which Referrals to update
+     */
+    where?: ReferralWhereInput
+    /**
+     * Limit how many Referrals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Referral upsert
+   */
+  export type ReferralUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Referral
+     */
+    select?: ReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Referral
+     */
+    omit?: ReferralOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReferralInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Referral to update in case it exists.
+     */
+    where: ReferralWhereUniqueInput
+    /**
+     * In case the Referral found by the `where` argument doesn't exist, create a new Referral with this data.
+     */
+    create: XOR<ReferralCreateInput, ReferralUncheckedCreateInput>
+    /**
+     * In case the Referral was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ReferralUpdateInput, ReferralUncheckedUpdateInput>
+  }
+
+  /**
+   * Referral delete
+   */
+  export type ReferralDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Referral
+     */
+    select?: ReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Referral
+     */
+    omit?: ReferralOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReferralInclude<ExtArgs> | null
+    /**
+     * Filter which Referral to delete.
+     */
+    where: ReferralWhereUniqueInput
+  }
+
+  /**
+   * Referral deleteMany
+   */
+  export type ReferralDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Referrals to delete
+     */
+    where?: ReferralWhereInput
+    /**
+     * Limit how many Referrals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Referral.referred_user
+   */
+  export type Referral$referred_userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
+   * Referral.invoice
+   */
+  export type Referral$invoiceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Invoice
+     */
+    select?: InvoiceSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Invoice
+     */
+    omit?: InvoiceOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: InvoiceInclude<ExtArgs> | null
+    where?: InvoiceWhereInput
+  }
+
+  /**
+   * Referral without action
+   */
+  export type ReferralDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Referral
+     */
+    select?: ReferralSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Referral
+     */
+    omit?: ReferralOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ReferralInclude<ExtArgs> | null
   }
 
 
@@ -26549,6 +27723,20 @@ export namespace Prisma {
   export type InvoiceScalarFieldEnum = (typeof InvoiceScalarFieldEnum)[keyof typeof InvoiceScalarFieldEnum]
 
 
+  export const ReferralScalarFieldEnum: {
+    id: 'id',
+    referrer_id: 'referrer_id',
+    referred_email: 'referred_email',
+    referred_user_id: 'referred_user_id',
+    invoice_id: 'invoice_id',
+    status: 'status',
+    created_at: 'created_at',
+    updated_at: 'updated_at'
+  };
+
+  export type ReferralScalarFieldEnum = (typeof ReferralScalarFieldEnum)[keyof typeof ReferralScalarFieldEnum]
+
+
   export const CaseStudyScalarFieldEnum: {
     id: 'id',
     title: 'title',
@@ -26900,6 +28088,18 @@ export namespace Prisma {
   export type InvoiceOrderByRelevanceFieldEnum = (typeof InvoiceOrderByRelevanceFieldEnum)[keyof typeof InvoiceOrderByRelevanceFieldEnum]
 
 
+  export const ReferralOrderByRelevanceFieldEnum: {
+    id: 'id',
+    referrer_id: 'referrer_id',
+    referred_email: 'referred_email',
+    referred_user_id: 'referred_user_id',
+    invoice_id: 'invoice_id',
+    status: 'status'
+  };
+
+  export type ReferralOrderByRelevanceFieldEnum = (typeof ReferralOrderByRelevanceFieldEnum)[keyof typeof ReferralOrderByRelevanceFieldEnum]
+
+
   export const CaseStudyOrderByRelevanceFieldEnum: {
     id: 'id',
     title: 'title',
@@ -27173,6 +28373,8 @@ export namespace Prisma {
     created_at?: DateTimeNullableFilter<"User"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"User"> | Date | string | null
     messages?: MessageListRelationFilter
+    sent_referrals?: ReferralListRelationFilter
+    received_referral?: XOR<ReferralNullableScalarRelationFilter, ReferralWhereInput> | null
     notifications?: NotificationListRelationFilter
     notification_settings?: Notification_settingsListRelationFilter
     organisation?: XOR<OrganisationNullableScalarRelationFilter, OrganisationWhereInput> | null
@@ -27208,6 +28410,8 @@ export namespace Prisma {
     created_at?: SortOrderInput | SortOrder
     deleted_at?: SortOrderInput | SortOrder
     messages?: MessageOrderByRelationAggregateInput
+    sent_referrals?: ReferralOrderByRelationAggregateInput
+    received_referral?: ReferralOrderByWithRelationInput
     notifications?: NotificationOrderByRelationAggregateInput
     notification_settings?: Notification_settingsOrderByRelationAggregateInput
     organisation?: OrganisationOrderByWithRelationInput
@@ -27247,6 +28451,8 @@ export namespace Prisma {
     created_at?: DateTimeNullableFilter<"User"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"User"> | Date | string | null
     messages?: MessageListRelationFilter
+    sent_referrals?: ReferralListRelationFilter
+    received_referral?: XOR<ReferralNullableScalarRelationFilter, ReferralWhereInput> | null
     notifications?: NotificationListRelationFilter
     notification_settings?: Notification_settingsListRelationFilter
     organisation?: XOR<OrganisationNullableScalarRelationFilter, OrganisationWhereInput> | null
@@ -27713,6 +28919,7 @@ export namespace Prisma {
     updated_at?: DateTimeFilter<"Invoice"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service_request?: XOR<ServiceRequestNullableScalarRelationFilter, ServiceRequestWhereInput> | null
+    referral?: XOR<ReferralNullableScalarRelationFilter, ReferralWhereInput> | null
   }
 
   export type InvoiceOrderByWithRelationInput = {
@@ -27729,6 +28936,7 @@ export namespace Prisma {
     updated_at?: SortOrder
     user?: UserOrderByWithRelationInput
     service_request?: ServiceRequestOrderByWithRelationInput
+    referral?: ReferralOrderByWithRelationInput
     _relevance?: InvoiceOrderByRelevanceInput
   }
 
@@ -27749,6 +28957,7 @@ export namespace Prisma {
     updated_at?: DateTimeFilter<"Invoice"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     service_request?: XOR<ServiceRequestNullableScalarRelationFilter, ServiceRequestWhereInput> | null
+    referral?: XOR<ReferralNullableScalarRelationFilter, ReferralWhereInput> | null
   }, "id" | "service_request_id" | "payment_reference">
 
   export type InvoiceOrderByWithAggregationInput = {
@@ -27785,6 +28994,83 @@ export namespace Prisma {
     payment_reference?: StringNullableWithAggregatesFilter<"Invoice"> | string | null
     created_at?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
     updated_at?: DateTimeWithAggregatesFilter<"Invoice"> | Date | string
+  }
+
+  export type ReferralWhereInput = {
+    AND?: ReferralWhereInput | ReferralWhereInput[]
+    OR?: ReferralWhereInput[]
+    NOT?: ReferralWhereInput | ReferralWhereInput[]
+    id?: StringFilter<"Referral"> | string
+    referrer_id?: StringFilter<"Referral"> | string
+    referred_email?: StringFilter<"Referral"> | string
+    referred_user_id?: StringNullableFilter<"Referral"> | string | null
+    invoice_id?: StringNullableFilter<"Referral"> | string | null
+    status?: StringFilter<"Referral"> | string
+    created_at?: DateTimeFilter<"Referral"> | Date | string
+    updated_at?: DateTimeFilter<"Referral"> | Date | string
+    referrer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    referred_user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    invoice?: XOR<InvoiceNullableScalarRelationFilter, InvoiceWhereInput> | null
+  }
+
+  export type ReferralOrderByWithRelationInput = {
+    id?: SortOrder
+    referrer_id?: SortOrder
+    referred_email?: SortOrder
+    referred_user_id?: SortOrderInput | SortOrder
+    invoice_id?: SortOrderInput | SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    referrer?: UserOrderByWithRelationInput
+    referred_user?: UserOrderByWithRelationInput
+    invoice?: InvoiceOrderByWithRelationInput
+    _relevance?: ReferralOrderByRelevanceInput
+  }
+
+  export type ReferralWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    referred_user_id?: string
+    invoice_id?: string
+    AND?: ReferralWhereInput | ReferralWhereInput[]
+    OR?: ReferralWhereInput[]
+    NOT?: ReferralWhereInput | ReferralWhereInput[]
+    referrer_id?: StringFilter<"Referral"> | string
+    referred_email?: StringFilter<"Referral"> | string
+    status?: StringFilter<"Referral"> | string
+    created_at?: DateTimeFilter<"Referral"> | Date | string
+    updated_at?: DateTimeFilter<"Referral"> | Date | string
+    referrer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    referred_user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    invoice?: XOR<InvoiceNullableScalarRelationFilter, InvoiceWhereInput> | null
+  }, "id" | "referred_user_id" | "invoice_id">
+
+  export type ReferralOrderByWithAggregationInput = {
+    id?: SortOrder
+    referrer_id?: SortOrder
+    referred_email?: SortOrder
+    referred_user_id?: SortOrderInput | SortOrder
+    invoice_id?: SortOrderInput | SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+    _count?: ReferralCountOrderByAggregateInput
+    _max?: ReferralMaxOrderByAggregateInput
+    _min?: ReferralMinOrderByAggregateInput
+  }
+
+  export type ReferralScalarWhereWithAggregatesInput = {
+    AND?: ReferralScalarWhereWithAggregatesInput | ReferralScalarWhereWithAggregatesInput[]
+    OR?: ReferralScalarWhereWithAggregatesInput[]
+    NOT?: ReferralScalarWhereWithAggregatesInput | ReferralScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Referral"> | string
+    referrer_id?: StringWithAggregatesFilter<"Referral"> | string
+    referred_email?: StringWithAggregatesFilter<"Referral"> | string
+    referred_user_id?: StringNullableWithAggregatesFilter<"Referral"> | string | null
+    invoice_id?: StringNullableWithAggregatesFilter<"Referral"> | string | null
+    status?: StringWithAggregatesFilter<"Referral"> | string
+    created_at?: DateTimeWithAggregatesFilter<"Referral"> | Date | string
+    updated_at?: DateTimeWithAggregatesFilter<"Referral"> | Date | string
   }
 
   export type CaseStudyWhereInput = {
@@ -28932,6 +30218,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
     organisation?: OrganisationCreateNestedOneWithoutUserInput
@@ -28967,6 +30255,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
     organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
@@ -29000,6 +30290,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUpdateOneWithoutUserNestedInput
@@ -29035,6 +30327,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
@@ -29554,6 +30848,7 @@ export namespace Prisma {
     updated_at?: Date | string
     user: UserCreateNestedOneWithoutInvoiceInput
     service_request?: ServiceRequestCreateNestedOneWithoutInvoiceInput
+    referral?: ReferralCreateNestedOneWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateInput = {
@@ -29568,6 +30863,7 @@ export namespace Prisma {
     payment_reference?: string | null
     created_at?: Date | string
     updated_at?: Date | string
+    referral?: ReferralUncheckedCreateNestedOneWithoutInvoiceInput
   }
 
   export type InvoiceUpdateInput = {
@@ -29582,6 +30878,7 @@ export namespace Prisma {
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutInvoiceNestedInput
     service_request?: ServiceRequestUpdateOneWithoutInvoiceNestedInput
+    referral?: ReferralUpdateOneWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateInput = {
@@ -29596,6 +30893,7 @@ export namespace Prisma {
     payment_reference?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    referral?: ReferralUncheckedUpdateOneWithoutInvoiceNestedInput
   }
 
   export type InvoiceCreateManyInput = {
@@ -29634,6 +30932,80 @@ export namespace Prisma {
     paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     payment_method?: NullableStringFieldUpdateOperationsInput | string | null
     payment_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReferralCreateInput = {
+    id?: string
+    referred_email: string
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    referrer: UserCreateNestedOneWithoutSent_referralsInput
+    referred_user?: UserCreateNestedOneWithoutReceived_referralInput
+    invoice?: InvoiceCreateNestedOneWithoutReferralInput
+  }
+
+  export type ReferralUncheckedCreateInput = {
+    id?: string
+    referrer_id: string
+    referred_email: string
+    referred_user_id?: string | null
+    invoice_id?: string | null
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ReferralUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    referred_email?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrer?: UserUpdateOneRequiredWithoutSent_referralsNestedInput
+    referred_user?: UserUpdateOneWithoutReceived_referralNestedInput
+    invoice?: InvoiceUpdateOneWithoutReferralNestedInput
+  }
+
+  export type ReferralUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    referrer_id?: StringFieldUpdateOperationsInput | string
+    referred_email?: StringFieldUpdateOperationsInput | string
+    referred_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReferralCreateManyInput = {
+    id?: string
+    referrer_id: string
+    referred_email: string
+    referred_user_id?: string | null
+    invoice_id?: string | null
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ReferralUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    referred_email?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReferralUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    referrer_id?: StringFieldUpdateOperationsInput | string
+    referred_email?: StringFieldUpdateOperationsInput | string
+    referred_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -30860,6 +32232,17 @@ export namespace Prisma {
     none?: MessageWhereInput
   }
 
+  export type ReferralListRelationFilter = {
+    every?: ReferralWhereInput
+    some?: ReferralWhereInput
+    none?: ReferralWhereInput
+  }
+
+  export type ReferralNullableScalarRelationFilter = {
+    is?: ReferralWhereInput | null
+    isNot?: ReferralWhereInput | null
+  }
+
   export type NotificationListRelationFilter = {
     every?: NotificationWhereInput
     some?: NotificationWhereInput
@@ -30948,6 +32331,10 @@ export namespace Prisma {
   }
 
   export type MessageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ReferralOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -31613,6 +33000,55 @@ export namespace Prisma {
     _max?: NestedDecimalFilter<$PrismaModel>
   }
 
+  export type UserNullableScalarRelationFilter = {
+    is?: UserWhereInput | null
+    isNot?: UserWhereInput | null
+  }
+
+  export type InvoiceNullableScalarRelationFilter = {
+    is?: InvoiceWhereInput | null
+    isNot?: InvoiceWhereInput | null
+  }
+
+  export type ReferralOrderByRelevanceInput = {
+    fields: ReferralOrderByRelevanceFieldEnum | ReferralOrderByRelevanceFieldEnum[]
+    sort: SortOrder
+    search: string
+  }
+
+  export type ReferralCountOrderByAggregateInput = {
+    id?: SortOrder
+    referrer_id?: SortOrder
+    referred_email?: SortOrder
+    referred_user_id?: SortOrder
+    invoice_id?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ReferralMaxOrderByAggregateInput = {
+    id?: SortOrder
+    referrer_id?: SortOrder
+    referred_email?: SortOrder
+    referred_user_id?: SortOrder
+    invoice_id?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
+  export type ReferralMinOrderByAggregateInput = {
+    id?: SortOrder
+    referrer_id?: SortOrder
+    referred_email?: SortOrder
+    referred_user_id?: SortOrder
+    invoice_id?: SortOrder
+    status?: SortOrder
+    created_at?: SortOrder
+    updated_at?: SortOrder
+  }
+
   export type CaseStudyOrderByRelevanceInput = {
     fields: CaseStudyOrderByRelevanceFieldEnum | CaseStudyOrderByRelevanceFieldEnum[]
     sort: SortOrder
@@ -31743,11 +33179,6 @@ export namespace Prisma {
     in?: $Enums.ServiceRequestStatus[]
     notIn?: $Enums.ServiceRequestStatus[]
     not?: NestedEnumServiceRequestStatusFilter<$PrismaModel> | $Enums.ServiceRequestStatus
-  }
-
-  export type InvoiceNullableScalarRelationFilter = {
-    is?: InvoiceWhereInput | null
-    isNot?: InvoiceWhereInput | null
   }
 
   export type MilestoneListRelationFilter = {
@@ -32262,11 +33693,6 @@ export namespace Prisma {
     plan_id?: SortOrder
   }
 
-  export type UserNullableScalarRelationFilter = {
-    is?: UserWhereInput | null
-    isNot?: UserWhereInput | null
-  }
-
   export type UserListRelationFilter = {
     every?: UserWhereInput
     some?: UserWhereInput
@@ -32315,6 +33741,19 @@ export namespace Prisma {
     connectOrCreate?: MessageCreateOrConnectWithoutSenderInput | MessageCreateOrConnectWithoutSenderInput[]
     createMany?: MessageCreateManySenderInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type ReferralCreateNestedManyWithoutReferrerInput = {
+    create?: XOR<ReferralCreateWithoutReferrerInput, ReferralUncheckedCreateWithoutReferrerInput> | ReferralCreateWithoutReferrerInput[] | ReferralUncheckedCreateWithoutReferrerInput[]
+    connectOrCreate?: ReferralCreateOrConnectWithoutReferrerInput | ReferralCreateOrConnectWithoutReferrerInput[]
+    createMany?: ReferralCreateManyReferrerInputEnvelope
+    connect?: ReferralWhereUniqueInput | ReferralWhereUniqueInput[]
+  }
+
+  export type ReferralCreateNestedOneWithoutReferred_userInput = {
+    create?: XOR<ReferralCreateWithoutReferred_userInput, ReferralUncheckedCreateWithoutReferred_userInput>
+    connectOrCreate?: ReferralCreateOrConnectWithoutReferred_userInput
+    connect?: ReferralWhereUniqueInput
   }
 
   export type NotificationCreateNestedManyWithoutUserInput = {
@@ -32418,6 +33857,19 @@ export namespace Prisma {
     connectOrCreate?: MessageCreateOrConnectWithoutSenderInput | MessageCreateOrConnectWithoutSenderInput[]
     createMany?: MessageCreateManySenderInputEnvelope
     connect?: MessageWhereUniqueInput | MessageWhereUniqueInput[]
+  }
+
+  export type ReferralUncheckedCreateNestedManyWithoutReferrerInput = {
+    create?: XOR<ReferralCreateWithoutReferrerInput, ReferralUncheckedCreateWithoutReferrerInput> | ReferralCreateWithoutReferrerInput[] | ReferralUncheckedCreateWithoutReferrerInput[]
+    connectOrCreate?: ReferralCreateOrConnectWithoutReferrerInput | ReferralCreateOrConnectWithoutReferrerInput[]
+    createMany?: ReferralCreateManyReferrerInputEnvelope
+    connect?: ReferralWhereUniqueInput | ReferralWhereUniqueInput[]
+  }
+
+  export type ReferralUncheckedCreateNestedOneWithoutReferred_userInput = {
+    create?: XOR<ReferralCreateWithoutReferred_userInput, ReferralUncheckedCreateWithoutReferred_userInput>
+    connectOrCreate?: ReferralCreateOrConnectWithoutReferred_userInput
+    connect?: ReferralWhereUniqueInput
   }
 
   export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
@@ -32538,6 +33990,30 @@ export namespace Prisma {
     update?: MessageUpdateWithWhereUniqueWithoutSenderInput | MessageUpdateWithWhereUniqueWithoutSenderInput[]
     updateMany?: MessageUpdateManyWithWhereWithoutSenderInput | MessageUpdateManyWithWhereWithoutSenderInput[]
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type ReferralUpdateManyWithoutReferrerNestedInput = {
+    create?: XOR<ReferralCreateWithoutReferrerInput, ReferralUncheckedCreateWithoutReferrerInput> | ReferralCreateWithoutReferrerInput[] | ReferralUncheckedCreateWithoutReferrerInput[]
+    connectOrCreate?: ReferralCreateOrConnectWithoutReferrerInput | ReferralCreateOrConnectWithoutReferrerInput[]
+    upsert?: ReferralUpsertWithWhereUniqueWithoutReferrerInput | ReferralUpsertWithWhereUniqueWithoutReferrerInput[]
+    createMany?: ReferralCreateManyReferrerInputEnvelope
+    set?: ReferralWhereUniqueInput | ReferralWhereUniqueInput[]
+    disconnect?: ReferralWhereUniqueInput | ReferralWhereUniqueInput[]
+    delete?: ReferralWhereUniqueInput | ReferralWhereUniqueInput[]
+    connect?: ReferralWhereUniqueInput | ReferralWhereUniqueInput[]
+    update?: ReferralUpdateWithWhereUniqueWithoutReferrerInput | ReferralUpdateWithWhereUniqueWithoutReferrerInput[]
+    updateMany?: ReferralUpdateManyWithWhereWithoutReferrerInput | ReferralUpdateManyWithWhereWithoutReferrerInput[]
+    deleteMany?: ReferralScalarWhereInput | ReferralScalarWhereInput[]
+  }
+
+  export type ReferralUpdateOneWithoutReferred_userNestedInput = {
+    create?: XOR<ReferralCreateWithoutReferred_userInput, ReferralUncheckedCreateWithoutReferred_userInput>
+    connectOrCreate?: ReferralCreateOrConnectWithoutReferred_userInput
+    upsert?: ReferralUpsertWithoutReferred_userInput
+    disconnect?: ReferralWhereInput | boolean
+    delete?: ReferralWhereInput | boolean
+    connect?: ReferralWhereUniqueInput
+    update?: XOR<XOR<ReferralUpdateToOneWithWhereWithoutReferred_userInput, ReferralUpdateWithoutReferred_userInput>, ReferralUncheckedUpdateWithoutReferred_userInput>
   }
 
   export type NotificationUpdateManyWithoutUserNestedInput = {
@@ -32738,6 +34214,30 @@ export namespace Prisma {
     update?: MessageUpdateWithWhereUniqueWithoutSenderInput | MessageUpdateWithWhereUniqueWithoutSenderInput[]
     updateMany?: MessageUpdateManyWithWhereWithoutSenderInput | MessageUpdateManyWithWhereWithoutSenderInput[]
     deleteMany?: MessageScalarWhereInput | MessageScalarWhereInput[]
+  }
+
+  export type ReferralUncheckedUpdateManyWithoutReferrerNestedInput = {
+    create?: XOR<ReferralCreateWithoutReferrerInput, ReferralUncheckedCreateWithoutReferrerInput> | ReferralCreateWithoutReferrerInput[] | ReferralUncheckedCreateWithoutReferrerInput[]
+    connectOrCreate?: ReferralCreateOrConnectWithoutReferrerInput | ReferralCreateOrConnectWithoutReferrerInput[]
+    upsert?: ReferralUpsertWithWhereUniqueWithoutReferrerInput | ReferralUpsertWithWhereUniqueWithoutReferrerInput[]
+    createMany?: ReferralCreateManyReferrerInputEnvelope
+    set?: ReferralWhereUniqueInput | ReferralWhereUniqueInput[]
+    disconnect?: ReferralWhereUniqueInput | ReferralWhereUniqueInput[]
+    delete?: ReferralWhereUniqueInput | ReferralWhereUniqueInput[]
+    connect?: ReferralWhereUniqueInput | ReferralWhereUniqueInput[]
+    update?: ReferralUpdateWithWhereUniqueWithoutReferrerInput | ReferralUpdateWithWhereUniqueWithoutReferrerInput[]
+    updateMany?: ReferralUpdateManyWithWhereWithoutReferrerInput | ReferralUpdateManyWithWhereWithoutReferrerInput[]
+    deleteMany?: ReferralScalarWhereInput | ReferralScalarWhereInput[]
+  }
+
+  export type ReferralUncheckedUpdateOneWithoutReferred_userNestedInput = {
+    create?: XOR<ReferralCreateWithoutReferred_userInput, ReferralUncheckedCreateWithoutReferred_userInput>
+    connectOrCreate?: ReferralCreateOrConnectWithoutReferred_userInput
+    upsert?: ReferralUpsertWithoutReferred_userInput
+    disconnect?: ReferralWhereInput | boolean
+    delete?: ReferralWhereInput | boolean
+    connect?: ReferralWhereUniqueInput
+    update?: XOR<XOR<ReferralUpdateToOneWithWhereWithoutReferred_userInput, ReferralUpdateWithoutReferred_userInput>, ReferralUncheckedUpdateWithoutReferred_userInput>
   }
 
   export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
@@ -33444,6 +34944,18 @@ export namespace Prisma {
     connect?: ServiceRequestWhereUniqueInput
   }
 
+  export type ReferralCreateNestedOneWithoutInvoiceInput = {
+    create?: XOR<ReferralCreateWithoutInvoiceInput, ReferralUncheckedCreateWithoutInvoiceInput>
+    connectOrCreate?: ReferralCreateOrConnectWithoutInvoiceInput
+    connect?: ReferralWhereUniqueInput
+  }
+
+  export type ReferralUncheckedCreateNestedOneWithoutInvoiceInput = {
+    create?: XOR<ReferralCreateWithoutInvoiceInput, ReferralUncheckedCreateWithoutInvoiceInput>
+    connectOrCreate?: ReferralCreateOrConnectWithoutInvoiceInput
+    connect?: ReferralWhereUniqueInput
+  }
+
   export type DecimalFieldUpdateOperationsInput = {
     set?: Decimal | DecimalJsLike | number | string
     increment?: Decimal | DecimalJsLike | number | string
@@ -33468,6 +34980,72 @@ export namespace Prisma {
     delete?: ServiceRequestWhereInput | boolean
     connect?: ServiceRequestWhereUniqueInput
     update?: XOR<XOR<ServiceRequestUpdateToOneWithWhereWithoutInvoiceInput, ServiceRequestUpdateWithoutInvoiceInput>, ServiceRequestUncheckedUpdateWithoutInvoiceInput>
+  }
+
+  export type ReferralUpdateOneWithoutInvoiceNestedInput = {
+    create?: XOR<ReferralCreateWithoutInvoiceInput, ReferralUncheckedCreateWithoutInvoiceInput>
+    connectOrCreate?: ReferralCreateOrConnectWithoutInvoiceInput
+    upsert?: ReferralUpsertWithoutInvoiceInput
+    disconnect?: ReferralWhereInput | boolean
+    delete?: ReferralWhereInput | boolean
+    connect?: ReferralWhereUniqueInput
+    update?: XOR<XOR<ReferralUpdateToOneWithWhereWithoutInvoiceInput, ReferralUpdateWithoutInvoiceInput>, ReferralUncheckedUpdateWithoutInvoiceInput>
+  }
+
+  export type ReferralUncheckedUpdateOneWithoutInvoiceNestedInput = {
+    create?: XOR<ReferralCreateWithoutInvoiceInput, ReferralUncheckedCreateWithoutInvoiceInput>
+    connectOrCreate?: ReferralCreateOrConnectWithoutInvoiceInput
+    upsert?: ReferralUpsertWithoutInvoiceInput
+    disconnect?: ReferralWhereInput | boolean
+    delete?: ReferralWhereInput | boolean
+    connect?: ReferralWhereUniqueInput
+    update?: XOR<XOR<ReferralUpdateToOneWithWhereWithoutInvoiceInput, ReferralUpdateWithoutInvoiceInput>, ReferralUncheckedUpdateWithoutInvoiceInput>
+  }
+
+  export type UserCreateNestedOneWithoutSent_referralsInput = {
+    create?: XOR<UserCreateWithoutSent_referralsInput, UserUncheckedCreateWithoutSent_referralsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSent_referralsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutReceived_referralInput = {
+    create?: XOR<UserCreateWithoutReceived_referralInput, UserUncheckedCreateWithoutReceived_referralInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReceived_referralInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type InvoiceCreateNestedOneWithoutReferralInput = {
+    create?: XOR<InvoiceCreateWithoutReferralInput, InvoiceUncheckedCreateWithoutReferralInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutReferralInput
+    connect?: InvoiceWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutSent_referralsNestedInput = {
+    create?: XOR<UserCreateWithoutSent_referralsInput, UserUncheckedCreateWithoutSent_referralsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSent_referralsInput
+    upsert?: UserUpsertWithoutSent_referralsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSent_referralsInput, UserUpdateWithoutSent_referralsInput>, UserUncheckedUpdateWithoutSent_referralsInput>
+  }
+
+  export type UserUpdateOneWithoutReceived_referralNestedInput = {
+    create?: XOR<UserCreateWithoutReceived_referralInput, UserUncheckedCreateWithoutReceived_referralInput>
+    connectOrCreate?: UserCreateOrConnectWithoutReceived_referralInput
+    upsert?: UserUpsertWithoutReceived_referralInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutReceived_referralInput, UserUpdateWithoutReceived_referralInput>, UserUncheckedUpdateWithoutReceived_referralInput>
+  }
+
+  export type InvoiceUpdateOneWithoutReferralNestedInput = {
+    create?: XOR<InvoiceCreateWithoutReferralInput, InvoiceUncheckedCreateWithoutReferralInput>
+    connectOrCreate?: InvoiceCreateOrConnectWithoutReferralInput
+    upsert?: InvoiceUpsertWithoutReferralInput
+    disconnect?: InvoiceWhereInput | boolean
+    delete?: InvoiceWhereInput | boolean
+    connect?: InvoiceWhereUniqueInput
+    update?: XOR<XOR<InvoiceUpdateToOneWithWhereWithoutReferralInput, InvoiceUpdateWithoutReferralInput>, InvoiceUncheckedUpdateWithoutReferralInput>
   }
 
   export type ServiceCreateNestedOneWithoutCaseStudiesInput = {
@@ -34388,6 +35966,61 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ReferralCreateWithoutReferrerInput = {
+    id?: string
+    referred_email: string
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    referred_user?: UserCreateNestedOneWithoutReceived_referralInput
+    invoice?: InvoiceCreateNestedOneWithoutReferralInput
+  }
+
+  export type ReferralUncheckedCreateWithoutReferrerInput = {
+    id?: string
+    referred_email: string
+    referred_user_id?: string | null
+    invoice_id?: string | null
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ReferralCreateOrConnectWithoutReferrerInput = {
+    where: ReferralWhereUniqueInput
+    create: XOR<ReferralCreateWithoutReferrerInput, ReferralUncheckedCreateWithoutReferrerInput>
+  }
+
+  export type ReferralCreateManyReferrerInputEnvelope = {
+    data: ReferralCreateManyReferrerInput | ReferralCreateManyReferrerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ReferralCreateWithoutReferred_userInput = {
+    id?: string
+    referred_email: string
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    referrer: UserCreateNestedOneWithoutSent_referralsInput
+    invoice?: InvoiceCreateNestedOneWithoutReferralInput
+  }
+
+  export type ReferralUncheckedCreateWithoutReferred_userInput = {
+    id?: string
+    referrer_id: string
+    referred_email: string
+    invoice_id?: string | null
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ReferralCreateOrConnectWithoutReferred_userInput = {
+    where: ReferralWhereUniqueInput
+    create: XOR<ReferralCreateWithoutReferred_userInput, ReferralUncheckedCreateWithoutReferred_userInput>
+  }
+
   export type NotificationCreateWithoutUserInput = {
     id?: string
     activity: string
@@ -34799,6 +36432,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     service_request?: ServiceRequestCreateNestedOneWithoutInvoiceInput
+    referral?: ReferralCreateNestedOneWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateWithoutUserInput = {
@@ -34812,6 +36446,7 @@ export namespace Prisma {
     payment_reference?: string | null
     created_at?: Date | string
     updated_at?: Date | string
+    referral?: ReferralUncheckedCreateNestedOneWithoutInvoiceInput
   }
 
   export type InvoiceCreateOrConnectWithoutUserInput = {
@@ -34849,6 +36484,67 @@ export namespace Prisma {
     sender_id?: StringFilter<"Message"> | string
     text?: StringFilter<"Message"> | string
     created_at?: DateTimeFilter<"Message"> | Date | string
+  }
+
+  export type ReferralUpsertWithWhereUniqueWithoutReferrerInput = {
+    where: ReferralWhereUniqueInput
+    update: XOR<ReferralUpdateWithoutReferrerInput, ReferralUncheckedUpdateWithoutReferrerInput>
+    create: XOR<ReferralCreateWithoutReferrerInput, ReferralUncheckedCreateWithoutReferrerInput>
+  }
+
+  export type ReferralUpdateWithWhereUniqueWithoutReferrerInput = {
+    where: ReferralWhereUniqueInput
+    data: XOR<ReferralUpdateWithoutReferrerInput, ReferralUncheckedUpdateWithoutReferrerInput>
+  }
+
+  export type ReferralUpdateManyWithWhereWithoutReferrerInput = {
+    where: ReferralScalarWhereInput
+    data: XOR<ReferralUpdateManyMutationInput, ReferralUncheckedUpdateManyWithoutReferrerInput>
+  }
+
+  export type ReferralScalarWhereInput = {
+    AND?: ReferralScalarWhereInput | ReferralScalarWhereInput[]
+    OR?: ReferralScalarWhereInput[]
+    NOT?: ReferralScalarWhereInput | ReferralScalarWhereInput[]
+    id?: StringFilter<"Referral"> | string
+    referrer_id?: StringFilter<"Referral"> | string
+    referred_email?: StringFilter<"Referral"> | string
+    referred_user_id?: StringNullableFilter<"Referral"> | string | null
+    invoice_id?: StringNullableFilter<"Referral"> | string | null
+    status?: StringFilter<"Referral"> | string
+    created_at?: DateTimeFilter<"Referral"> | Date | string
+    updated_at?: DateTimeFilter<"Referral"> | Date | string
+  }
+
+  export type ReferralUpsertWithoutReferred_userInput = {
+    update: XOR<ReferralUpdateWithoutReferred_userInput, ReferralUncheckedUpdateWithoutReferred_userInput>
+    create: XOR<ReferralCreateWithoutReferred_userInput, ReferralUncheckedCreateWithoutReferred_userInput>
+    where?: ReferralWhereInput
+  }
+
+  export type ReferralUpdateToOneWithWhereWithoutReferred_userInput = {
+    where?: ReferralWhereInput
+    data: XOR<ReferralUpdateWithoutReferred_userInput, ReferralUncheckedUpdateWithoutReferred_userInput>
+  }
+
+  export type ReferralUpdateWithoutReferred_userInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    referred_email?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrer?: UserUpdateOneRequiredWithoutSent_referralsNestedInput
+    invoice?: InvoiceUpdateOneWithoutReferralNestedInput
+  }
+
+  export type ReferralUncheckedUpdateWithoutReferred_userInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    referrer_id?: StringFieldUpdateOperationsInput | string
+    referred_email?: StringFieldUpdateOperationsInput | string
+    invoice_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
@@ -35369,6 +37065,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
     otps?: OtpCreateNestedManyWithoutUserInput
@@ -35403,6 +37101,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
     otps?: OtpUncheckedCreateNestedManyWithoutUserInput
@@ -35514,6 +37214,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
     otps?: OtpUpdateManyWithoutUserNestedInput
@@ -35548,6 +37250,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
     otps?: OtpUncheckedUpdateManyWithoutUserNestedInput
@@ -35750,6 +37454,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
     organisation?: OrganisationCreateNestedOneWithoutUserInput
@@ -35784,6 +37490,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
     organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
@@ -35957,6 +37665,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUpdateOneWithoutUserNestedInput
@@ -35991,6 +37701,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
@@ -36444,6 +38156,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
     organisation?: OrganisationCreateNestedOneWithoutUserInput
@@ -36478,6 +38192,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
     organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
@@ -36534,6 +38250,31 @@ export namespace Prisma {
     create: XOR<ServiceRequestCreateWithoutInvoiceInput, ServiceRequestUncheckedCreateWithoutInvoiceInput>
   }
 
+  export type ReferralCreateWithoutInvoiceInput = {
+    id?: string
+    referred_email: string
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+    referrer: UserCreateNestedOneWithoutSent_referralsInput
+    referred_user?: UserCreateNestedOneWithoutReceived_referralInput
+  }
+
+  export type ReferralUncheckedCreateWithoutInvoiceInput = {
+    id?: string
+    referrer_id: string
+    referred_email: string
+    referred_user_id?: string | null
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type ReferralCreateOrConnectWithoutInvoiceInput = {
+    where: ReferralWhereUniqueInput
+    create: XOR<ReferralCreateWithoutInvoiceInput, ReferralUncheckedCreateWithoutInvoiceInput>
+  }
+
   export type UserUpsertWithoutInvoiceInput = {
     update: XOR<UserUpdateWithoutInvoiceInput, UserUncheckedUpdateWithoutInvoiceInput>
     create: XOR<UserCreateWithoutInvoiceInput, UserUncheckedCreateWithoutInvoiceInput>
@@ -36563,6 +38304,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUpdateOneWithoutUserNestedInput
@@ -36597,6 +38340,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
@@ -36652,6 +38397,421 @@ export namespace Prisma {
     planId?: NullableStringFieldUpdateOperationsInput | string | null
     milestones?: MilestoneUncheckedUpdateManyWithoutService_requestNestedInput
     conversation?: ConversationUncheckedUpdateOneWithoutService_requestNestedInput
+  }
+
+  export type ReferralUpsertWithoutInvoiceInput = {
+    update: XOR<ReferralUpdateWithoutInvoiceInput, ReferralUncheckedUpdateWithoutInvoiceInput>
+    create: XOR<ReferralCreateWithoutInvoiceInput, ReferralUncheckedCreateWithoutInvoiceInput>
+    where?: ReferralWhereInput
+  }
+
+  export type ReferralUpdateToOneWithWhereWithoutInvoiceInput = {
+    where?: ReferralWhereInput
+    data: XOR<ReferralUpdateWithoutInvoiceInput, ReferralUncheckedUpdateWithoutInvoiceInput>
+  }
+
+  export type ReferralUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    referred_email?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    referrer?: UserUpdateOneRequiredWithoutSent_referralsNestedInput
+    referred_user?: UserUpdateOneWithoutReceived_referralNestedInput
+  }
+
+  export type ReferralUncheckedUpdateWithoutInvoiceInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    referrer_id?: StringFieldUpdateOperationsInput | string
+    referred_email?: StringFieldUpdateOperationsInput | string
+    referred_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UserCreateWithoutSent_referralsInput = {
+    id?: string
+    name: string
+    email: string
+    tel: string
+    country: string
+    city?: string | null
+    address: string
+    category: string
+    pfp_url?: string | null
+    id_url?: NullableJsonNullValueInput | InputJsonValue
+    business_status?: boolean | null
+    registered_with_a_business?: boolean | null
+    password: string
+    status?: string
+    created_at?: Date | string | null
+    deleted_at?: Date | string | null
+    messages?: MessageCreateNestedManyWithoutSenderInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
+    organisation?: OrganisationCreateNestedOneWithoutUserInput
+    otps?: OtpCreateNestedManyWithoutUserInput
+    password_tokens?: Password_tokenCreateNestedManyWithoutUserInput
+    privacy_settings?: Privacy_settingsCreateNestedManyWithoutUserInput
+    created_roles?: RoleCreateNestedManyWithoutCreatorInput
+    services?: ServiceCreateNestedManyWithoutUserInput
+    service_requests?: ServiceRequestCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    testimonials?: TestimonialCreateNestedManyWithoutUserInput
+    plan_types?: Plan_typeCreateNestedManyWithoutUserInput
+    role: RoleCreateNestedOneWithoutUsersInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutSent_referralsInput = {
+    id?: string
+    name: string
+    email: string
+    tel: string
+    country: string
+    city?: string | null
+    address: string
+    category: string
+    pfp_url?: string | null
+    id_url?: NullableJsonNullValueInput | InputJsonValue
+    business_status?: boolean | null
+    registered_with_a_business?: boolean | null
+    password: string
+    status?: string
+    role_id: string
+    created_at?: Date | string | null
+    deleted_at?: Date | string | null
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
+    organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
+    otps?: OtpUncheckedCreateNestedManyWithoutUserInput
+    password_tokens?: Password_tokenUncheckedCreateNestedManyWithoutUserInput
+    privacy_settings?: Privacy_settingsUncheckedCreateNestedManyWithoutUserInput
+    created_roles?: RoleUncheckedCreateNestedManyWithoutCreatorInput
+    services?: ServiceUncheckedCreateNestedManyWithoutUserInput
+    service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
+    plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutSent_referralsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSent_referralsInput, UserUncheckedCreateWithoutSent_referralsInput>
+  }
+
+  export type UserCreateWithoutReceived_referralInput = {
+    id?: string
+    name: string
+    email: string
+    tel: string
+    country: string
+    city?: string | null
+    address: string
+    category: string
+    pfp_url?: string | null
+    id_url?: NullableJsonNullValueInput | InputJsonValue
+    business_status?: boolean | null
+    registered_with_a_business?: boolean | null
+    password: string
+    status?: string
+    created_at?: Date | string | null
+    deleted_at?: Date | string | null
+    messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
+    organisation?: OrganisationCreateNestedOneWithoutUserInput
+    otps?: OtpCreateNestedManyWithoutUserInput
+    password_tokens?: Password_tokenCreateNestedManyWithoutUserInput
+    privacy_settings?: Privacy_settingsCreateNestedManyWithoutUserInput
+    created_roles?: RoleCreateNestedManyWithoutCreatorInput
+    services?: ServiceCreateNestedManyWithoutUserInput
+    service_requests?: ServiceRequestCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionCreateNestedManyWithoutUserInput
+    testimonials?: TestimonialCreateNestedManyWithoutUserInput
+    plan_types?: Plan_typeCreateNestedManyWithoutUserInput
+    role: RoleCreateNestedOneWithoutUsersInput
+    Invoice?: InvoiceCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutReceived_referralInput = {
+    id?: string
+    name: string
+    email: string
+    tel: string
+    country: string
+    city?: string | null
+    address: string
+    category: string
+    pfp_url?: string | null
+    id_url?: NullableJsonNullValueInput | InputJsonValue
+    business_status?: boolean | null
+    registered_with_a_business?: boolean | null
+    password: string
+    status?: string
+    role_id: string
+    created_at?: Date | string | null
+    deleted_at?: Date | string | null
+    messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
+    organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
+    otps?: OtpUncheckedCreateNestedManyWithoutUserInput
+    password_tokens?: Password_tokenUncheckedCreateNestedManyWithoutUserInput
+    privacy_settings?: Privacy_settingsUncheckedCreateNestedManyWithoutUserInput
+    created_roles?: RoleUncheckedCreateNestedManyWithoutCreatorInput
+    services?: ServiceUncheckedCreateNestedManyWithoutUserInput
+    service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutUserInput
+    subscriptions?: SubscriptionUncheckedCreateNestedManyWithoutUserInput
+    testimonials?: TestimonialUncheckedCreateNestedManyWithoutUserInput
+    plan_types?: Plan_typeUncheckedCreateNestedManyWithoutUserInput
+    Invoice?: InvoiceUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutReceived_referralInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutReceived_referralInput, UserUncheckedCreateWithoutReceived_referralInput>
+  }
+
+  export type InvoiceCreateWithoutReferralInput = {
+    id?: string
+    amount: Decimal | DecimalJsLike | number | string
+    status: string
+    due_date: Date | string
+    paid_at?: Date | string | null
+    payment_method?: string | null
+    payment_reference?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+    user: UserCreateNestedOneWithoutInvoiceInput
+    service_request?: ServiceRequestCreateNestedOneWithoutInvoiceInput
+  }
+
+  export type InvoiceUncheckedCreateWithoutReferralInput = {
+    id?: string
+    user_id: string
+    service_request_id?: string | null
+    amount: Decimal | DecimalJsLike | number | string
+    status: string
+    due_date: Date | string
+    paid_at?: Date | string | null
+    payment_method?: string | null
+    payment_reference?: string | null
+    created_at?: Date | string
+    updated_at?: Date | string
+  }
+
+  export type InvoiceCreateOrConnectWithoutReferralInput = {
+    where: InvoiceWhereUniqueInput
+    create: XOR<InvoiceCreateWithoutReferralInput, InvoiceUncheckedCreateWithoutReferralInput>
+  }
+
+  export type UserUpsertWithoutSent_referralsInput = {
+    update: XOR<UserUpdateWithoutSent_referralsInput, UserUncheckedUpdateWithoutSent_referralsInput>
+    create: XOR<UserCreateWithoutSent_referralsInput, UserUncheckedCreateWithoutSent_referralsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSent_referralsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSent_referralsInput, UserUncheckedUpdateWithoutSent_referralsInput>
+  }
+
+  export type UserUpdateWithoutSent_referralsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    tel?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
+    id_url?: NullableJsonNullValueInput | InputJsonValue
+    business_status?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    registered_with_a_business?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    messages?: MessageUpdateManyWithoutSenderNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
+    organisation?: OrganisationUpdateOneWithoutUserNestedInput
+    otps?: OtpUpdateManyWithoutUserNestedInput
+    password_tokens?: Password_tokenUpdateManyWithoutUserNestedInput
+    privacy_settings?: Privacy_settingsUpdateManyWithoutUserNestedInput
+    created_roles?: RoleUpdateManyWithoutCreatorNestedInput
+    services?: ServiceUpdateManyWithoutUserNestedInput
+    service_requests?: ServiceRequestUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    testimonials?: TestimonialUpdateManyWithoutUserNestedInput
+    plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
+    role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSent_referralsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    tel?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
+    id_url?: NullableJsonNullValueInput | InputJsonValue
+    business_status?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    registered_with_a_business?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    role_id?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
+    organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
+    otps?: OtpUncheckedUpdateManyWithoutUserNestedInput
+    password_tokens?: Password_tokenUncheckedUpdateManyWithoutUserNestedInput
+    privacy_settings?: Privacy_settingsUncheckedUpdateManyWithoutUserNestedInput
+    created_roles?: RoleUncheckedUpdateManyWithoutCreatorNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutUserNestedInput
+    service_requests?: ServiceRequestUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
+    plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithoutReceived_referralInput = {
+    update: XOR<UserUpdateWithoutReceived_referralInput, UserUncheckedUpdateWithoutReceived_referralInput>
+    create: XOR<UserCreateWithoutReceived_referralInput, UserUncheckedCreateWithoutReceived_referralInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutReceived_referralInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutReceived_referralInput, UserUncheckedUpdateWithoutReceived_referralInput>
+  }
+
+  export type UserUpdateWithoutReceived_referralInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    tel?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
+    id_url?: NullableJsonNullValueInput | InputJsonValue
+    business_status?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    registered_with_a_business?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
+    organisation?: OrganisationUpdateOneWithoutUserNestedInput
+    otps?: OtpUpdateManyWithoutUserNestedInput
+    password_tokens?: Password_tokenUpdateManyWithoutUserNestedInput
+    privacy_settings?: Privacy_settingsUpdateManyWithoutUserNestedInput
+    created_roles?: RoleUpdateManyWithoutCreatorNestedInput
+    services?: ServiceUpdateManyWithoutUserNestedInput
+    service_requests?: ServiceRequestUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUpdateManyWithoutUserNestedInput
+    testimonials?: TestimonialUpdateManyWithoutUserNestedInput
+    plan_types?: Plan_typeUpdateManyWithoutUserNestedInput
+    role?: RoleUpdateOneRequiredWithoutUsersNestedInput
+    Invoice?: InvoiceUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutReceived_referralInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    tel?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    city?: NullableStringFieldUpdateOperationsInput | string | null
+    address?: StringFieldUpdateOperationsInput | string
+    category?: StringFieldUpdateOperationsInput | string
+    pfp_url?: NullableStringFieldUpdateOperationsInput | string | null
+    id_url?: NullableJsonNullValueInput | InputJsonValue
+    business_status?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    registered_with_a_business?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    password?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    role_id?: StringFieldUpdateOperationsInput | string
+    created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
+    organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
+    otps?: OtpUncheckedUpdateManyWithoutUserNestedInput
+    password_tokens?: Password_tokenUncheckedUpdateManyWithoutUserNestedInput
+    privacy_settings?: Privacy_settingsUncheckedUpdateManyWithoutUserNestedInput
+    created_roles?: RoleUncheckedUpdateManyWithoutCreatorNestedInput
+    services?: ServiceUncheckedUpdateManyWithoutUserNestedInput
+    service_requests?: ServiceRequestUncheckedUpdateManyWithoutUserNestedInput
+    subscriptions?: SubscriptionUncheckedUpdateManyWithoutUserNestedInput
+    testimonials?: TestimonialUncheckedUpdateManyWithoutUserNestedInput
+    plan_types?: Plan_typeUncheckedUpdateManyWithoutUserNestedInput
+    Invoice?: InvoiceUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type InvoiceUpsertWithoutReferralInput = {
+    update: XOR<InvoiceUpdateWithoutReferralInput, InvoiceUncheckedUpdateWithoutReferralInput>
+    create: XOR<InvoiceCreateWithoutReferralInput, InvoiceUncheckedCreateWithoutReferralInput>
+    where?: InvoiceWhereInput
+  }
+
+  export type InvoiceUpdateToOneWithWhereWithoutReferralInput = {
+    where?: InvoiceWhereInput
+    data: XOR<InvoiceUpdateWithoutReferralInput, InvoiceUncheckedUpdateWithoutReferralInput>
+  }
+
+  export type InvoiceUpdateWithoutReferralInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    due_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutInvoiceNestedInput
+    service_request?: ServiceRequestUpdateOneWithoutInvoiceNestedInput
+  }
+
+  export type InvoiceUncheckedUpdateWithoutReferralInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    user_id?: StringFieldUpdateOperationsInput | string
+    service_request_id?: NullableStringFieldUpdateOperationsInput | string | null
+    amount?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    status?: StringFieldUpdateOperationsInput | string
+    due_date?: DateTimeFieldUpdateOperationsInput | Date | string
+    paid_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    payment_method?: NullableStringFieldUpdateOperationsInput | string | null
+    payment_reference?: NullableStringFieldUpdateOperationsInput | string | null
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ServiceCreateWithoutCaseStudiesInput = {
@@ -36919,6 +39079,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
     organisation?: OrganisationCreateNestedOneWithoutUserInput
@@ -36953,6 +39115,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
     organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
@@ -37054,6 +39218,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUpdateOneWithoutUserNestedInput
@@ -37088,6 +39254,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
@@ -37220,6 +39388,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
     organisation?: OrganisationCreateNestedOneWithoutUserInput
@@ -37254,6 +39424,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
     organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
@@ -37331,6 +39503,7 @@ export namespace Prisma {
     created_at?: Date | string
     updated_at?: Date | string
     user: UserCreateNestedOneWithoutInvoiceInput
+    referral?: ReferralCreateNestedOneWithoutInvoiceInput
   }
 
   export type InvoiceUncheckedCreateWithoutService_requestInput = {
@@ -37344,6 +39517,7 @@ export namespace Prisma {
     payment_reference?: string | null
     created_at?: Date | string
     updated_at?: Date | string
+    referral?: ReferralUncheckedCreateNestedOneWithoutInvoiceInput
   }
 
   export type InvoiceCreateOrConnectWithoutService_requestInput = {
@@ -37468,6 +39642,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUpdateOneWithoutUserNestedInput
@@ -37502,6 +39678,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
@@ -37591,6 +39769,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutInvoiceNestedInput
+    referral?: ReferralUpdateOneWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutService_requestInput = {
@@ -37604,6 +39783,7 @@ export namespace Prisma {
     payment_reference?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    referral?: ReferralUncheckedUpdateOneWithoutInvoiceNestedInput
   }
 
   export type MilestoneUpsertWithWhereUniqueWithoutService_requestInput = {
@@ -37901,6 +40081,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
     organisation?: OrganisationCreateNestedOneWithoutUserInput
@@ -37935,6 +40117,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
     organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
@@ -37983,6 +40167,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUpdateOneWithoutUserNestedInput
@@ -38017,6 +40203,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
@@ -38187,6 +40375,8 @@ export namespace Prisma {
     status?: string
     created_at?: Date | string | null
     deleted_at?: Date | string | null
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
     organisation?: OrganisationCreateNestedOneWithoutUserInput
@@ -38221,6 +40411,8 @@ export namespace Prisma {
     role_id: string
     created_at?: Date | string | null
     deleted_at?: Date | string | null
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
     organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
@@ -38294,6 +40486,8 @@ export namespace Prisma {
     status?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUpdateOneWithoutUserNestedInput
@@ -38328,6 +40522,8 @@ export namespace Prisma {
     role_id?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
@@ -38361,6 +40557,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
     organisation?: OrganisationCreateNestedOneWithoutUserInput
@@ -38395,6 +40593,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
     organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
@@ -38443,6 +40643,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUpdateOneWithoutUserNestedInput
@@ -38477,6 +40679,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
@@ -38509,6 +40713,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
     organisation?: OrganisationCreateNestedOneWithoutUserInput
     otps?: OtpCreateNestedManyWithoutUserInput
@@ -38543,6 +40749,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
     organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
     otps?: OtpUncheckedCreateNestedManyWithoutUserInput
@@ -38591,6 +40799,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUpdateOneWithoutUserNestedInput
     otps?: OtpUpdateManyWithoutUserNestedInput
@@ -38625,6 +40835,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
     otps?: OtpUncheckedUpdateManyWithoutUserNestedInput
@@ -38657,6 +40869,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
     organisation?: OrganisationCreateNestedOneWithoutUserInput
@@ -38691,6 +40905,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
     organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
@@ -38739,6 +40955,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUpdateOneWithoutUserNestedInput
@@ -38773,6 +40991,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
@@ -38805,6 +41025,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     organisation?: OrganisationCreateNestedOneWithoutUserInput
     otps?: OtpCreateNestedManyWithoutUserInput
@@ -38839,6 +41061,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
     otps?: OtpUncheckedCreateNestedManyWithoutUserInput
@@ -38887,6 +41111,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUpdateOneWithoutUserNestedInput
     otps?: OtpUpdateManyWithoutUserNestedInput
@@ -38921,6 +41147,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
     otps?: OtpUncheckedUpdateManyWithoutUserNestedInput
@@ -38953,6 +41181,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
     organisation?: OrganisationCreateNestedOneWithoutUserInput
@@ -38987,6 +41217,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
     organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
@@ -39073,6 +41305,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUpdateOneWithoutUserNestedInput
@@ -39107,6 +41341,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
@@ -39242,6 +41478,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
     organisation?: OrganisationCreateNestedOneWithoutUserInput
@@ -39276,6 +41514,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
     organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
@@ -39363,6 +41603,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUpdateOneWithoutUserNestedInput
@@ -39397,6 +41639,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
@@ -39429,6 +41673,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
     organisation?: OrganisationCreateNestedOneWithoutUserInput
@@ -39463,6 +41709,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
     organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
@@ -39500,6 +41748,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsCreateNestedManyWithoutUserInput
     organisation?: OrganisationCreateNestedOneWithoutUserInput
@@ -39533,6 +41783,8 @@ export namespace Prisma {
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     messages?: MessageUncheckedCreateNestedManyWithoutSenderInput
+    sent_referrals?: ReferralUncheckedCreateNestedManyWithoutReferrerInput
+    received_referral?: ReferralUncheckedCreateNestedOneWithoutReferred_userInput
     notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     notification_settings?: Notification_settingsUncheckedCreateNestedManyWithoutUserInput
     organisation?: OrganisationUncheckedCreateNestedOneWithoutUserInput
@@ -39587,6 +41839,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUpdateOneWithoutUserNestedInput
@@ -39621,6 +41875,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput
@@ -39679,6 +41935,16 @@ export namespace Prisma {
     conversation_id: string
     text: string
     created_at?: Date | string
+  }
+
+  export type ReferralCreateManyReferrerInput = {
+    id?: string
+    referred_email: string
+    referred_user_id?: string | null
+    invoice_id?: string | null
+    status?: string
+    created_at?: Date | string
+    updated_at?: Date | string
   }
 
   export type NotificationCreateManyUserInput = {
@@ -39812,6 +42078,36 @@ export namespace Prisma {
     conversation_id?: StringFieldUpdateOperationsInput | string
     text?: StringFieldUpdateOperationsInput | string
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReferralUpdateWithoutReferrerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    referred_email?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    referred_user?: UserUpdateOneWithoutReceived_referralNestedInput
+    invoice?: InvoiceUpdateOneWithoutReferralNestedInput
+  }
+
+  export type ReferralUncheckedUpdateWithoutReferrerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    referred_email?: StringFieldUpdateOperationsInput | string
+    referred_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ReferralUncheckedUpdateManyWithoutReferrerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    referred_email?: StringFieldUpdateOperationsInput | string
+    referred_user_id?: NullableStringFieldUpdateOperationsInput | string | null
+    invoice_id?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: StringFieldUpdateOperationsInput | string
+    created_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NotificationUpdateWithoutUserInput = {
@@ -40144,6 +42440,7 @@ export namespace Prisma {
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
     service_request?: ServiceRequestUpdateOneWithoutInvoiceNestedInput
+    referral?: ReferralUpdateOneWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateWithoutUserInput = {
@@ -40157,6 +42454,7 @@ export namespace Prisma {
     payment_reference?: NullableStringFieldUpdateOperationsInput | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
     updated_at?: DateTimeFieldUpdateOperationsInput | Date | string
+    referral?: ReferralUncheckedUpdateOneWithoutInvoiceNestedInput
   }
 
   export type InvoiceUncheckedUpdateManyWithoutUserInput = {
@@ -40805,6 +43103,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUpdateOneWithoutUserNestedInput
@@ -40838,6 +43138,8 @@ export namespace Prisma {
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     messages?: MessageUncheckedUpdateManyWithoutSenderNestedInput
+    sent_referrals?: ReferralUncheckedUpdateManyWithoutReferrerNestedInput
+    received_referral?: ReferralUncheckedUpdateOneWithoutReferred_userNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     notification_settings?: Notification_settingsUncheckedUpdateManyWithoutUserNestedInput
     organisation?: OrganisationUncheckedUpdateOneWithoutUserNestedInput

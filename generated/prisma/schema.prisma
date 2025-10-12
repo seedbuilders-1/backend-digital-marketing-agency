@@ -11,24 +11,26 @@ datasource db {
 
 // Renamed to PascalCase for consistency
 model User {
-  id                         String    @id @default(uuid()) @db.Char(36)
-  name                       String    @db.VarChar(100)
-  email                      String    @unique(map: "email") @db.VarChar(255)
-  tel                        String    @unique(map: "tel") @db.VarChar(20)
-  country                    String    @db.VarChar(64)
-  city                       String?   @db.VarChar(64)
-  address                    String    @db.Text
-  category                   String    @db.VarChar(15)
-  pfp_url                    String?   @db.Text
+  id                         String     @id @default(uuid()) @db.Char(36)
+  name                       String     @db.VarChar(100)
+  email                      String     @unique(map: "email") @db.VarChar(255)
+  tel                        String     @unique(map: "tel") @db.VarChar(20)
+  country                    String     @db.VarChar(64)
+  city                       String?    @db.VarChar(64)
+  address                    String     @db.Text
+  category                   String     @db.VarChar(15)
+  pfp_url                    String?    @db.Text
   id_url                     Json?
   business_status            Boolean?
   registered_with_a_business Boolean?
-  password                   String    @db.Text
-  status                     String    @default("unverified") @db.VarChar(10)
-  role_id                    String    @db.Char(36)
-  created_at                 DateTime? @default(now()) @db.Timestamp(0)
-  deleted_at                 DateTime? @db.Timestamp(0)
+  password                   String     @db.Text
+  status                     String     @default("unverified") @db.VarChar(10)
+  role_id                    String     @db.Char(36)
+  created_at                 DateTime?  @default(now()) @db.Timestamp(0)
+  deleted_at                 DateTime?  @db.Timestamp(0)
   messages                   Message[]
+  sent_referrals             Referral[] @relation("Referrer")
+  received_referral          Referral?  @relation("Referred")
 
   // Corrected relations
   notifications         Notification[]
@@ -143,8 +145,34 @@ model Invoice {
   paid_at            DateTime?
   payment_method     String? // e.g., "Paystack", "Stripe"
   payment_reference  String?         @unique
+  referral           Referral?
   created_at         DateTime        @default(now())
   updated_at         DateTime        @updatedAt
+}
+
+model Referral {
+  id String @id @default(uuid())
+
+  // Who sent the referral?
+  referrer_id String // The ID of the existing user who sent the invite
+  referrer    User   @relation("Referrer", fields: [referrer_id], references: [id])
+
+  // Who received the referral?
+  referred_email String // The email of the person who was invited
+
+  // If the referred person signs up, this will be their user ID
+  referred_user_id String? @unique // The new user who signed up
+  referred_user    User?   @relation("Referred", fields: [referred_user_id], references: [id])
+
+  // Which invoice was this referral applied to?
+  invoice_id String?  @unique // The ID of the discounted invoice
+  invoice    Invoice? @relation(fields: [invoice_id], references: [id])
+
+  // Status of the referral
+  status String @default("PENDING") // e.g., PENDING, COMPLETED, EXPIRED
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 model CaseStudy {

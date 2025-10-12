@@ -77,6 +77,83 @@ exports.initializeServiceRequest = async (req, res) => {
   }
 };
 
+const prepareRequestData = async (req) => {
+  const { serviceId, selectedPlan, formData, startDate, endDate } = JSON.parse(
+    req.body.jsonData
+  );
+  const files = req.files || [];
+
+  // Validate incoming data
+  if (!serviceId || !selectedPlan || !formData || !startDate || !endDate) {
+    throw new Error(
+      "Missing required data. 'serviceId', 'selectedPlan', 'formData', 'startDate', and 'endDate' are required."
+    );
+  }
+
+  // Upload any files to Cloudinary and get their URLs
+  const uploadPromises = files.map((file) =>
+    uploadToCloudinary(file.buffer, `service-requests/${serviceId}`)
+  );
+  const uploadResults = await Promise.all(uploadPromises);
+  const fileUrlMap = uploadResults.reduce((map, result, index) => {
+    map[files[index].fieldname] = result.secure_url;
+    return map;
+  }, {});
+
+  // Inject the file URLs back into the formData object
+  const finalFormData = { ...formData };
+  for (const fieldname in fileUrlMap) {
+    finalFormData[fieldname] = fileUrlMap[fieldname];
+  }
+
+  return {
+    serviceId,
+    selectedPlan,
+    formData: finalFormData,
+    startDate,
+    endDate,
+  };
+};
+
+exports.initializeWithReferral = async (req, res) => {
+  try {
+    const userId = getUserIdFromHeader(req);
+    const { referralEmail } = req.body;
+    if (!referralEmail) {
+      return sendError(res, 400, "Referral email is required.");
+    }
+
+    const requestData = await prepareRequestData(req); // Your existing helper
+
+    // --- LOGIC CHANGE ---
+    // Pass both the current userId (the referrer) and the referredEmail to the service
+    const result = await serviceRequestService.createRequestWithReferral(
+      userId,
+      requestData,
+      referralEmail
+    );
+
+    return sendSuccess(
+      res,
+      201,
+      result,
+      "Referral request submitted successfully."
+    );
+  } catch (err) {
+    console.error("Failed to initialize referral request:", err);
+    // Handle specific error for duplicate referrals
+    if (err.message.includes("already been referred")) {
+      return sendError(res, 409, err.message); // 409 Conflict
+    }
+    return sendError(
+      res,
+      500,
+      "Failed to initialize referral request",
+      err.message
+    );
+  }
+};
+
 /**
  * Gets all service requests (Admin only).
  */

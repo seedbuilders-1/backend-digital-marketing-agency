@@ -211,6 +211,17 @@ exports.Prisma.InvoiceScalarFieldEnum = {
   updated_at: 'updated_at'
 };
 
+exports.Prisma.ReferralScalarFieldEnum = {
+  id: 'id',
+  referrer_id: 'referrer_id',
+  referred_email: 'referred_email',
+  referred_user_id: 'referred_user_id',
+  invoice_id: 'invoice_id',
+  status: 'status',
+  created_at: 'created_at',
+  updated_at: 'updated_at'
+};
+
 exports.Prisma.CaseStudyScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -475,6 +486,15 @@ exports.Prisma.InvoiceOrderByRelevanceFieldEnum = {
   payment_reference: 'payment_reference'
 };
 
+exports.Prisma.ReferralOrderByRelevanceFieldEnum = {
+  id: 'id',
+  referrer_id: 'referrer_id',
+  referred_email: 'referred_email',
+  referred_user_id: 'referred_user_id',
+  invoice_id: 'invoice_id',
+  status: 'status'
+};
+
 exports.Prisma.CaseStudyOrderByRelevanceFieldEnum = {
   id: 'id',
   title: 'title',
@@ -618,6 +638,7 @@ exports.Prisma.ModelName = {
   ServiceForm: 'ServiceForm',
   Plan: 'Plan',
   Invoice: 'Invoice',
+  Referral: 'Referral',
   CaseStudy: 'CaseStudy',
   Testimonial: 'Testimonial',
   Faq: 'Faq',

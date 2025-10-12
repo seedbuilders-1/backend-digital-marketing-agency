@@ -145,12 +145,12 @@ exports.submitDeliverable = async (req, res) => {
     }
 
     // Optional: If a link is provided, validate its format.
-    if (
-      deliverableLink &&
-      !/^(ftp|http|https|):\/\/[^ "]+$/.test(deliverableLink)
-    ) {
-      return sendError(res, 400, "The provided link is not a valid URL.");
-    }
+    // if (
+    //   deliverableLink &&
+    //   !/^(ftp|http|https|):\/\/[^ "]+$/.test(deliverableLink)
+    // ) {
+    //   return sendError(res, 400, "The provided link is not a valid URL.");
+    // }
 
     // Pass everything to the service layer to handle the logic.
     const updatedMilestone = await milestoneService.submitDeliverable(

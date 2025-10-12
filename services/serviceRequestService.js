@@ -7,8 +7,68 @@ const serviceRequestModel = require("../models/serviceRequestModel");
  * @returns {Promise<object>} The newly created request and invoice.
  */
 const initializeRequest = async (data) => {
-  // Future logic could go here (e.g., sending notification emails)
-  return await serviceRequestModel.initializeRequestWithInvoice(data);
+  // The price is taken directly from the selected plan
+  const price = Number(data.selectedPlan.price);
+  return await serviceRequestModel.initializeRequestWithInvoice(data, price);
+};
+
+/**
+ * Initializes a service request with a referral, applying a 50% discount.
+ */
+const createRequestWithReferral = async (
+  referrerId,
+  requestData,
+  referredEmail
+) => {
+  // 1. Validate the referral
+  if (!referredEmail || !referredEmail.includes("@")) {
+    throw new Error("A valid referral email address is required.");
+  }
+
+  // Check if this email has already been successfully referred and used a discount
+  const existingReferral = await prisma.referral.findFirst({
+    where: {
+      referred_email: referredEmail,
+      status: "COMPLETED",
+    },
+  });
+  if (existingReferral) {
+    throw new Error(
+      "This email has already been referred and claimed a discount."
+    );
+  }
+
+  // 2. Fetch the original plan price
+  const plan = await prisma.plan.findUnique({
+    where: { id: requestData.selectedPlan.id },
+  });
+  if (!plan) throw new Error("Selected plan not found.");
+
+  // 3. Apply 50% Discount
+  const discountedPrice = parseFloat(plan.price) * 0.5;
+  console.log("getting the discounted price:", discountedPrice, plan.price);
+
+  // 4. Create the Referral record
+  const newReferral = await prisma.referral.create({
+    data: {
+      referrer_id: referrerId,
+      referred_email: referredEmail,
+      // We don't know the referred_user_id yet, that comes after they sign up
+      status: "PENDING", // It's pending until the invoice is paid
+    },
+  });
+
+  const finalRequestData = {
+    ...requestData,
+    userId: referrerId, // Add the user's ID to the object
+  };
+
+  // 5. Call the model function, now passing the new referral's ID
+  return await serviceRequestModel.initializeRequestWithInvoice(
+    finalRequestData,
+    discountedPrice,
+    newReferral.id // Pass the referral ID
+  );
 };
 
 /**
@@ -63,6 +123,7 @@ const getRequestsByUserId = async (userId) => {
 module.exports = {
   initializeRequest,
   getAllRequests,
+  createRequestWithReferral,
   getRequestById,
   updateRequestStatus,
   getRequestsByUserId,

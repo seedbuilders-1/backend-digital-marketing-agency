@@ -38,6 +38,18 @@ router.get(
 router.get("/my-requests", auth, requestController.getUserServiceRequests);
 
 /**
+ * @route   POST /api/service-requests/initialize-with-referral
+ * @desc    Initialize a service request with a referral for a 50% discount
+ * @access  Private
+ */
+router.post(
+  "/initialize-with-referral",
+  auth,
+  handleMulterError(upload.any()), // Also use upload.any() here
+  requestController.initializeWithReferral
+);
+
+/**
  * @route   GET /api/service-requests/:id
  * @desc    Get a single service request by ID
  * @access  Private (User can see their own, Admin can see any)

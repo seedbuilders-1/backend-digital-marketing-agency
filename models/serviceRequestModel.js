@@ -1,16 +1,24 @@
 const { prisma } = require("../config/db");
 
 /**
- * Creates a new ServiceRequest and a linked Invoice within a single transaction.
- * @param {object} data - The data for the new request and invoice.
- * @returns {Promise<object>} An object containing the new request and invoice.
+ * Creates a ServiceRequest and a corresponding Invoice in a single database transaction.
+ * If a referralId is provided, it links the new invoice to the referral record.
+ *
+ * @param {object} data The core request data.
+ * @param {number} finalPrice The amount for the invoice.
+ * @param {string} [referralId] The optional ID of the referral record to link.
+ * @returns {Promise<{request: object, invoice: object}>}
  */
-const initializeRequestWithInvoice = async (data) => {
+const initializeRequestWithInvoice = async (
+  data,
+  finalPrice,
+  referralId = null
+) => {
   const { userId, serviceId, selectedPlan, formData, startDate, endDate } =
     data;
 
   return await prisma.$transaction(async (tx) => {
-    // Step 1: Create the ServiceRequest with a "Pending Payment" status
+    // Step 1: Create the ServiceRequest
     const newRequest = await tx.serviceRequest.create({
       data: {
         user_id: userId,
@@ -24,17 +32,39 @@ const initializeRequestWithInvoice = async (data) => {
       },
     });
 
-    // Step 2: Create the Invoice, linking it to the new request
+    // Step 2: Create the Invoice, with a conditional connection to the referral.
     const newInvoice = await tx.invoice.create({
       data: {
         user_id: userId,
-        service_request_id: newRequest.id, // Link to the request
-        amount: Number(selectedPlan.price), // Ensure price is a number
+        service_request_id: newRequest.id,
+        amount: finalPrice,
         status: "Unpaid",
-        // Set a due date, e.g., 7 days from now
         due_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+
+        // --- THIS IS THE KEY FIX ---
+        // If a referralId is provided, we use the `connect` syntax on the RELATION field.
+        // The relation field on your `Invoice` model is likely named `referral`.
+        ...(referralId && {
+          referral: {
+            connect: {
+              id: referralId,
+            },
+          },
+        }),
       },
     });
+
+    // Optional but correct: Update the referral record to link back to the invoice.
+    // This is good for two-way data lookups.
+    if (referralId) {
+      await tx.referral.update({
+        where: { id: referralId },
+        data: {
+          invoice_id: newInvoice.id, // Set the scalar field here
+          status: "COMPLETED",
+        },
+      });
+    }
 
     return { request: newRequest, invoice: newInvoice };
   });
