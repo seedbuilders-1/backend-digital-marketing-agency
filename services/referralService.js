@@ -1,4 +1,4 @@
-const { prisma } = require("../config/prisma");
+const { prisma } = require("../config/db");
 
 /**
  * Checks if an email has already been used in a completed referral.
