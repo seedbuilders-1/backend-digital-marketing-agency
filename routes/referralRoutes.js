@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const auth = require("../middlewares/authmiddleware");
-const referralController = require("../controllers/referralController");
+const { validateReferral } = require("../controllers/referralControllers");
 
 /**
  * @route   POST /api/referrals/validate
  * @desc    Validate if an email can be used for a referral discount
  * @access  Private
  */
-router.post("/validate", auth, referralController.validateReferral);
+router.post("/validate", auth, validateReferral);
 
 module.exports = router;
