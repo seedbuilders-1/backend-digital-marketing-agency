@@ -39,7 +39,7 @@ const initializeRequestWithInvoice = async (
         service_request_id: newRequest.id,
         amount: finalPrice,
         status: "Unpaid",
-        due_date: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+        due_date: endDate,
 
         // --- THIS IS THE KEY FIX ---
         // If a referralId is provided, we use the `connect` syntax on the RELATION field.
