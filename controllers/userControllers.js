@@ -134,12 +134,7 @@ exports.createUser = async (req, res) => {
     return sendSuccess(res, 201, responsePayload, "User created successfully!");
   } catch (err) {
     const statusCode = err.statusCode || 500;
-    return sendError(
-      res,
-      statusCode,
-      `Could not create user: ${err.message}`,
-      err.message
-    );
+    return sendError(res, statusCode, err.message, err.message);
   }
 };
 
@@ -191,7 +186,12 @@ exports.updateUser = async (req, res) => {
     );
   } catch (err) {
     const statusCode = err.statusCode || 500;
-    return sendError(res, statusCode, "Could not update User", err.message);
+    return sendError(
+      res,
+      statusCode,
+      `Could not update User: ${err.message}`,
+      err.message
+    );
   }
 };
 
