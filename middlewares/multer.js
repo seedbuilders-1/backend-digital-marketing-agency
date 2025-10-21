@@ -1,40 +1,18 @@
 const multer = require("multer");
 
-// Use memoryStorage, which is correct for your use case.
+// Use memoryStorage so files are stored in memory as Buffer objects
 const storage = multer.memoryStorage();
 
-// Define a file filter to only accept image files. Your existing filter is fine.
+// No filtering — accept any file type
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith("image/")) {
-    cb(null, true);
-  } else {
-    // Rejects the file and provides a specific error message for Multer to catch.
-    cb(
-      new multer.MulterError(
-        "LIMIT_UNEXPECTED_FILE",
-        "Not an image! Please upload only images."
-      ),
-      false
-    );
-  }
+  cb(null, true);
 };
 
-const limits = {
-  // Maximum file size of 5MB. Your 1MB file will be well within this.
-  fileSize: 1024 * 1024 * 5,
-
-  // Maximum number of files in a single request. Your form can have many.
-  files: 20,
-
-  // Maximum number of non-file fields.
-  fields: 100,
-};
-
-// Create and export the fully configured multer instance.
+// No limits — accept any file size or count
 const upload = multer({
-  storage: storage,
-  fileFilter: fileFilter,
-  limits: limits, // <-- Add the limits object here
+  storage,
+  fileFilter,
+  limits: { fileSize: 1024 * 1024 * 100 }, // 100MB
 });
 
 module.exports = upload;
