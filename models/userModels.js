@@ -230,7 +230,7 @@ const profile = async (
 };
 
 module.exports = {
-  getAllusers,
+  getAllUsers,
   getuserById,
   getuserByEmail,
   getupdateUserByEmail,
