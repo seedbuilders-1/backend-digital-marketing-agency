@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const getAllusers = async () => {
-  return await userModel.getAllusers();
+  return await userModel.getAllUsers();
 };
 
 const getuserById = async (id) => {
