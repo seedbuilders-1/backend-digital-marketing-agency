@@ -6,6 +6,11 @@ const { authorizeRoles } = require("../middlewares/authenticate");
 const upload = require("../middlewares/multer");
 const handleMulterError = require("../middlewares/multerErrorHandler");
 
+/**
+ * @route   GET /api/users
+ * @desc    Get a list of all users on the platform
+ * @access  Private (Admin only)
+ */
 router.get("/", auth, authorizeRoles("admin"), userController.getAllusers);
 /**
  * @route   GET /api/users/me

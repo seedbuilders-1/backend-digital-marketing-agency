@@ -77,17 +77,25 @@ const initializeRequestWithInvoice = async (
  */
 const getAllRequests = async () => {
   return await prisma.serviceRequest.findMany({
-    orderBy: {
-      created_at: "desc",
-    },
+    // No 'where' clause needed, as we want all of them for the admin
     include: {
+      // Include the user to display who made the request
       user: {
-        select: { id: true, name: true, email: true },
+        select: {
+          id: true,
+          name: true,
+        },
       },
+      // Include the service to display what the request is for
       service: {
-        select: { id: true, title: true },
+        select: {
+          id: true,
+          title: true,
+        },
       },
-      invoice: true, // Also include the associated invoice
+    },
+    orderBy: {
+      created_at: "desc", // Show the most recent requests first
     },
   });
 };

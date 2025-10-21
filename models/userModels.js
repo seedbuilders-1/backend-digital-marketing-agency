@@ -1,20 +1,29 @@
-const { prisma, defaultUserRoleId } = require("../config/db");
+const { prisma } = require("../config/db");
 
-const getAllusers = async () => {
-  const users = await prisma.user.findMany({
-    where: { deleted_at: null },
-    omit: {
-      password: true,
+const getAllUsers = async () => {
+  return await prisma.user.findMany({
+    where: {
+      deleted_at: null,
     },
-    include: {
+    // Using `select` is a secure way to explicitly choose the fields you want to return.
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      tel: true,
+      status: true,
+      category: true,
+      created_at: true,
       role: {
         select: {
           title: true,
         },
       },
     },
+    orderBy: {
+      created_at: "desc", // Show the most recently created users first
+    },
   });
-  return users;
 };
 
 const getuserById = async (id) => {
