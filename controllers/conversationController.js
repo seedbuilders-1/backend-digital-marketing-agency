@@ -12,7 +12,8 @@ exports.getMessages = async (req, res) => {
     // Destructure the user's ID and role object from the request.
     // This data is reliably added by your `auth` middleware.
     const { id: userId, role } = req.user;
-    logger.info("userId", userId);
+    logger.info(`userId: ${userId}`);
+    logger.info(`role: ${role}`);
     console.log(req.user);
     const userRole = role?.title; // Get the role title (e.g., 'admin')
 
