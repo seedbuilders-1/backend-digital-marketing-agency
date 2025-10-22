@@ -17,6 +17,18 @@ router.get(
 );
 
 /**
+ * @route   GET /api/conversations/admin
+ * @desc    Get all conversations on the platform for the admin dashboard
+ * @access  Private (Admin only)
+ */
+router.get(
+  "/admin",
+  auth, // First, ensures the user is logged in
+  authorizeRoles("admin"), // Second, ensures the logged-in user has the 'admin' role
+  conversationController.getAdminConversations
+);
+
+/**
  * @route   GET /api/conversations/:serviceRequestId/messages
  * @desc    Get all messages for a specific service request's conversation
  * @access  Private (User and Admin)

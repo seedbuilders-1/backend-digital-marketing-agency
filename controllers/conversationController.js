@@ -39,3 +39,19 @@ exports.getConversations = async (req, res) => {
     return sendError(res, 500, "Failed to retrieve conversations", err.message);
   }
 };
+
+exports.getAdminConversations = async (req, res) => {
+  try {
+    // It calls a dedicated service function that has no user-specific filtering.
+    const conversations = await conversationService.getAllConversations();
+    return sendSuccess(
+      res,
+      200,
+      conversations,
+      "All conversations retrieved successfully."
+    );
+  } catch (err) {
+    console.error("Failed to retrieve admin conversations:", err);
+    return sendError(res, 500, "Failed to retrieve conversations", err.message);
+  }
+};

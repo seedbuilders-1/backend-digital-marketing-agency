@@ -55,8 +55,17 @@ const getConversationsForUser = async (userId) => {
   return await conversationModel.getConversationsByUserId(userId);
 };
 
+/**
+ * Retrieves all conversations from the database for the admin view.
+ * @returns {Promise<Array<object>>} A list of all conversation objects.
+ */
+const getAllConversations = async () => {
+  return await conversationModel.getAllConversations();
+};
+
 module.exports = {
   getMessagesForRequest,
   createMessage,
   getConversationsForUser,
+  getAllConversations,
 };

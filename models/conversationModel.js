@@ -92,8 +92,50 @@ const getConversationsByUserId = async (userId) => {
   });
 };
 
+/**
+ * Fetches ALL conversations from the database.
+ * Crucially, it includes the associated project title, status, and the client's name
+ * for a comprehensive admin view.
+ * @returns {Promise<Array<object>>} A promise resolving to an array of all conversations.
+ */
+const getAllConversations = async () => {
+  return await prisma.conversation.findMany({
+    // No 'where' clause is used, so it fetches all records.
+    include: {
+      // Include the service request to get its details
+      service_request: {
+        select: {
+          id: true,
+          status: true,
+          // Go one level deeper to get the service's title
+          service: {
+            select: { title: true },
+          },
+          // Go another level deeper to get the client's name
+          user: {
+            select: { name: true },
+          },
+        },
+      },
+      // Include the last message for a preview in the inbox list
+      messages: {
+        orderBy: { created_at: "desc" },
+        take: 1,
+        include: {
+          sender: { select: { name: true } },
+        },
+      },
+    },
+    // Show the most recently active conversations at the top of the list
+    orderBy: {
+      updated_at: "desc",
+    },
+  });
+};
+
 module.exports = {
   getMessagesByServiceRequestId,
   createMessageAndConversation,
   getConversationsByUserId,
+  getAllConversations,
 };
