@@ -7,23 +7,30 @@ const { sendSuccess, sendError } = require("../utils/response");
 exports.getMessages = async (req, res) => {
   try {
     const { serviceRequestId } = req.params;
-    const { id: userId } = req.user;
 
+    // Destructure the user's ID and role object from the request.
+    // This data is reliably added by your `auth` middleware.
+    const { id: userId, role } = req.user;
+    const userRole = role?.title; // Get the role title (e.g., 'admin')
+
+    // Pass all three necessary arguments to the service function.
     const messages = await conversationService.getMessagesForRequest(
       serviceRequestId,
-      userId
+      userId,
+      userRole
     );
 
     return sendSuccess(res, 200, messages, "Messages retrieved successfully.");
   } catch (err) {
     console.error("Failed to retrieve messages:", err);
+    // This custom error check allows us to send a specific "Forbidden" status code.
     if (err.name === "AuthorizationError") {
       return sendError(res, 403, "Forbidden", err.message);
     }
+    // Handle other errors (e.g., database connection issues) with a generic 500 status.
     return sendError(res, 500, "Failed to retrieve messages", err.message);
   }
 };
-
 // ADD THIS NEW CONTROLLER
 exports.getConversations = async (req, res) => {
   try {

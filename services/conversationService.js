@@ -2,30 +2,39 @@ const { prisma } = require("../config/db");
 const conversationModel = require("../models/conversationModel");
 
 /**
- * Authorizes user and retrieves all messages for a service request.
- * @param {string} serviceRequestId - The ID of the service request.
- * @param {string} userId - The ID of the user requesting the messages.
- * @returns {Promise<Array<object>>} A list of messages.
+ * Authorizes a user or admin and retrieves all messages for a specific service request's conversation.
+ * This is the primary function for fetching a chat's history.
+ *
+ * @param {string} serviceRequestId - The ID of the service request (the "chat room").
+ * @param {string} userId - The ID of the user making the request.
+ * @param {string} userRole - The role of the user making the request (e.g., 'admin', 'user').
+ * @returns {Promise<Array<object>>} A promise that resolves to a list of message objects.
  */
-const getMessagesForRequest = async (serviceRequestId, userId) => {
-  // 1. Authorize: Ensure the user is part of this service request (or is an admin).
+const getMessagesForRequest = async (serviceRequestId, userId, userRole) => {
+  // 1. Fetch the service request to find out who the owner is.
+  //    We only select the `user_id` for an efficient, lightweight query.
   const serviceRequest = await prisma.serviceRequest.findUnique({
     where: { id: serviceRequestId },
     select: { user_id: true },
   });
 
+  // 2. Handle the case where the service request doesn't exist.
   if (!serviceRequest) {
     throw new Error("Service request not found.");
   }
 
-  // This is a simplified auth check. In a real app, you'd check req.user.role === 'admin'
-  if (serviceRequest.user_id !== userId) {
+  // 3. Perform the authorization check.
+  const isOwner = serviceRequest.user_id === userId;
+  const isAdmin = userRole === "admin";
+
+  // Access is denied if the requester is NOT the owner AND is NOT an admin.
+  if (!isOwner && !isAdmin) {
     const error = new Error("You are not authorized to view these messages.");
-    error.name = "AuthorizationError";
+    error.name = "AuthorizationError"; // Set a custom name to be caught by the controller
     throw error;
   }
 
-  // 2. Fetch the messages from the model.
+  // 4. If authorization passes, call the model to fetch the messages from the database.
   return await conversationModel.getMessagesByServiceRequestId(
     serviceRequestId
   );
