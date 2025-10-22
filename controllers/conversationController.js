@@ -15,7 +15,7 @@ exports.getMessages = async (req, res) => {
     logger.info(`userId: ${userId}`);
     logger.info(`role: ${role}`);
     console.log(req.user);
-    const userRole = role?.title; // Get the role title (e.g., 'admin')
+    const userRole = role;
 
     // Pass all three necessary arguments to the service function.
     const messages = await conversationService.getMessagesForRequest(
