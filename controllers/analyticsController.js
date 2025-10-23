@@ -1,4 +1,5 @@
 const analyticsService = require("../services/analyticsService");
+const logger = require("../utils/logger");
 const { sendError, sendSuccess } = require("../utils/response");
 
 exports.getDashboardAnalytics = async (req, res) => {
