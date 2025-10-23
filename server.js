@@ -57,6 +57,7 @@ const milestoneRoutes = require("./routes/milestoneRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const conversationRoutes = require("./routes/conversationRoutes");
 const referralRoutes = require("./routes/referralRoutes");
+const analyticsRoutes = require("./routes/analyticsRoutes");
 const logger = require("./utils/logger");
 
 const jsonParser = express.json();
@@ -96,6 +97,7 @@ app.use("/api/milestones", jsonParser, milestoneRoutes);
 app.use("/api/payments", jsonParser, paymentRoutes);
 app.use("/api/conversations", jsonParser, conversationRoutes);
 app.use("/api/referrals", jsonParser, referralRoutes);
+app.use("/api/analytics", jsonParser, analyticsRoutes);
 
 const server = http.createServer(app); // Create an HTTP server from the Express app
 
