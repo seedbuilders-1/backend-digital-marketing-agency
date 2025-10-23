@@ -77,7 +77,6 @@ const initializeRequestWithInvoice = async (
  */
 const getAllRequests = async () => {
   return await prisma.serviceRequest.findMany({
-    // No 'where' clause needed, as we want all of them for the admin
     include: {
       // Include the user to display who made the request
       user: {
@@ -91,6 +90,16 @@ const getAllRequests = async () => {
         select: {
           id: true,
           title: true,
+        },
+      },
+      // --- THIS IS THE FIX ---
+      // Include the related invoice. Since the relation is one-to-one (an optional one),
+      // this will return either the invoice object or null.
+      invoice: {
+        select: {
+          id: true,
+          status: true, // This is the crucial field for the UI
+          amount: true,
         },
       },
     },
