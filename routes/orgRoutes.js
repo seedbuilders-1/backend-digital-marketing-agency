@@ -12,21 +12,7 @@ router.get("/", auth, authorizeRoles("admin"), orgController.getAllorgs);
  * @desc    Create a new organization profile with all required documents
  * @access  Private
  */
-router.post(
-  "/",
-  auth,
-  // Use upload.fields() to accept multiple, specific file inputs
-  handleMulterError(
-    upload.fields([
-      { name: "logo", maxCount: 1 },
-      { name: "certificateOfIncorporation", maxCount: 1 },
-      { name: "memorandumOfAssociation", maxCount: 1 },
-      { name: "proofOfAddress", maxCount: 1 },
-      { name: "statusReport", maxCount: 1 },
-    ])
-  ),
-  orgController.createOrg
-);
+router.post("/", auth, orgController.createOrg);
 router.get(
   "/contact",
   auth,

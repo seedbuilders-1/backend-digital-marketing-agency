@@ -40,7 +40,8 @@ exports.getorgById = async (req, res) => {
 
 exports.createOrg = async (req, res) => {
   try {
-    // 1. Destructure all non-file fields from the body
+    // 1. Destructure all fields, including the new URL fields, from the JSON body.
+    // The client is now responsible for uploading files and providing these URLs.
     const {
       name,
       email,
@@ -50,9 +51,14 @@ exports.createOrg = async (req, res) => {
       rc_number,
       staff_size,
       type,
+      logo_url,
+      cert_of_inc_url,
+      mem_of_assoc_url,
+      proof_of_address_url,
+      company_status_report_url,
     } = req.body;
 
-    // 2. Validate all required text fields
+    // 2. Validate all required fields, now including the URL strings.
     const requiredFields = {
       name,
       email,
@@ -62,32 +68,27 @@ exports.createOrg = async (req, res) => {
       rc_number,
       staff_size,
       type,
+      logo_url,
+      cert_of_inc_url,
+      mem_of_assoc_url,
+      proof_of_address_url,
+      company_status_report_url,
     };
+
     for (const [key, value] of Object.entries(requiredFields)) {
       if (!value) {
+        // We check for a non-empty string for the URLs.
         return sendError(res, 400, `Field '${key}' is required.`);
       }
     }
 
+    // REMOVED: The block that handled `req.files` and called `uploadRequiredFile`
+    // has been entirely removed. There are no file uploads on the server anymore.
+
     const userId = getUserIdFromHeader(req);
-    const { files } = req; // req.files will be an object like { logo: [file], ... }
 
-    // 3. Upload all required files in parallel for efficiency
-    const [
-      logoUrl,
-      certOfIncUrl,
-      memOfAssocUrl,
-      proofOfAddressUrl,
-      statusReportUrl,
-    ] = await Promise.all([
-      uploadRequiredFile(files, "logo", "orgs/logos"),
-      uploadRequiredFile(files, "certificateOfIncorporation", "orgs/documents"),
-      uploadRequiredFile(files, "memorandumOfAssociation", "orgs/documents"),
-      uploadRequiredFile(files, "proofOfAddress", "orgs/documents"),
-      uploadRequiredFile(files, "statusReport", "orgs/documents"),
-    ]);
-
-    // 4. Call the service with the complete data, including all new URLs
+    // 4. Call the service with the complete data object from the request body.
+    // The field names in the body should directly match what the service/model expects.
     const newOrg = await orgService.createOrg({
       name,
       email,
@@ -97,11 +98,11 @@ exports.createOrg = async (req, res) => {
       rc_number,
       staff_size,
       type,
-      logo_url: logoUrl,
-      cert_of_inc_url: certOfIncUrl,
-      mem_of_assoc_url: memOfAssocUrl,
-      proof_of_address_url: proofOfAddressUrl,
-      company_status_report_url: statusReportUrl,
+      logo_url, // Pass the URL directly
+      cert_of_inc_url, // Pass the URL directly
+      mem_of_assoc_url, // Pass the URL directly
+      proof_of_address_url, // Pass the URL directly
+      company_status_report_url, // Pass the URL directly
       user_id: userId,
     });
 
@@ -113,15 +114,18 @@ exports.createOrg = async (req, res) => {
     );
   } catch (err) {
     console.error("CREATE ORGANIZATION ERROR:", err);
+
+    // This specific error handling for unique constraints is still very relevant.
     if (err.code === "P2002") {
+      const conflictingFields = err.meta.target.join(", ");
       return sendError(
         res,
-        409,
-        `An organization with this ${err.meta.target.join(
-          ", "
-        )} already exists.`
+        409, // 409 Conflict is a more appropriate status code here
+        `An organization with this ${conflictingFields} already exists.`
       );
     }
+
+    // Generic server error for any other issues
     return sendError(res, 500, "Could not create organization", err.message);
   }
 };
