@@ -21,7 +21,7 @@ exports.generateSignature = (req, res) => {
     // Send the signature and timestamp back to the client
     res.status(200).json({ timestamp, signature });
   } catch (error) {
-    logger.info(`Error generating Cloudinary signature:", erro`);
+    logger.info(`Error generating Cloudinary signature:, ${error}`);
     console.error("Error generating Cloudinary signature:", error);
     res.status(500).json({ message: "Could not generate upload signature." });
   }
