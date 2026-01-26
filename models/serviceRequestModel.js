@@ -12,7 +12,7 @@ const { prisma } = require("../config/db");
 const initializeRequestWithInvoice = async (
   data,
   finalPrice,
-  referralId = null
+  referralId = null,
 ) => {
   const { userId, serviceId, selectedPlan, formData, startDate, endDate } =
     data;
@@ -33,12 +33,15 @@ const initializeRequestWithInvoice = async (
     });
 
     // Step 2: Create the Invoice, with a conditional connection to the referral.
+    // For free plans (amount = 0), automatically mark as paid
+    const isFree = finalPrice === 0;
     const newInvoice = await tx.invoice.create({
       data: {
         user_id: userId,
         service_request_id: newRequest.id,
         amount: finalPrice,
-        status: "Unpaid",
+        status: isFree ? "Paid" : "Unpaid",
+        payment_method: isFree ? "Free Plan" : null,
         due_date: new Date(endDate),
 
         // --- THIS IS THE KEY FIX ---
