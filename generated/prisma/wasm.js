@@ -245,6 +245,7 @@ exports.Prisma.TestimonialScalarFieldEnum = {
   authorTitle: 'authorTitle',
   stars: 'stars',
   authorImageUrl: 'authorImageUrl',
+  link: 'link',
   service_id: 'service_id',
   user_id: 'user_id'
 };
@@ -517,6 +518,7 @@ exports.Prisma.TestimonialOrderByRelevanceFieldEnum = {
   authorName: 'authorName',
   authorTitle: 'authorTitle',
   authorImageUrl: 'authorImageUrl',
+  link: 'link',
   service_id: 'service_id',
   user_id: 'user_id'
 };

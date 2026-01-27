@@ -12248,6 +12248,7 @@ export namespace Prisma {
     authorTitle: string | null
     stars: number | null
     authorImageUrl: string | null
+    link: string | null
     service_id: string | null
     user_id: string | null
   }
@@ -12259,6 +12260,7 @@ export namespace Prisma {
     authorTitle: string | null
     stars: number | null
     authorImageUrl: string | null
+    link: string | null
     service_id: string | null
     user_id: string | null
   }
@@ -12270,6 +12272,7 @@ export namespace Prisma {
     authorTitle: number
     stars: number
     authorImageUrl: number
+    link: number
     service_id: number
     user_id: number
     _all: number
@@ -12291,6 +12294,7 @@ export namespace Prisma {
     authorTitle?: true
     stars?: true
     authorImageUrl?: true
+    link?: true
     service_id?: true
     user_id?: true
   }
@@ -12302,6 +12306,7 @@ export namespace Prisma {
     authorTitle?: true
     stars?: true
     authorImageUrl?: true
+    link?: true
     service_id?: true
     user_id?: true
   }
@@ -12313,6 +12318,7 @@ export namespace Prisma {
     authorTitle?: true
     stars?: true
     authorImageUrl?: true
+    link?: true
     service_id?: true
     user_id?: true
     _all?: true
@@ -12411,6 +12417,7 @@ export namespace Prisma {
     authorTitle: string
     stars: number
     authorImageUrl: string | null
+    link: string | null
     service_id: string
     user_id: string
     _count: TestimonialCountAggregateOutputType | null
@@ -12441,6 +12448,7 @@ export namespace Prisma {
     authorTitle?: boolean
     stars?: boolean
     authorImageUrl?: boolean
+    link?: boolean
     service_id?: boolean
     user_id?: boolean
     service?: boolean | ServiceDefaultArgs<ExtArgs>
@@ -12456,11 +12464,12 @@ export namespace Prisma {
     authorTitle?: boolean
     stars?: boolean
     authorImageUrl?: boolean
+    link?: boolean
     service_id?: boolean
     user_id?: boolean
   }
 
-  export type TestimonialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "quote" | "authorName" | "authorTitle" | "stars" | "authorImageUrl" | "service_id" | "user_id", ExtArgs["result"]["testimonial"]>
+  export type TestimonialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "quote" | "authorName" | "authorTitle" | "stars" | "authorImageUrl" | "link" | "service_id" | "user_id", ExtArgs["result"]["testimonial"]>
   export type TestimonialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     service?: boolean | ServiceDefaultArgs<ExtArgs>
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -12479,6 +12488,7 @@ export namespace Prisma {
       authorTitle: string
       stars: number
       authorImageUrl: string | null
+      link: string | null
       service_id: string
       user_id: string
     }, ExtArgs["result"]["testimonial"]>
@@ -12858,6 +12868,7 @@ export namespace Prisma {
     readonly authorTitle: FieldRef<"Testimonial", 'String'>
     readonly stars: FieldRef<"Testimonial", 'Int'>
     readonly authorImageUrl: FieldRef<"Testimonial", 'String'>
+    readonly link: FieldRef<"Testimonial", 'String'>
     readonly service_id: FieldRef<"Testimonial", 'String'>
     readonly user_id: FieldRef<"Testimonial", 'String'>
   }
@@ -27778,6 +27789,7 @@ export namespace Prisma {
     authorTitle: 'authorTitle',
     stars: 'stars',
     authorImageUrl: 'authorImageUrl',
+    link: 'link',
     service_id: 'service_id',
     user_id: 'user_id'
   };
@@ -28140,6 +28152,7 @@ export namespace Prisma {
     authorName: 'authorName',
     authorTitle: 'authorTitle',
     authorImageUrl: 'authorImageUrl',
+    link: 'link',
     service_id: 'service_id',
     user_id: 'user_id'
   };
@@ -29198,6 +29211,7 @@ export namespace Prisma {
     authorTitle?: StringFilter<"Testimonial"> | string
     stars?: IntFilter<"Testimonial"> | number
     authorImageUrl?: StringNullableFilter<"Testimonial"> | string | null
+    link?: StringNullableFilter<"Testimonial"> | string | null
     service_id?: StringFilter<"Testimonial"> | string
     user_id?: StringFilter<"Testimonial"> | string
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
@@ -29211,6 +29225,7 @@ export namespace Prisma {
     authorTitle?: SortOrder
     stars?: SortOrder
     authorImageUrl?: SortOrderInput | SortOrder
+    link?: SortOrderInput | SortOrder
     service_id?: SortOrder
     user_id?: SortOrder
     service?: ServiceOrderByWithRelationInput
@@ -29228,6 +29243,7 @@ export namespace Prisma {
     authorTitle?: StringFilter<"Testimonial"> | string
     stars?: IntFilter<"Testimonial"> | number
     authorImageUrl?: StringNullableFilter<"Testimonial"> | string | null
+    link?: StringNullableFilter<"Testimonial"> | string | null
     service_id?: StringFilter<"Testimonial"> | string
     user_id?: StringFilter<"Testimonial"> | string
     service?: XOR<ServiceScalarRelationFilter, ServiceWhereInput>
@@ -29241,6 +29257,7 @@ export namespace Prisma {
     authorTitle?: SortOrder
     stars?: SortOrder
     authorImageUrl?: SortOrderInput | SortOrder
+    link?: SortOrderInput | SortOrder
     service_id?: SortOrder
     user_id?: SortOrder
     _count?: TestimonialCountOrderByAggregateInput
@@ -29260,6 +29277,7 @@ export namespace Prisma {
     authorTitle?: StringWithAggregatesFilter<"Testimonial"> | string
     stars?: IntWithAggregatesFilter<"Testimonial"> | number
     authorImageUrl?: StringNullableWithAggregatesFilter<"Testimonial"> | string | null
+    link?: StringNullableWithAggregatesFilter<"Testimonial"> | string | null
     service_id?: StringWithAggregatesFilter<"Testimonial"> | string
     user_id?: StringWithAggregatesFilter<"Testimonial"> | string
   }
@@ -31148,6 +31166,7 @@ export namespace Prisma {
     authorTitle: string
     stars?: number
     authorImageUrl?: string | null
+    link?: string | null
     service: ServiceCreateNestedOneWithoutTestimonialsInput
     user: UserCreateNestedOneWithoutTestimonialsInput
   }
@@ -31159,6 +31178,7 @@ export namespace Prisma {
     authorTitle: string
     stars?: number
     authorImageUrl?: string | null
+    link?: string | null
     service_id: string
     user_id: string
   }
@@ -31170,6 +31190,7 @@ export namespace Prisma {
     authorTitle?: StringFieldUpdateOperationsInput | string
     stars?: IntFieldUpdateOperationsInput | number
     authorImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     service?: ServiceUpdateOneRequiredWithoutTestimonialsNestedInput
     user?: UserUpdateOneRequiredWithoutTestimonialsNestedInput
   }
@@ -31181,6 +31202,7 @@ export namespace Prisma {
     authorTitle?: StringFieldUpdateOperationsInput | string
     stars?: IntFieldUpdateOperationsInput | number
     authorImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     service_id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
   }
@@ -31192,6 +31214,7 @@ export namespace Prisma {
     authorTitle: string
     stars?: number
     authorImageUrl?: string | null
+    link?: string | null
     service_id: string
     user_id: string
   }
@@ -31203,6 +31226,7 @@ export namespace Prisma {
     authorTitle?: StringFieldUpdateOperationsInput | string
     stars?: IntFieldUpdateOperationsInput | number
     authorImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TestimonialUncheckedUpdateManyInput = {
@@ -31212,6 +31236,7 @@ export namespace Prisma {
     authorTitle?: StringFieldUpdateOperationsInput | string
     stars?: IntFieldUpdateOperationsInput | number
     authorImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     service_id?: StringFieldUpdateOperationsInput | string
     user_id?: StringFieldUpdateOperationsInput | string
   }
@@ -33146,6 +33171,7 @@ export namespace Prisma {
     authorTitle?: SortOrder
     stars?: SortOrder
     authorImageUrl?: SortOrder
+    link?: SortOrder
     service_id?: SortOrder
     user_id?: SortOrder
   }
@@ -33161,6 +33187,7 @@ export namespace Prisma {
     authorTitle?: SortOrder
     stars?: SortOrder
     authorImageUrl?: SortOrder
+    link?: SortOrder
     service_id?: SortOrder
     user_id?: SortOrder
   }
@@ -33172,6 +33199,7 @@ export namespace Prisma {
     authorTitle?: SortOrder
     stars?: SortOrder
     authorImageUrl?: SortOrder
+    link?: SortOrder
     service_id?: SortOrder
     user_id?: SortOrder
   }
@@ -36382,6 +36410,7 @@ export namespace Prisma {
     authorTitle: string
     stars?: number
     authorImageUrl?: string | null
+    link?: string | null
     service: ServiceCreateNestedOneWithoutTestimonialsInput
   }
 
@@ -36392,6 +36421,7 @@ export namespace Prisma {
     authorTitle: string
     stars?: number
     authorImageUrl?: string | null
+    link?: string | null
     service_id: string
   }
 
@@ -36921,6 +36951,7 @@ export namespace Prisma {
     authorTitle?: StringFilter<"Testimonial"> | string
     stars?: IntFilter<"Testimonial"> | number
     authorImageUrl?: StringNullableFilter<"Testimonial"> | string | null
+    link?: StringNullableFilter<"Testimonial"> | string | null
     service_id?: StringFilter<"Testimonial"> | string
     user_id?: StringFilter<"Testimonial"> | string
   }
@@ -37384,6 +37415,7 @@ export namespace Prisma {
     authorTitle: string
     stars?: number
     authorImageUrl?: string | null
+    link?: string | null
     user: UserCreateNestedOneWithoutTestimonialsInput
   }
 
@@ -37394,6 +37426,7 @@ export namespace Prisma {
     authorTitle: string
     stars?: number
     authorImageUrl?: string | null
+    link?: string | null
     user_id: string
   }
 
@@ -42084,6 +42117,7 @@ export namespace Prisma {
     authorTitle: string
     stars?: number
     authorImageUrl?: string | null
+    link?: string | null
     service_id: string
   }
 
@@ -42431,6 +42465,7 @@ export namespace Prisma {
     authorTitle?: StringFieldUpdateOperationsInput | string
     stars?: IntFieldUpdateOperationsInput | number
     authorImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     service?: ServiceUpdateOneRequiredWithoutTestimonialsNestedInput
   }
 
@@ -42441,6 +42476,7 @@ export namespace Prisma {
     authorTitle?: StringFieldUpdateOperationsInput | string
     stars?: IntFieldUpdateOperationsInput | number
     authorImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     service_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -42451,6 +42487,7 @@ export namespace Prisma {
     authorTitle?: StringFieldUpdateOperationsInput | string
     stars?: IntFieldUpdateOperationsInput | number
     authorImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     service_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -42644,6 +42681,7 @@ export namespace Prisma {
     authorTitle: string
     stars?: number
     authorImageUrl?: string | null
+    link?: string | null
     user_id: string
   }
 
@@ -42758,6 +42796,7 @@ export namespace Prisma {
     authorTitle?: StringFieldUpdateOperationsInput | string
     stars?: IntFieldUpdateOperationsInput | number
     authorImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutTestimonialsNestedInput
   }
 
@@ -42768,6 +42807,7 @@ export namespace Prisma {
     authorTitle?: StringFieldUpdateOperationsInput | string
     stars?: IntFieldUpdateOperationsInput | number
     authorImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     user_id?: StringFieldUpdateOperationsInput | string
   }
 
@@ -42778,6 +42818,7 @@ export namespace Prisma {
     authorTitle?: StringFieldUpdateOperationsInput | string
     stars?: IntFieldUpdateOperationsInput | number
     authorImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    link?: NullableStringFieldUpdateOperationsInput | string | null
     user_id?: StringFieldUpdateOperationsInput | string
   }
 

@@ -202,6 +202,7 @@ model Testimonial {
   authorTitle    String  @db.VarChar(100)
   stars          Int     @default(5)
   authorImageUrl String? @db.Text
+  link           String? @db.Text // New optional link field
   service_id     String  @db.Char(36)
   service        Service @relation(fields: [service_id], references: [id], onDelete: Cascade)
   user_id        String  @db.Char(36)
