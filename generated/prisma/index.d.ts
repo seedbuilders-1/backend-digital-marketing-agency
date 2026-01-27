@@ -7989,10 +7989,12 @@ export namespace Prisma {
   }
 
   export type PlanAvgAggregateOutputType = {
+    discountPercentage: number | null
     position: number | null
   }
 
   export type PlanSumAggregateOutputType = {
+    discountPercentage: number | null
     position: number | null
   }
 
@@ -8003,6 +8005,7 @@ export namespace Prisma {
     priceUnit: string | null
     audience: string | null
     service_id: string | null
+    discountPercentage: number | null
     position: number | null
     plan_typeId: string | null
     billing_cycleId: string | null
@@ -8015,6 +8018,7 @@ export namespace Prisma {
     priceUnit: string | null
     audience: string | null
     service_id: string | null
+    discountPercentage: number | null
     position: number | null
     plan_typeId: string | null
     billing_cycleId: string | null
@@ -8028,6 +8032,7 @@ export namespace Prisma {
     audience: number
     features: number
     service_id: number
+    discountPercentage: number
     position: number
     plan_typeId: number
     billing_cycleId: number
@@ -8036,10 +8041,12 @@ export namespace Prisma {
 
 
   export type PlanAvgAggregateInputType = {
+    discountPercentage?: true
     position?: true
   }
 
   export type PlanSumAggregateInputType = {
+    discountPercentage?: true
     position?: true
   }
 
@@ -8050,6 +8057,7 @@ export namespace Prisma {
     priceUnit?: true
     audience?: true
     service_id?: true
+    discountPercentage?: true
     position?: true
     plan_typeId?: true
     billing_cycleId?: true
@@ -8062,6 +8070,7 @@ export namespace Prisma {
     priceUnit?: true
     audience?: true
     service_id?: true
+    discountPercentage?: true
     position?: true
     plan_typeId?: true
     billing_cycleId?: true
@@ -8075,6 +8084,7 @@ export namespace Prisma {
     audience?: true
     features?: true
     service_id?: true
+    discountPercentage?: true
     position?: true
     plan_typeId?: true
     billing_cycleId?: true
@@ -8175,6 +8185,7 @@ export namespace Prisma {
     audience: string
     features: JsonValue
     service_id: string
+    discountPercentage: number
     position: number
     plan_typeId: string | null
     billing_cycleId: string | null
@@ -8207,6 +8218,7 @@ export namespace Prisma {
     audience?: boolean
     features?: boolean
     service_id?: boolean
+    discountPercentage?: boolean
     position?: boolean
     plan_typeId?: boolean
     billing_cycleId?: boolean
@@ -8228,12 +8240,13 @@ export namespace Prisma {
     audience?: boolean
     features?: boolean
     service_id?: boolean
+    discountPercentage?: boolean
     position?: boolean
     plan_typeId?: boolean
     billing_cycleId?: boolean
   }
 
-  export type PlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "priceUnit" | "audience" | "features" | "service_id" | "position" | "plan_typeId" | "billing_cycleId", ExtArgs["result"]["plan"]>
+  export type PlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "price" | "priceUnit" | "audience" | "features" | "service_id" | "discountPercentage" | "position" | "plan_typeId" | "billing_cycleId", ExtArgs["result"]["plan"]>
   export type PlanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     service?: boolean | ServiceDefaultArgs<ExtArgs>
     service_requests?: boolean | Plan$service_requestsArgs<ExtArgs>
@@ -8260,6 +8273,7 @@ export namespace Prisma {
       audience: string
       features: Prisma.JsonValue
       service_id: string
+      discountPercentage: number
       position: number
       plan_typeId: string | null
       billing_cycleId: string | null
@@ -8644,6 +8658,7 @@ export namespace Prisma {
     readonly audience: FieldRef<"Plan", 'String'>
     readonly features: FieldRef<"Plan", 'Json'>
     readonly service_id: FieldRef<"Plan", 'String'>
+    readonly discountPercentage: FieldRef<"Plan", 'Int'>
     readonly position: FieldRef<"Plan", 'Int'>
     readonly plan_typeId: FieldRef<"Plan", 'String'>
     readonly billing_cycleId: FieldRef<"Plan", 'String'>
@@ -27698,6 +27713,7 @@ export namespace Prisma {
     audience: 'audience',
     features: 'features',
     service_id: 'service_id',
+    discountPercentage: 'discountPercentage',
     position: 'position',
     plan_typeId: 'plan_typeId',
     billing_cycleId: 'billing_cycleId'
@@ -28818,6 +28834,7 @@ export namespace Prisma {
     audience?: StringFilter<"Plan"> | string
     features?: JsonFilter<"Plan">
     service_id?: StringFilter<"Plan"> | string
+    discountPercentage?: IntFilter<"Plan"> | number
     position?: IntFilter<"Plan"> | number
     plan_typeId?: StringNullableFilter<"Plan"> | string | null
     billing_cycleId?: StringNullableFilter<"Plan"> | string | null
@@ -28836,6 +28853,7 @@ export namespace Prisma {
     audience?: SortOrder
     features?: SortOrder
     service_id?: SortOrder
+    discountPercentage?: SortOrder
     position?: SortOrder
     plan_typeId?: SortOrderInput | SortOrder
     billing_cycleId?: SortOrderInput | SortOrder
@@ -28858,6 +28876,7 @@ export namespace Prisma {
     audience?: StringFilter<"Plan"> | string
     features?: JsonFilter<"Plan">
     service_id?: StringFilter<"Plan"> | string
+    discountPercentage?: IntFilter<"Plan"> | number
     position?: IntFilter<"Plan"> | number
     plan_typeId?: StringNullableFilter<"Plan"> | string | null
     billing_cycleId?: StringNullableFilter<"Plan"> | string | null
@@ -28876,6 +28895,7 @@ export namespace Prisma {
     audience?: SortOrder
     features?: SortOrder
     service_id?: SortOrder
+    discountPercentage?: SortOrder
     position?: SortOrder
     plan_typeId?: SortOrderInput | SortOrder
     billing_cycleId?: SortOrderInput | SortOrder
@@ -28897,6 +28917,7 @@ export namespace Prisma {
     audience?: StringWithAggregatesFilter<"Plan"> | string
     features?: JsonWithAggregatesFilter<"Plan">
     service_id?: StringWithAggregatesFilter<"Plan"> | string
+    discountPercentage?: IntWithAggregatesFilter<"Plan"> | number
     position?: IntWithAggregatesFilter<"Plan"> | number
     plan_typeId?: StringNullableWithAggregatesFilter<"Plan"> | string | null
     billing_cycleId?: StringNullableWithAggregatesFilter<"Plan"> | string | null
@@ -30747,6 +30768,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    discountPercentage?: number
     position?: number
     service: ServiceCreateNestedOneWithoutPlansInput
     service_requests?: ServiceRequestCreateNestedManyWithoutPlanInput
@@ -30763,6 +30785,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    discountPercentage?: number
     position?: number
     plan_typeId?: string | null
     billing_cycleId?: string | null
@@ -30777,6 +30800,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     service?: ServiceUpdateOneRequiredWithoutPlansNestedInput
     service_requests?: ServiceRequestUpdateManyWithoutPlanNestedInput
@@ -30793,6 +30817,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30808,6 +30833,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    discountPercentage?: number
     position?: number
     plan_typeId?: string | null
     billing_cycleId?: string | null
@@ -30820,6 +30846,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
   }
 
@@ -30831,6 +30858,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32859,12 +32887,14 @@ export namespace Prisma {
     audience?: SortOrder
     features?: SortOrder
     service_id?: SortOrder
+    discountPercentage?: SortOrder
     position?: SortOrder
     plan_typeId?: SortOrder
     billing_cycleId?: SortOrder
   }
 
   export type PlanAvgOrderByAggregateInput = {
+    discountPercentage?: SortOrder
     position?: SortOrder
   }
 
@@ -32875,6 +32905,7 @@ export namespace Prisma {
     priceUnit?: SortOrder
     audience?: SortOrder
     service_id?: SortOrder
+    discountPercentage?: SortOrder
     position?: SortOrder
     plan_typeId?: SortOrder
     billing_cycleId?: SortOrder
@@ -32887,12 +32918,14 @@ export namespace Prisma {
     priceUnit?: SortOrder
     audience?: SortOrder
     service_id?: SortOrder
+    discountPercentage?: SortOrder
     position?: SortOrder
     plan_typeId?: SortOrder
     billing_cycleId?: SortOrder
   }
 
   export type PlanSumOrderByAggregateInput = {
+    discountPercentage?: SortOrder
     position?: SortOrder
   }
 
@@ -37273,6 +37306,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    discountPercentage?: number
     position?: number
     service_requests?: ServiceRequestCreateNestedManyWithoutPlanInput
     subscriptions?: SubscriptionCreateNestedManyWithoutPlanInput
@@ -37287,6 +37321,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    discountPercentage?: number
     position?: number
     plan_typeId?: string | null
     billing_cycleId?: string | null
@@ -37557,6 +37592,7 @@ export namespace Prisma {
     audience?: StringFilter<"Plan"> | string
     features?: JsonFilter<"Plan">
     service_id?: StringFilter<"Plan"> | string
+    discountPercentage?: IntFilter<"Plan"> | number
     position?: IntFilter<"Plan"> | number
     plan_typeId?: StringNullableFilter<"Plan"> | string | null
     billing_cycleId?: StringNullableFilter<"Plan"> | string | null
@@ -39568,6 +39604,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    discountPercentage?: number
     position?: number
     service: ServiceCreateNestedOneWithoutPlansInput
     subscriptions?: SubscriptionCreateNestedManyWithoutPlanInput
@@ -39583,6 +39620,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    discountPercentage?: number
     position?: number
     plan_typeId?: string | null
     billing_cycleId?: string | null
@@ -39837,6 +39875,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     service?: ServiceUpdateOneRequiredWithoutPlansNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutPlanNestedInput
@@ -39852,6 +39891,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -41245,6 +41285,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    discountPercentage?: number
     position?: number
     service: ServiceCreateNestedOneWithoutPlansInput
     service_requests?: ServiceRequestCreateNestedManyWithoutPlanInput
@@ -41260,6 +41301,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    discountPercentage?: number
     position?: number
     billing_cycleId?: string | null
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutPlanInput
@@ -41380,6 +41422,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    discountPercentage?: number
     position?: number
     service: ServiceCreateNestedOneWithoutPlansInput
     service_requests?: ServiceRequestCreateNestedManyWithoutPlanInput
@@ -41395,6 +41438,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    discountPercentage?: number
     position?: number
     plan_typeId?: string | null
     service_requests?: ServiceRequestUncheckedCreateNestedManyWithoutPlanInput
@@ -41434,6 +41478,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    discountPercentage?: number
     position?: number
     service: ServiceCreateNestedOneWithoutPlansInput
     service_requests?: ServiceRequestCreateNestedManyWithoutPlanInput
@@ -41449,6 +41494,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    discountPercentage?: number
     position?: number
     plan_typeId?: string | null
     billing_cycleId?: string | null
@@ -41553,6 +41599,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     service?: ServiceUpdateOneRequiredWithoutPlansNestedInput
     service_requests?: ServiceRequestUpdateManyWithoutPlanNestedInput
@@ -41568,6 +41615,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42569,6 +42617,7 @@ export namespace Prisma {
     priceUnit: string
     audience: string
     features: JsonNullValueInput | InputJsonValue
+    discountPercentage?: number
     position?: number
     plan_typeId?: string | null
     billing_cycleId?: string | null
@@ -42624,6 +42673,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     service_requests?: ServiceRequestUpdateManyWithoutPlanNestedInput
     subscriptions?: SubscriptionUpdateManyWithoutPlanNestedInput
@@ -42638,6 +42688,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42652,6 +42703,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -42970,6 +43022,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    discountPercentage?: number
     position?: number
     billing_cycleId?: string | null
   }
@@ -42981,6 +43034,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     service?: ServiceUpdateOneRequiredWithoutPlansNestedInput
     service_requests?: ServiceRequestUpdateManyWithoutPlanNestedInput
@@ -42996,6 +43050,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutPlanNestedInput
@@ -43010,6 +43065,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     billing_cycleId?: NullableStringFieldUpdateOperationsInput | string | null
   }
@@ -43022,6 +43078,7 @@ export namespace Prisma {
     audience: string
     features: JsonNullValueInput | InputJsonValue
     service_id: string
+    discountPercentage?: number
     position?: number
     plan_typeId?: string | null
   }
@@ -43033,6 +43090,7 @@ export namespace Prisma {
     priceUnit?: StringFieldUpdateOperationsInput | string
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     service?: ServiceUpdateOneRequiredWithoutPlansNestedInput
     service_requests?: ServiceRequestUpdateManyWithoutPlanNestedInput
@@ -43048,6 +43106,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
     service_requests?: ServiceRequestUncheckedUpdateManyWithoutPlanNestedInput
@@ -43062,6 +43121,7 @@ export namespace Prisma {
     audience?: StringFieldUpdateOperationsInput | string
     features?: JsonNullValueInput | InputJsonValue
     service_id?: StringFieldUpdateOperationsInput | string
+    discountPercentage?: IntFieldUpdateOperationsInput | number
     position?: IntFieldUpdateOperationsInput | number
     plan_typeId?: NullableStringFieldUpdateOperationsInput | string | null
   }

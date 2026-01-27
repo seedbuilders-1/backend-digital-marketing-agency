@@ -192,6 +192,7 @@ exports.Prisma.PlanScalarFieldEnum = {
   audience: 'audience',
   features: 'features',
   service_id: 'service_id',
+  discountPercentage: 'discountPercentage',
   position: 'position',
   plan_typeId: 'plan_typeId',
   billing_cycleId: 'billing_cycleId'

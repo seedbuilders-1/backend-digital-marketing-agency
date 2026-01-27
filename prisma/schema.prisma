@@ -113,22 +113,23 @@ model ServiceForm {
 }
 
 model Plan {
-  id               String           @id @default(uuid()) @db.Char(36)
-  name             String           @db.VarChar(100)
-  price            String
-  priceUnit        String           @db.VarChar(20)
-  audience         String           @db.VarChar(100)
-  features         Json
-  service_id       String           @db.Char(36)
-  service          Service          @relation(fields: [service_id], references: [id], onDelete: Cascade)
+  id                String           @id @default(uuid()) @db.Char(36)
+  name              String           @db.VarChar(100)
+  price             String
+  priceUnit         String           @db.VarChar(20)
+  audience          String           @db.VarChar(100)
+  features          Json
+  service_id        String           @db.Char(36)
+  discountPercentage Int             @default(50) // 0-100, represents percentage off
+  service           Service          @relation(fields: [service_id], references: [id], onDelete: Cascade)
   // Corrected relations
-  service_requests ServiceRequest[]
-  position         Int              @default(0)
-  subscriptions    Subscription[]
-  Plan_type        Plan_type?       @relation(fields: [plan_typeId], references: [id])
-  plan_typeId      String?          @db.Char(36)
-  Billing_cycle    Billing_cycle?   @relation(fields: [billing_cycleId], references: [id])
-  billing_cycleId  String?          @db.Char(36)
+  service_requests  ServiceRequest[]
+  position          Int              @default(0)
+  subscriptions     Subscription[]
+  Plan_type         Plan_type?       @relation(fields: [plan_typeId], references: [id])
+  plan_typeId       String?          @db.Char(36)
+  Billing_cycle     Billing_cycle?   @relation(fields: [billing_cycleId], references: [id])
+  billing_cycleId   String?          @db.Char(36)
 
   @@index([service_id])
 }

@@ -78,8 +78,8 @@ const buildServiceData = async (body, files, existingService = {}, adminId) => {
       (result) => ({
         fieldname: file.fieldname,
         url: result.secure_url,
-      })
-    )
+      }),
+    ),
   );
   const uploadResults = await Promise.all(uploadPromises);
 
@@ -118,6 +118,10 @@ const buildServiceData = async (body, files, existingService = {}, adminId) => {
     plans: plans.map((p, index) => ({
       ...p,
       position: index,
+      discountPercentage:
+        p.discountPercentage !== undefined
+          ? parseInt(p.discountPercentage)
+          : 50, // Default to 50% if not provided
       // The `features` property inside `p` is already a correct array.
     })),
 
@@ -172,7 +176,7 @@ exports.createService = async (req, res) => {
       req.body,
       req.files,
       {},
-      adminId
+      adminId,
     );
 
     const newService = await serviceService.createService(serviceData);
@@ -180,7 +184,7 @@ exports.createService = async (req, res) => {
       res,
       201,
       { service: newService },
-      "Service created successfully!"
+      "Service created successfully!",
     );
   } catch (err) {
     logger.error("Service creation failed:", err);
@@ -203,7 +207,7 @@ exports.updateService = async (req, res) => {
       req.body,
       req.files,
       existingService,
-      adminId
+      adminId,
     );
 
     const updatedService = await serviceService.updateService(id, serviceData);
@@ -211,7 +215,7 @@ exports.updateService = async (req, res) => {
       res,
       200,
       { service: updatedService },
-      "Service updated successfully!"
+      "Service updated successfully!",
     );
   } catch (err) {
     logger.error("Service update failed:", err);
@@ -234,7 +238,7 @@ exports.deleteService = async (req, res) => {
       res,
       200,
       { service: deletedService },
-      "Service has been successfully soft-deleted and assets removed."
+      "Service has been successfully soft-deleted and assets removed.",
     );
   } catch (err) {
     // This will catch errors from both Cloudinary and Prisma
@@ -257,7 +261,7 @@ exports.updateServiceForm = async (req, res) => {
       res,
       200,
       updatedForm,
-      "Service form updated successfully."
+      "Service form updated successfully.",
     );
   } catch (err) {
     console.error("Failed to update service form:", err);
