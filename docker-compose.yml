@@ -1,0 +1,90 @@
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: dma-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: dma_dev_db
+      MYSQL_USER: dma_user
+      MYSQL_PASSWORD: dma_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - dma-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-prootpassword",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dma-backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: mysql://dma_user:dma_password@mysql:3306/dma_dev_db
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-dma-api}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-dma-api-secret}
+      CLOUDINARY_URL: ${CLOUDINARY_URL}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+      PAYSTACK_SECRET_KEY: ${PAYSTACK_SECRET_KEY}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3001}
+      ZOHO_HOST: ${ZOHO_HOST}
+      ZOHO_PORT: ${ZOHO_PORT}
+      ZOHO_USER: ${ZOHO_USER}
+      ZOHO_APP_PASSWORD: ${ZOHO_APP_PASSWORD}
+      EMAIL_FROM: ${EMAIL_FROM}
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/generated
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - dma-network
+    command: sh -c "npx prisma migrate deploy && npm start"
+
+  # Adminer - Database Management UI (phpMyAdmin alternative)
+  adminer:
+    image: adminer:latest
+    container_name: dma-adminer
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      ADMINER_DEFAULT_SERVER: mysql
+    depends_on:
+      - mysql
+    networks:
+      - dma-network
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  dma-network:
+    driver: bridge

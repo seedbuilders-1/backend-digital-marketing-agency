@@ -5,3 +5,7 @@
 app.log
 logs/
 *.log
+
+# Docker
+docker-compose.override.yml
+.docker/

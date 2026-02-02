@@ -17,7 +17,7 @@ exports.refreshToken = (req, res) => {
     const newAccessToken = jwt.sign(
       { id: decoded.id },
       process.env.JWT_ACCESS_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "1h" },
     );
 
     return sendSuccess(res, 200, { accessToken: newAccessToken });
@@ -53,7 +53,7 @@ exports.login = async (req, res) => {
       res,
       200,
       { accessToken: accessToken, user: result.user },
-      "Login successful!"
+      "Login successful!",
     );
   } catch (err) {
     if (err.message === "Invalid credentials") {
@@ -64,7 +64,7 @@ exports.login = async (req, res) => {
     return sendError(
       res,
       500,
-      err.message || "An unexpected error occurred. Please try again later."
+      err.message || "An unexpected error occurred. Please try again later.",
     );
   }
 };
@@ -83,7 +83,7 @@ exports.forgot_password = async (req, res) => {
       return sendError(
         res,
         429,
-        "A token has already been created within the last 15 mins"
+        "A token has already been created within the last 15 mins",
       );
 
     const { token, expiresAt } = await generateToken();
@@ -96,7 +96,7 @@ exports.forgot_password = async (req, res) => {
       res,
       200,
       { token: new_token },
-      "Add this URL to your /auth path"
+      "Add this URL to your /auth path",
     );
   } catch (err) {
     return sendError(res, 500, "Could not reset password", err.message);
@@ -128,7 +128,7 @@ exports.reset_password = async (req, res) => {
       res,
       200,
       { user: user },
-      "Password has been updated successfully!"
+      "Password has been updated successfully!",
     );
   } catch (err) {
     return sendError(res, 500, "Failed to reset password", err.message);
@@ -155,7 +155,7 @@ exports.verify_email = async (req, res) => {
       res,
       200,
       { user: verify },
-      "Email has been verified successfully!"
+      "Email has been verified successfully!",
     );
   } catch (err) {
     return sendError(res, 500, "Failed to verify email", err.message);
@@ -176,7 +176,7 @@ exports.resend_otp = async (req, res) => {
       return sendError(
         res,
         429,
-        "An otp has already been sent within the last 5 mins"
+        "An otp has already been sent within the last 5 mins",
       );
 
     const { otp, expiresAt } = await generateOTP();
@@ -200,15 +200,15 @@ exports.resend_otp = async (req, res) => {
 
     // 3. Call our reusable email service to send the email via Zoho
     try {
-      console.log("Sending email to", newUser.email);
-      await sendEmail(newUser.email, emailSubject, emailText, emailHtml);
+      console.log("Sending email to", user?.email);
+      await sendEmail(user?.email, emailSubject, emailText, emailHtml);
     } catch (emailError) {
       // If the email fails, we might want to still let the user be created but log the error.
       // Or, you could reverse the user creation in a more complex transaction.
       // For now, we'll log it and proceed.
       console.error(
-        `Failed to send OTP email to ${newUser.email}, but user was created.`,
-        emailError
+        `Failed to send OTP email to ${user?.email}, but user was created.`,
+        emailError,
       );
     }
 
@@ -218,7 +218,7 @@ exports.resend_otp = async (req, res) => {
       res,
       200,
       { otp, user },
-      "OTP has been successfully generated!"
+      "OTP has been successfully generated!",
     );
   } catch (err) {
     return sendError(res, 500, "Could not resend an otp", err.message);
