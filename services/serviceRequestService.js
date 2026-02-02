@@ -18,7 +18,7 @@ const initializeRequest = async (data) => {
 const createRequestWithReferral = async (
   referrerId,
   requestData,
-  referredEmail
+  referredEmail,
 ) => {
   // 1. Validate the referral
   if (!referredEmail || !referredEmail.includes("@")) {
@@ -34,7 +34,7 @@ const createRequestWithReferral = async (
   });
   if (existingReferral) {
     throw new Error(
-      "This email has already been referred and claimed a discount."
+      "This email has already been referred and claimed a discount.",
     );
   }
 
@@ -44,9 +44,17 @@ const createRequestWithReferral = async (
   });
   if (!plan) throw new Error("Selected plan not found.");
 
-  // 3. Apply 50% Discount
-  const discountedPrice = parseFloat(plan.price) * 0.5;
-  console.log("getting the discounted price:", discountedPrice, plan.price);
+  // 3. Apply Discount based on plan percentage
+  const discountPercent = plan.discountPercentage ?? 50;
+  // Calculate the factor (e.g., 50% off -> 0.5 multiplier, 100% off -> 0 multiplier)
+  const discountFactor = Math.max(0, (100 - discountPercent) / 100);
+
+  const discountedPrice = parseFloat(plan.price) * discountFactor;
+  console.log("Applying discount:", {
+    originalPrice: plan.price,
+    discountPercent,
+    discountedPrice,
+  });
 
   // 4. Create the Referral record
   const newReferral = await prisma.referral.create({
@@ -67,7 +75,7 @@ const createRequestWithReferral = async (
   return await serviceRequestModel.initializeRequestWithInvoice(
     finalRequestData,
     discountedPrice,
-    newReferral.id // Pass the referral ID
+    newReferral.id, // Pass the referral ID
   );
 };
 
