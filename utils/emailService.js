@@ -34,7 +34,7 @@ const sendEmail = async (to, subject, text, html) => {
     }
 
     // Send the email using Resend
-    const data = await resend.emails.send({
+    const { data, error } = await resend.emails.send({
       from: process.env.EMAIL_FROM,
       to: [to],
       subject: subject,
@@ -42,11 +42,25 @@ const sendEmail = async (to, subject, text, html) => {
       text: text || undefined, // Include text version if provided
     });
 
-    console.log("Email sent successfully via Resend. Message ID:", data.id);
+    // Check if Resend returned an error
+    if (error) {
+      console.error("Resend API error:", error);
+      throw new Error(
+        `Resend API error: ${error.message || JSON.stringify(error)}`,
+      );
+    }
+
+    console.log("Email sent successfully via Resend. Message ID:", data?.id);
+    console.log("Full Resend response:", data);
 
     return data;
   } catch (error) {
     console.error("Error sending email via Resend:", error);
+    console.error("Error details:", {
+      message: error.message,
+      stack: error.stack,
+      name: error.name,
+    });
 
     // Provide more specific error messages
     if (error.message?.includes("API key")) {
