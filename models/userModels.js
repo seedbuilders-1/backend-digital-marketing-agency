@@ -238,122 +238,6 @@ const deleteUser = async (id) => {
     await prisma.$transaction(async (tx) => {
       console.log("Transaction started");
 
-      // 1. Delete milestone-related records first
-      console.log("Step 2.1: Finding service requests...");
-      const serviceRequests = await tx.service_request.findMany({
-        where: { user_id: id },
-        select: { id: true },
-      });
-      console.log(`Found ${serviceRequests.length} service requests`);
-
-      for (const request of serviceRequests) {
-        console.log(`Processing service request: ${request.id}`);
-
-        // Delete milestone deliverables
-        console.log("  - Deleting milestone deliverables...");
-        const deliverables = await tx.milestone_deliverable.deleteMany({
-          where: {
-            milestone: {
-              service_request_id: request.id,
-            },
-          },
-        });
-        console.log(`  - Deleted ${deliverables.count} milestone deliverables`);
-
-        // Delete milestones
-        console.log("  - Deleting milestones...");
-        const milestones = await tx.milestone.deleteMany({
-          where: { service_request_id: request.id },
-        });
-        console.log(`  - Deleted ${milestones.count} milestones`);
-      }
-
-      // 2. Delete messages and conversations
-      console.log("Step 2.2: Deleting messages...");
-      const messages = await tx.message.deleteMany({
-        where: {
-          conversation: {
-            service_request: {
-              user_id: id,
-            },
-          },
-        },
-      });
-      console.log(`Deleted ${messages.count} messages`);
-
-      console.log("Step 2.3: Deleting conversations...");
-      const conversations = await tx.conversation.deleteMany({
-        where: {
-          service_request: {
-            user_id: id,
-          },
-        },
-      });
-      console.log(`Deleted ${conversations.count} conversations`);
-
-      // 3. Delete service requests
-      console.log("Step 2.4: Deleting service requests...");
-      const requests = await tx.service_request.deleteMany({
-        where: { user_id: id },
-      });
-      console.log(`Deleted ${requests.count} service requests`);
-
-      // 4. Delete invoices and payments
-      console.log("Step 2.5: Deleting payments...");
-      const payments = await tx.payment.deleteMany({
-        where: {
-          invoice: {
-            user_id: id,
-          },
-        },
-      });
-      console.log(`Deleted ${payments.count} payments`);
-
-      console.log("Step 2.6: Deleting invoices...");
-      const invoices = await tx.invoice.deleteMany({
-        where: { user_id: id },
-      });
-      console.log(`Deleted ${invoices.count} invoices`);
-
-      // 5. Delete referrals (both as referrer and referee)
-      console.log("Step 2.7: Deleting referrals...");
-      const referrals = await tx.referral.deleteMany({
-        where: {
-          OR: [{ referrer_id: id }, { referee_id: id }],
-        },
-      });
-      console.log(`Deleted ${referrals.count} referrals`);
-
-      // 6. Delete authentication and settings records
-      console.log("Step 2.8: Deleting OTPs...");
-      const otps = await tx.otp.deleteMany({ where: { user_id: id } });
-      console.log(`Deleted ${otps.count} OTPs`);
-
-      console.log("Step 2.9: Deleting password tokens...");
-      const tokens = await tx.password_token.deleteMany({
-        where: { user_id: id },
-      });
-      console.log(`Deleted ${tokens.count} password tokens`);
-
-      console.log("Step 2.10: Deleting privacy settings...");
-      const privacy = await tx.privacy_settings.deleteMany({
-        where: { user_id: id },
-      });
-      console.log(`Deleted ${privacy.count} privacy settings`);
-
-      console.log("Step 2.11: Deleting notification settings...");
-      const notifications = await tx.notification_settings.deleteMany({
-        where: { user_id: id },
-      });
-      console.log(`Deleted ${notifications.count} notification settings`);
-
-      // 7. Delete organization if user owns one
-      console.log("Step 2.12: Deleting organizations...");
-      const orgs = await tx.organisation.deleteMany({
-        where: { user_id: id },
-      });
-      console.log(`Deleted ${orgs.count} organizations`);
-
       // 8. Finally, delete the user
       console.log("Step 2.13: Deleting user record...");
       await tx.user.delete({
@@ -364,7 +248,6 @@ const deleteUser = async (id) => {
       console.log("Transaction completed successfully");
     });
 
-    console.log("Step 3: All deletions completed successfully");
     console.log("=== DELETE USER COMPLETED ===");
 
     // Note: Cloudinary file deletion would happen here if needed
