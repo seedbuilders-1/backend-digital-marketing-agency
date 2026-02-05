@@ -133,7 +133,7 @@ const createUser = async ({
   //    the system is in an invalid state. We must throw an error.
   if (!userRole) {
     throw new Error(
-      "Default 'user' role not found in the database. Please seed the database."
+      "Default 'user' role not found in the database. Please seed the database.",
     );
   }
   const user = await prisma.user.create({
@@ -163,7 +163,7 @@ const createUser = async ({
 
 const updateUser = async (
   id,
-  { name, email, tel, country, address, category, password }
+  { name, email, tel, country, address, category, password },
 ) => {
   const result = await prisma.user.update({
     where: {
@@ -188,28 +188,114 @@ const updateUser = async (
 };
 
 const deleteUser = async (id) => {
-  const user = await prisma.user.update({
-    where: {
-      id: id,
-      deleted_at: null,
-    },
-    data: {
-      deleted_at: new Date(),
-    },
-    omit: {
-      password: true,
+  // First, get the user to retrieve file URLs for cleanup
+  const user = await prisma.user.findUnique({
+    where: { id: id },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      pfp_url: true,
+      id_url: true,
     },
   });
-  await prisma.otp.deleteMany({ where: { user_id: id } });
-  await prisma.password_token.deleteMany({ where: { user_id: id } });
-  await prisma.privacy_settings.deleteMany({ where: { user_id: id } });
-  await prisma.notification_settings.deleteMany({ where: { user_id: id } });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  // Delete all related records in the correct order (respecting foreign key constraints)
+  // This is a transaction to ensure all-or-nothing deletion
+  await prisma.$transaction(async (tx) => {
+    // 1. Delete milestone-related records first
+    const serviceRequests = await tx.service_request.findMany({
+      where: { user_id: id },
+      select: { id: true },
+    });
+
+    for (const request of serviceRequests) {
+      // Delete milestone deliverables
+      await tx.milestone_deliverable.deleteMany({
+        where: {
+          milestone: {
+            service_request_id: request.id,
+          },
+        },
+      });
+
+      // Delete milestones
+      await tx.milestone.deleteMany({
+        where: { service_request_id: request.id },
+      });
+    }
+
+    // 2. Delete messages and conversations
+    await tx.message.deleteMany({
+      where: {
+        conversation: {
+          service_request: {
+            user_id: id,
+          },
+        },
+      },
+    });
+
+    await tx.conversation.deleteMany({
+      where: {
+        service_request: {
+          user_id: id,
+        },
+      },
+    });
+
+    // 3. Delete service requests
+    await tx.service_request.deleteMany({ where: { user_id: id } });
+
+    // 4. Delete invoices and payments
+    await tx.payment.deleteMany({
+      where: {
+        invoice: {
+          user_id: id,
+        },
+      },
+    });
+
+    await tx.invoice.deleteMany({ where: { user_id: id } });
+
+    // 5. Delete referrals (both as referrer and referee)
+    await tx.referral.deleteMany({
+      where: {
+        OR: [{ referrer_id: id }, { referee_id: id }],
+      },
+    });
+
+    // 6. Delete authentication and settings records
+    await tx.otp.deleteMany({ where: { user_id: id } });
+    await tx.password_token.deleteMany({ where: { user_id: id } });
+    await tx.privacy_settings.deleteMany({ where: { user_id: id } });
+    await tx.notification_settings.deleteMany({ where: { user_id: id } });
+
+    // 7. Delete organization if user owns one
+    await tx.organisation.deleteMany({ where: { user_id: id } });
+
+    // 8. Finally, delete the user
+    await tx.user.delete({
+      where: { id: id },
+    });
+  });
+
+  // Note: Cloudinary file deletion would happen here if needed
+  // You would need to import cloudinary service and delete files:
+  // - user.pfp_url (profile picture)
+  // - user.id_url (ID documents - array)
+  // Example: await cloudinary.deleteFiles([user.pfp_url, ...user.id_url]);
+
   return user;
 };
 
 const profile = async (
   id,
-  { pfp_url, id_url, business_status, registered_with_a_business }
+  { pfp_url, id_url, business_status, registered_with_a_business },
 ) => {
   const profile = await prisma.user.update({
     where: {
