@@ -1,55 +1,64 @@
 // utils/emailService.js
 
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 
-const transporter = nodemailer.createTransport({
-  host: process.env.ZOHO_HOST,
-  port: parseInt(process.env.ZOHO_PORT, 10),
-  secure: process.env.ZOHO_PORT === "465", // true for 465, false for other ports
-  auth: {
-    user: process.env.ZOHO_USER,
-    pass: process.env.ZOHO_APP_PASSWORD, // Use the App-Specific Password here
-  },
-  // Add timeout configurations to prevent hanging
-  connectionTimeout: 10000, // 10 seconds to establish connection
-  greetingTimeout: 10000, // 10 seconds to wait for greeting
-  socketTimeout: 15000, // 15 seconds of inactivity
-  // Add pool configuration for better performance
-  pool: true,
-  maxConnections: 5,
-  maxMessages: 100,
-});
+// Initialize Resend with API key from environment
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 /**
- * Sends an email using the configured Zoho transporter.
+ * Sends an email using Resend.
  *
  * @param {string} to The recipient's email address.
  * @param {string} subject The subject line of the email.
- * @param {string} text The plain-text version of the email body.
+ * @param {string} text The plain-text version of the email body (optional, used as fallback).
  * @param {string} html The HTML version of the email body.
  * @returns {Promise<void>}
  */
 const sendEmail = async (to, subject, text, html) => {
   try {
-    // Define the email options
-    const mailOptions = {
-      from: process.env.EMAIL_FROM,
-      to: to,
-      subject: subject,
-      text: text,
-      html: html,
-    };
+    // Validate required fields
+    if (!to || !subject || !html) {
+      throw new Error("Missing required email fields: to, subject, or html");
+    }
 
-    // Send the email
-    const info = await transporter.sendMail(mailOptions);
-    console.log(
-      "Email sent successfully via Zoho. Message ID:",
-      info.messageId,
-    );
+    // Validate API key is configured
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error(
+        "RESEND_API_KEY is not configured in environment variables",
+      );
+    }
+
+    // Validate sender email is configured
+    if (!process.env.EMAIL_FROM) {
+      throw new Error("EMAIL_FROM is not configured in environment variables");
+    }
+
+    // Send the email using Resend
+    const data = await resend.emails.send({
+      from: process.env.EMAIL_FROM,
+      to: [to],
+      subject: subject,
+      html: html,
+      text: text || undefined, // Include text version if provided
+    });
+
+    console.log("Email sent successfully via Resend. Message ID:", data.id);
+
+    return data;
   } catch (error) {
-    console.error("Error sending email via Zoho:", error);
+    console.error("Error sending email via Resend:", error);
+
+    // Provide more specific error messages
+    if (error.message?.includes("API key")) {
+      throw new Error("Invalid Resend API key configuration");
+    }
+
+    if (error.message?.includes("from")) {
+      throw new Error("Invalid sender email address");
+    }
+
     // Throw the error so the calling service can handle it
-    throw new Error("Failed to send email.");
+    throw new Error(`Failed to send email: ${error.message}`);
   }
 };
 
