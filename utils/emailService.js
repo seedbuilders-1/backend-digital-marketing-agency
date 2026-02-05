@@ -5,12 +5,19 @@ const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
   host: process.env.ZOHO_HOST,
   port: parseInt(process.env.ZOHO_PORT, 10),
-  //   secure: false, // Port 587 uses STARTTLS, so `secure` is false. Nodemailer upgrades the connection.
-  secure: true,
+  secure: process.env.ZOHO_PORT === "465", // true for 465, false for other ports
   auth: {
     user: process.env.ZOHO_USER,
     pass: process.env.ZOHO_APP_PASSWORD, // Use the App-Specific Password here
   },
+  // Add timeout configurations to prevent hanging
+  connectionTimeout: 10000, // 10 seconds to establish connection
+  greetingTimeout: 10000, // 10 seconds to wait for greeting
+  socketTimeout: 15000, // 15 seconds of inactivity
+  // Add pool configuration for better performance
+  pool: true,
+  maxConnections: 5,
+  maxMessages: 100,
 });
 
 /**
@@ -37,7 +44,7 @@ const sendEmail = async (to, subject, text, html) => {
     const info = await transporter.sendMail(mailOptions);
     console.log(
       "Email sent successfully via Zoho. Message ID:",
-      info.messageId
+      info.messageId,
     );
   } catch (error) {
     console.error("Error sending email via Zoho:", error);

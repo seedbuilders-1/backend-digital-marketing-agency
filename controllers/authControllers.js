@@ -198,19 +198,19 @@ exports.resend_otp = async (req, res) => {
     </div>
   `;
 
-    // 3. Call our reusable email service to send the email via Zoho
-    try {
-      console.log("Sending email to", user?.email);
-      await sendEmail(user?.email, emailSubject, emailText, emailHtml);
-    } catch (emailError) {
-      // If the email fails, we might want to still let the user be created but log the error.
-      // Or, you could reverse the user creation in a more complex transaction.
-      // For now, we'll log it and proceed.
-      console.error(
-        `Failed to send OTP email to ${user?.email}, but user was created.`,
-        emailError,
-      );
-    }
+    // 3. Send email asynchronously (don't block the response)
+    console.log("Sending email to", user?.email);
+    sendEmail(user?.email, emailSubject, emailText, emailHtml)
+      .then(() => {
+        console.log(`OTP email sent successfully to ${user?.email}`);
+      })
+      .catch((emailError) => {
+        console.error(
+          `Failed to send OTP email to ${user?.email}:`,
+          emailError.message,
+        );
+        // Email failure doesn't prevent OTP generation - user can try again
+      });
 
     // --- END ZOHO EMAIL INTEGRATION ---
 

@@ -105,19 +105,20 @@ exports.createUser = async (req, res) => {
     </div>
   `;
 
-    // 3. Call our reusable email service to send the email via Zoho
-    try {
-      console.log("Sending email to", user.email);
-      await sendEmail(user.email, emailSubject, emailText, emailHtml);
-    } catch (emailError) {
-      // If the email fails, we might want to still let the user be created but log the error.
-      // Or, you could reverse the user creation in a more complex transaction.
-      // For now, we'll log it and proceed.
-      console.error(
-        `Failed to send OTP email to ${user.email}, but user was created.`,
-        emailError
-      );
-    }
+    // 3. Send email asynchronously (don't block the response)
+    // This prevents signup from hanging if email service has issues
+    console.log("Sending email to", user.email);
+    sendEmail(user.email, emailSubject, emailText, emailHtml)
+      .then(() => {
+        console.log(`OTP email sent successfully to ${user.email}`);
+      })
+      .catch((emailError) => {
+        console.error(
+          `Failed to send OTP email to ${user.email}:`,
+          emailError.message,
+        );
+        // Email failure doesn't prevent signup - user can request resend
+      });
 
     // --- END ZOHO EMAIL INTEGRATION ---
 
@@ -157,7 +158,7 @@ exports.updateUser = async (req, res) => {
       return sendError(
         res,
         400,
-        "All fields are required - name, email, tel, country, city, address, category, password"
+        "All fields are required - name, email, tel, country, city, address, category, password",
       );
     }
 
@@ -182,7 +183,7 @@ exports.updateUser = async (req, res) => {
       res,
       200,
       { user: updated },
-      "User updated successfully!"
+      "User updated successfully!",
     );
   } catch (err) {
     const statusCode = err.statusCode || 500;
@@ -190,7 +191,7 @@ exports.updateUser = async (req, res) => {
       res,
       statusCode,
       `Could not update User: ${err.message}`,
-      err.message
+      err.message,
     );
   }
 };
@@ -208,7 +209,7 @@ exports.deleteUser = async (req, res) => {
       res,
       200,
       { user: deleted },
-      "User deleted successfully"
+      "User deleted successfully",
     );
   } catch (err) {
     return sendError(res, 500, "Could not delete user", err.message);
@@ -246,7 +247,7 @@ exports.profile = async (req, res) => {
     const profilePicBuffer = req.files["profile-pic"][0].buffer;
     const uploadResult = await uploadToCloudinary(
       profilePicBuffer,
-      "users/profile-pic"
+      "users/profile-pic",
     );
 
     const idFiles = req.files["IDs"] || [];
@@ -267,7 +268,7 @@ exports.profile = async (req, res) => {
       res,
       200,
       { user: profile, image: { pfp: profile.pfp_url, ID: profile.id_url } },
-      "User profile has been successfully completed!"
+      "User profile has been successfully completed!",
     );
   } catch (err) {
     console.error("PROFILE UPDATE ERROR:", err);
