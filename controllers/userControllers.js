@@ -197,13 +197,32 @@ exports.updateUser = async (req, res) => {
 };
 
 exports.deleteUser = async (req, res) => {
+  console.log("\n========================================");
+  console.log("[CONTROLLER] DELETE USER REQUEST RECEIVED");
+  console.log("========================================");
+  console.log("Request params:", req.params);
+  console.log("Request user (from auth):", req.user);
+  console.log("Timestamp:", new Date().toISOString());
+
   try {
     const { id } = req.params;
+    console.log("[CONTROLLER] Attempting to delete user with ID:", id);
+
     const deleted = await userService.deleteUser(id);
 
     if (!deleted) {
+      console.warn("[CONTROLLER] User not found, returning 404");
       return sendError(res, 404, "User not found");
     }
+
+    console.log("[CONTROLLER] User deleted successfully:", {
+      id: deleted.id,
+      name: deleted.name,
+      email: deleted.email,
+    });
+    console.log("========================================");
+    console.log("[CONTROLLER] DELETE USER SUCCESS");
+    console.log("========================================\n");
 
     return sendSuccess(
       res,
@@ -212,6 +231,15 @@ exports.deleteUser = async (req, res) => {
       "User deleted successfully",
     );
   } catch (err) {
+    console.error("\n========================================");
+    console.error("[CONTROLLER] DELETE USER ERROR");
+    console.error("========================================");
+    console.error("Error name:", err.name);
+    console.error("Error message:", err.message);
+    console.error("Error stack:", err.stack);
+    console.error("Full error:", err);
+    console.error("========================================\n");
+
     return sendError(res, 500, "Could not delete user", err.message);
   }
 };

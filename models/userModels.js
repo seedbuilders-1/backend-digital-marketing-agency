@@ -1,10 +1,15 @@
 const { prisma } = require("../config/db");
 
 const getAllUsers = async () => {
-  return await prisma.user.findMany({
-    where: {
-      deleted_at: null,
-    },
+  console.log("[MODEL] getAllUsers called");
+
+  // Get total count in database (including soft-deleted)
+  const totalCount = await prisma.user.count();
+  console.log(`[MODEL] Total users in database: ${totalCount}`);
+
+  // Get all users (no filters - show everything)
+  const users = await prisma.user.findMany({
+    // Removed deleted_at filter to show ALL users
     // Using `select` is a secure way to explicitly choose the fields you want to return.
     select: {
       id: true,
@@ -14,6 +19,7 @@ const getAllUsers = async () => {
       status: true,
       category: true,
       created_at: true,
+      deleted_at: true, // Include this so we can see if user was soft-deleted
       role: {
         select: {
           title: true,
@@ -24,6 +30,13 @@ const getAllUsers = async () => {
       created_at: "desc", // Show the most recently created users first
     },
   });
+
+  console.log(`[MODEL] Returning ${users.length} users`);
+  console.log(
+    `[MODEL] Users with deleted_at set: ${users.filter((u) => u.deleted_at !== null).length}`,
+  );
+
+  return users;
 };
 
 const getuserById = async (id) => {
@@ -188,109 +201,187 @@ const updateUser = async (
 };
 
 const deleteUser = async (id) => {
-  // First, get the user to retrieve file URLs for cleanup
-  const user = await prisma.user.findUnique({
-    where: { id: id },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      pfp_url: true,
-      id_url: true,
-    },
-  });
+  console.log("=== DELETE USER STARTED ===");
+  console.log("User ID to delete:", id);
 
-  if (!user) {
-    throw new Error("User not found");
-  }
-
-  // Delete all related records in the correct order (respecting foreign key constraints)
-  // This is a transaction to ensure all-or-nothing deletion
-  await prisma.$transaction(async (tx) => {
-    // 1. Delete milestone-related records first
-    const serviceRequests = await tx.service_request.findMany({
-      where: { user_id: id },
-      select: { id: true },
+  try {
+    // First, get the user to retrieve file URLs for cleanup
+    console.log("Step 1: Fetching user data...");
+    const user = await prisma.user.findUnique({
+      where: { id: id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        pfp_url: true,
+        id_url: true,
+      },
     });
 
-    for (const request of serviceRequests) {
-      // Delete milestone deliverables
-      await tx.milestone_deliverable.deleteMany({
+    if (!user) {
+      console.error("ERROR: User not found with ID:", id);
+      throw new Error("User not found");
+    }
+
+    console.log("User found:", {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+    });
+
+    // Delete all related records in the correct order (respecting foreign key constraints)
+    // This is a transaction to ensure all-or-nothing deletion
+    console.log(
+      "Step 2: Starting transaction to delete all related records...",
+    );
+
+    await prisma.$transaction(async (tx) => {
+      console.log("Transaction started");
+
+      // 1. Delete milestone-related records first
+      console.log("Step 2.1: Finding service requests...");
+      const serviceRequests = await tx.service_request.findMany({
+        where: { user_id: id },
+        select: { id: true },
+      });
+      console.log(`Found ${serviceRequests.length} service requests`);
+
+      for (const request of serviceRequests) {
+        console.log(`Processing service request: ${request.id}`);
+
+        // Delete milestone deliverables
+        console.log("  - Deleting milestone deliverables...");
+        const deliverables = await tx.milestone_deliverable.deleteMany({
+          where: {
+            milestone: {
+              service_request_id: request.id,
+            },
+          },
+        });
+        console.log(`  - Deleted ${deliverables.count} milestone deliverables`);
+
+        // Delete milestones
+        console.log("  - Deleting milestones...");
+        const milestones = await tx.milestone.deleteMany({
+          where: { service_request_id: request.id },
+        });
+        console.log(`  - Deleted ${milestones.count} milestones`);
+      }
+
+      // 2. Delete messages and conversations
+      console.log("Step 2.2: Deleting messages...");
+      const messages = await tx.message.deleteMany({
         where: {
-          milestone: {
-            service_request_id: request.id,
+          conversation: {
+            service_request: {
+              user_id: id,
+            },
           },
         },
       });
+      console.log(`Deleted ${messages.count} messages`);
 
-      // Delete milestones
-      await tx.milestone.deleteMany({
-        where: { service_request_id: request.id },
-      });
-    }
-
-    // 2. Delete messages and conversations
-    await tx.message.deleteMany({
-      where: {
-        conversation: {
+      console.log("Step 2.3: Deleting conversations...");
+      const conversations = await tx.conversation.deleteMany({
+        where: {
           service_request: {
             user_id: id,
           },
         },
-      },
-    });
+      });
+      console.log(`Deleted ${conversations.count} conversations`);
 
-    await tx.conversation.deleteMany({
-      where: {
-        service_request: {
-          user_id: id,
+      // 3. Delete service requests
+      console.log("Step 2.4: Deleting service requests...");
+      const requests = await tx.service_request.deleteMany({
+        where: { user_id: id },
+      });
+      console.log(`Deleted ${requests.count} service requests`);
+
+      // 4. Delete invoices and payments
+      console.log("Step 2.5: Deleting payments...");
+      const payments = await tx.payment.deleteMany({
+        where: {
+          invoice: {
+            user_id: id,
+          },
         },
-      },
-    });
+      });
+      console.log(`Deleted ${payments.count} payments`);
 
-    // 3. Delete service requests
-    await tx.service_request.deleteMany({ where: { user_id: id } });
+      console.log("Step 2.6: Deleting invoices...");
+      const invoices = await tx.invoice.deleteMany({
+        where: { user_id: id },
+      });
+      console.log(`Deleted ${invoices.count} invoices`);
 
-    // 4. Delete invoices and payments
-    await tx.payment.deleteMany({
-      where: {
-        invoice: {
-          user_id: id,
+      // 5. Delete referrals (both as referrer and referee)
+      console.log("Step 2.7: Deleting referrals...");
+      const referrals = await tx.referral.deleteMany({
+        where: {
+          OR: [{ referrer_id: id }, { referee_id: id }],
         },
-      },
+      });
+      console.log(`Deleted ${referrals.count} referrals`);
+
+      // 6. Delete authentication and settings records
+      console.log("Step 2.8: Deleting OTPs...");
+      const otps = await tx.otp.deleteMany({ where: { user_id: id } });
+      console.log(`Deleted ${otps.count} OTPs`);
+
+      console.log("Step 2.9: Deleting password tokens...");
+      const tokens = await tx.password_token.deleteMany({
+        where: { user_id: id },
+      });
+      console.log(`Deleted ${tokens.count} password tokens`);
+
+      console.log("Step 2.10: Deleting privacy settings...");
+      const privacy = await tx.privacy_settings.deleteMany({
+        where: { user_id: id },
+      });
+      console.log(`Deleted ${privacy.count} privacy settings`);
+
+      console.log("Step 2.11: Deleting notification settings...");
+      const notifications = await tx.notification_settings.deleteMany({
+        where: { user_id: id },
+      });
+      console.log(`Deleted ${notifications.count} notification settings`);
+
+      // 7. Delete organization if user owns one
+      console.log("Step 2.12: Deleting organizations...");
+      const orgs = await tx.organisation.deleteMany({
+        where: { user_id: id },
+      });
+      console.log(`Deleted ${orgs.count} organizations`);
+
+      // 8. Finally, delete the user
+      console.log("Step 2.13: Deleting user record...");
+      await tx.user.delete({
+        where: { id: id },
+      });
+      console.log("User record deleted successfully");
+
+      console.log("Transaction completed successfully");
     });
 
-    await tx.invoice.deleteMany({ where: { user_id: id } });
+    console.log("Step 3: All deletions completed successfully");
+    console.log("=== DELETE USER COMPLETED ===");
 
-    // 5. Delete referrals (both as referrer and referee)
-    await tx.referral.deleteMany({
-      where: {
-        OR: [{ referrer_id: id }, { referee_id: id }],
-      },
-    });
+    // Note: Cloudinary file deletion would happen here if needed
+    // You would need to import cloudinary service and delete files:
+    // - user.pfp_url (profile picture)
+    // - user.id_url (ID documents - array)
+    // Example: await cloudinary.deleteFiles([user.pfp_url, ...user.id_url]);
 
-    // 6. Delete authentication and settings records
-    await tx.otp.deleteMany({ where: { user_id: id } });
-    await tx.password_token.deleteMany({ where: { user_id: id } });
-    await tx.privacy_settings.deleteMany({ where: { user_id: id } });
-    await tx.notification_settings.deleteMany({ where: { user_id: id } });
-
-    // 7. Delete organization if user owns one
-    await tx.organisation.deleteMany({ where: { user_id: id } });
-
-    // 8. Finally, delete the user
-    await tx.user.delete({
-      where: { id: id },
-    });
-  });
-
-  // Note: Cloudinary file deletion would happen here if needed
-  // You would need to import cloudinary service and delete files:
-  // - user.pfp_url (profile picture)
-  // - user.id_url (ID documents - array)
-  // Example: await cloudinary.deleteFiles([user.pfp_url, ...user.id_url]);
-
-  return user;
+    return user;
+  } catch (error) {
+    console.error("=== DELETE USER FAILED ===");
+    console.error("Error type:", error.name);
+    console.error("Error message:", error.message);
+    console.error("Error stack:", error.stack);
+    console.error("Full error object:", error);
+    throw error;
+  }
 };
 
 const profile = async (

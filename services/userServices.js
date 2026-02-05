@@ -32,7 +32,7 @@ const createUser = async (userData) => {
   const existingUserByTel = await userModel.getuserByTel(tel);
   if (existingUserByTel) {
     const error = new Error(
-      "An account with this phone number already exists."
+      "An account with this phone number already exists.",
     );
     error.statusCode = 409;
     throw error;
@@ -61,13 +61,13 @@ const createUser = async (userData) => {
       role: newUserWithDetails.role.title,
     },
     process.env.JWT_ACCESS_SECRET,
-    { expiresIn: "1h" }
+    { expiresIn: "1h" },
   );
 
   const refreshToken = jwt.sign(
     { id: newUser.id },
     process.env.JWT_REFRESH_SECRET,
-    { expiresIn: "7d" }
+    { expiresIn: "7d" },
   );
 
   // 5. Remove the password from the user object before returning
@@ -89,7 +89,15 @@ const updateUser = async (id, updateData) => {
 };
 
 const deleteUser = async (id) => {
-  return await userModel.deleteUser(id);
+  console.log("[SERVICE] deleteUser called with ID:", id);
+  try {
+    const result = await userModel.deleteUser(id);
+    console.log("[SERVICE] deleteUser completed successfully");
+    return result;
+  } catch (error) {
+    console.error("[SERVICE] deleteUser failed:", error.message);
+    throw error;
+  }
 };
 
 const profile = async (id, profileData) => {
