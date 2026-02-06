@@ -90,6 +90,7 @@ model Service {
   blueprintParagraph String?          @db.Text
   blueprintImageUrl  String?          @db.Text
   bannerText         String?          @db.Text
+  onboardingVideoUrl String?          @db.Text
   admin_id           String           @db.Char(36)
   created_at         DateTime?        @default(now()) @db.Timestamp(0)
   deleted_at         DateTime?        @db.Timestamp(0)

@@ -58,6 +58,7 @@ const parseJson = (jsonString, defaultValue = []) => {
 };
 
 // Reusable helper to build the service data object for create and update
+// Reusable helper to build the service data object for create and update
 const buildServiceData = async (body, files, existingService = {}, adminId) => {
   const {
     title,
@@ -105,6 +106,10 @@ const buildServiceData = async (body, files, existingService = {}, adminId) => {
     // Use the new image URL if it exists in the map, otherwise keep the existing one.
     heroImageUrl:
       imageUrlMap["heroImage"] || existingService.heroImageUrl || null,
+    onboardingVideoUrl:
+      imageUrlMap["onboardingVideo"] ||
+      existingService.onboardingVideoUrl ||
+      null,
     blueprintHeadline,
     blueprintParagraph,
     blueprintImageUrl:

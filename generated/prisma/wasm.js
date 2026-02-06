@@ -171,6 +171,7 @@ exports.Prisma.ServiceScalarFieldEnum = {
   blueprintParagraph: 'blueprintParagraph',
   blueprintImageUrl: 'blueprintImageUrl',
   bannerText: 'bannerText',
+  onboardingVideoUrl: 'onboardingVideoUrl',
   admin_id: 'admin_id',
   created_at: 'created_at',
   deleted_at: 'deleted_at'
@@ -460,6 +461,7 @@ exports.Prisma.ServiceOrderByRelevanceFieldEnum = {
   blueprintParagraph: 'blueprintParagraph',
   blueprintImageUrl: 'blueprintImageUrl',
   bannerText: 'bannerText',
+  onboardingVideoUrl: 'onboardingVideoUrl',
   admin_id: 'admin_id'
 };
 
