@@ -172,6 +172,10 @@ exports.Prisma.ServiceScalarFieldEnum = {
   blueprintImageUrl: 'blueprintImageUrl',
   bannerText: 'bannerText',
   onboardingVideoUrl: 'onboardingVideoUrl',
+  problemPoints: 'problemPoints',
+  whatYouGet: 'whatYouGet',
+  processSteps: 'processSteps',
+  expectedResults: 'expectedResults',
   admin_id: 'admin_id',
   created_at: 'created_at',
   deleted_at: 'deleted_at'

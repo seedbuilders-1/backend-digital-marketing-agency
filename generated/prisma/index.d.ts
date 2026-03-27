@@ -5925,6 +5925,10 @@ export namespace Prisma {
     blueprintImageUrl: number
     bannerText: number
     onboardingVideoUrl: number
+    problemPoints: number
+    whatYouGet: number
+    processSteps: number
+    expectedResults: number
     admin_id: number
     created_at: number
     deleted_at: number
@@ -5978,6 +5982,10 @@ export namespace Prisma {
     blueprintImageUrl?: true
     bannerText?: true
     onboardingVideoUrl?: true
+    problemPoints?: true
+    whatYouGet?: true
+    processSteps?: true
+    expectedResults?: true
     admin_id?: true
     created_at?: true
     deleted_at?: true
@@ -6068,6 +6076,10 @@ export namespace Prisma {
     blueprintImageUrl: string | null
     bannerText: string | null
     onboardingVideoUrl: string | null
+    problemPoints: JsonValue | null
+    whatYouGet: JsonValue | null
+    processSteps: JsonValue | null
+    expectedResults: JsonValue | null
     admin_id: string
     created_at: Date | null
     deleted_at: Date | null
@@ -6102,6 +6114,10 @@ export namespace Prisma {
     blueprintImageUrl?: boolean
     bannerText?: boolean
     onboardingVideoUrl?: boolean
+    problemPoints?: boolean
+    whatYouGet?: boolean
+    processSteps?: boolean
+    expectedResults?: boolean
     admin_id?: boolean
     created_at?: boolean
     deleted_at?: boolean
@@ -6129,12 +6145,16 @@ export namespace Prisma {
     blueprintImageUrl?: boolean
     bannerText?: boolean
     onboardingVideoUrl?: boolean
+    problemPoints?: boolean
+    whatYouGet?: boolean
+    processSteps?: boolean
+    expectedResults?: boolean
     admin_id?: boolean
     created_at?: boolean
     deleted_at?: boolean
   }
 
-  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "isPublic" | "heroHeadline" | "heroParagraph" | "heroImageUrl" | "blueprintHeadline" | "blueprintParagraph" | "blueprintImageUrl" | "bannerText" | "onboardingVideoUrl" | "admin_id" | "created_at" | "deleted_at", ExtArgs["result"]["service"]>
+  export type ServiceOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "isPublic" | "heroHeadline" | "heroParagraph" | "heroImageUrl" | "blueprintHeadline" | "blueprintParagraph" | "blueprintImageUrl" | "bannerText" | "onboardingVideoUrl" | "problemPoints" | "whatYouGet" | "processSteps" | "expectedResults" | "admin_id" | "created_at" | "deleted_at", ExtArgs["result"]["service"]>
   export type ServiceInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     plans?: boolean | Service$plansArgs<ExtArgs>
     caseStudies?: boolean | Service$caseStudiesArgs<ExtArgs>
@@ -6169,6 +6189,10 @@ export namespace Prisma {
       blueprintImageUrl: string | null
       bannerText: string | null
       onboardingVideoUrl: string | null
+      problemPoints: Prisma.JsonValue | null
+      whatYouGet: Prisma.JsonValue | null
+      processSteps: Prisma.JsonValue | null
+      expectedResults: Prisma.JsonValue | null
       admin_id: string
       created_at: Date | null
       deleted_at: Date | null
@@ -6559,6 +6583,10 @@ export namespace Prisma {
     readonly blueprintImageUrl: FieldRef<"Service", 'String'>
     readonly bannerText: FieldRef<"Service", 'String'>
     readonly onboardingVideoUrl: FieldRef<"Service", 'String'>
+    readonly problemPoints: FieldRef<"Service", 'Json'>
+    readonly whatYouGet: FieldRef<"Service", 'Json'>
+    readonly processSteps: FieldRef<"Service", 'Json'>
+    readonly expectedResults: FieldRef<"Service", 'Json'>
     readonly admin_id: FieldRef<"Service", 'String'>
     readonly created_at: FieldRef<"Service", 'DateTime'>
     readonly deleted_at: FieldRef<"Service", 'DateTime'>
@@ -27709,6 +27737,10 @@ export namespace Prisma {
     blueprintImageUrl: 'blueprintImageUrl',
     bannerText: 'bannerText',
     onboardingVideoUrl: 'onboardingVideoUrl',
+    problemPoints: 'problemPoints',
+    whatYouGet: 'whatYouGet',
+    processSteps: 'processSteps',
+    expectedResults: 'expectedResults',
     admin_id: 'admin_id',
     created_at: 'created_at',
     deleted_at: 'deleted_at'
@@ -28694,6 +28726,10 @@ export namespace Prisma {
     blueprintImageUrl?: StringNullableFilter<"Service"> | string | null
     bannerText?: StringNullableFilter<"Service"> | string | null
     onboardingVideoUrl?: StringNullableFilter<"Service"> | string | null
+    problemPoints?: JsonNullableFilter<"Service">
+    whatYouGet?: JsonNullableFilter<"Service">
+    processSteps?: JsonNullableFilter<"Service">
+    expectedResults?: JsonNullableFilter<"Service">
     admin_id?: StringFilter<"Service"> | string
     created_at?: DateTimeNullableFilter<"Service"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"Service"> | Date | string | null
@@ -28718,6 +28754,10 @@ export namespace Prisma {
     blueprintImageUrl?: SortOrderInput | SortOrder
     bannerText?: SortOrderInput | SortOrder
     onboardingVideoUrl?: SortOrderInput | SortOrder
+    problemPoints?: SortOrderInput | SortOrder
+    whatYouGet?: SortOrderInput | SortOrder
+    processSteps?: SortOrderInput | SortOrder
+    expectedResults?: SortOrderInput | SortOrder
     admin_id?: SortOrder
     created_at?: SortOrderInput | SortOrder
     deleted_at?: SortOrderInput | SortOrder
@@ -28746,6 +28786,10 @@ export namespace Prisma {
     blueprintImageUrl?: StringNullableFilter<"Service"> | string | null
     bannerText?: StringNullableFilter<"Service"> | string | null
     onboardingVideoUrl?: StringNullableFilter<"Service"> | string | null
+    problemPoints?: JsonNullableFilter<"Service">
+    whatYouGet?: JsonNullableFilter<"Service">
+    processSteps?: JsonNullableFilter<"Service">
+    expectedResults?: JsonNullableFilter<"Service">
     admin_id?: StringFilter<"Service"> | string
     created_at?: DateTimeNullableFilter<"Service"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"Service"> | Date | string | null
@@ -28770,6 +28814,10 @@ export namespace Prisma {
     blueprintImageUrl?: SortOrderInput | SortOrder
     bannerText?: SortOrderInput | SortOrder
     onboardingVideoUrl?: SortOrderInput | SortOrder
+    problemPoints?: SortOrderInput | SortOrder
+    whatYouGet?: SortOrderInput | SortOrder
+    processSteps?: SortOrderInput | SortOrder
+    expectedResults?: SortOrderInput | SortOrder
     admin_id?: SortOrder
     created_at?: SortOrderInput | SortOrder
     deleted_at?: SortOrderInput | SortOrder
@@ -28793,6 +28841,10 @@ export namespace Prisma {
     blueprintImageUrl?: StringNullableWithAggregatesFilter<"Service"> | string | null
     bannerText?: StringNullableWithAggregatesFilter<"Service"> | string | null
     onboardingVideoUrl?: StringNullableWithAggregatesFilter<"Service"> | string | null
+    problemPoints?: JsonNullableWithAggregatesFilter<"Service">
+    whatYouGet?: JsonNullableWithAggregatesFilter<"Service">
+    processSteps?: JsonNullableWithAggregatesFilter<"Service">
+    expectedResults?: JsonNullableWithAggregatesFilter<"Service">
     admin_id?: StringWithAggregatesFilter<"Service"> | string
     created_at?: DateTimeNullableWithAggregatesFilter<"Service"> | Date | string | null
     deleted_at?: DateTimeNullableWithAggregatesFilter<"Service"> | Date | string | null
@@ -30619,6 +30671,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     plans?: PlanCreateNestedManyWithoutServiceInput
@@ -30642,6 +30698,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id: string
     created_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -30665,6 +30725,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plans?: PlanUpdateManyWithoutServiceNestedInput
@@ -30688,6 +30752,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -30711,6 +30779,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id: string
     created_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -30728,6 +30800,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -30744,6 +30820,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -32776,6 +32856,10 @@ export namespace Prisma {
     blueprintImageUrl?: SortOrder
     bannerText?: SortOrder
     onboardingVideoUrl?: SortOrder
+    problemPoints?: SortOrder
+    whatYouGet?: SortOrder
+    processSteps?: SortOrder
+    expectedResults?: SortOrder
     admin_id?: SortOrder
     created_at?: SortOrder
     deleted_at?: SortOrder
@@ -36323,6 +36407,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     plans?: PlanCreateNestedManyWithoutServiceInput
@@ -36345,6 +36433,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     plans?: PlanUncheckedCreateNestedManyWithoutServiceInput
@@ -36890,6 +36982,10 @@ export namespace Prisma {
     blueprintImageUrl?: StringNullableFilter<"Service"> | string | null
     bannerText?: StringNullableFilter<"Service"> | string | null
     onboardingVideoUrl?: StringNullableFilter<"Service"> | string | null
+    problemPoints?: JsonNullableFilter<"Service">
+    whatYouGet?: JsonNullableFilter<"Service">
+    processSteps?: JsonNullableFilter<"Service">
+    expectedResults?: JsonNullableFilter<"Service">
     admin_id?: StringFilter<"Service"> | string
     created_at?: DateTimeNullableFilter<"Service"> | Date | string | null
     deleted_at?: DateTimeNullableFilter<"Service"> | Date | string | null
@@ -37854,6 +37950,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     plans?: PlanCreateNestedManyWithoutServiceInput
@@ -37876,6 +37976,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id: string
     created_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -37914,6 +38018,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plans?: PlanUpdateManyWithoutServiceNestedInput
@@ -37936,6 +38044,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -37958,6 +38070,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     caseStudies?: CaseStudyCreateNestedManyWithoutServiceInput
@@ -37980,6 +38096,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id: string
     created_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -38128,6 +38248,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     caseStudies?: CaseStudyUpdateManyWithoutServiceNestedInput
@@ -38150,6 +38274,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -38934,6 +39062,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     plans?: PlanCreateNestedManyWithoutServiceInput
@@ -38956,6 +39088,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id: string
     created_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -39041,6 +39177,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plans?: PlanUpdateManyWithoutServiceNestedInput
@@ -39063,6 +39203,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39138,6 +39282,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     plans?: PlanCreateNestedManyWithoutServiceInput
@@ -39160,6 +39308,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id: string
     created_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -39273,6 +39425,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plans?: PlanUpdateManyWithoutServiceNestedInput
@@ -39295,6 +39451,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39398,6 +39558,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     plans?: PlanCreateNestedManyWithoutServiceInput
@@ -39420,6 +39584,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id: string
     created_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -39458,6 +39626,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plans?: PlanUpdateManyWithoutServiceNestedInput
@@ -39480,6 +39652,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39577,6 +39753,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string | null
     deleted_at?: Date | string | null
     plans?: PlanCreateNestedManyWithoutServiceInput
@@ -39599,6 +39779,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id: string
     created_at?: Date | string | null
     deleted_at?: Date | string | null
@@ -39841,6 +40025,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plans?: PlanUpdateManyWithoutServiceNestedInput
@@ -39863,6 +40051,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     admin_id?: StringFieldUpdateOperationsInput | string
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -42141,6 +42333,10 @@ export namespace Prisma {
     blueprintImageUrl?: string | null
     bannerText?: string | null
     onboardingVideoUrl?: string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: Date | string | null
     deleted_at?: Date | string | null
   }
@@ -42400,6 +42596,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plans?: PlanUpdateManyWithoutServiceNestedInput
@@ -42422,6 +42622,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     plans?: PlanUncheckedUpdateManyWithoutServiceNestedInput
@@ -42444,6 +42648,10 @@ export namespace Prisma {
     blueprintImageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bannerText?: NullableStringFieldUpdateOperationsInput | string | null
     onboardingVideoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    problemPoints?: NullableJsonNullValueInput | InputJsonValue
+    whatYouGet?: NullableJsonNullValueInput | InputJsonValue
+    processSteps?: NullableJsonNullValueInput | InputJsonValue
+    expectedResults?: NullableJsonNullValueInput | InputJsonValue
     created_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deleted_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }

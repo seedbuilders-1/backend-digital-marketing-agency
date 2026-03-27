@@ -5,14 +5,24 @@ const servicesToSeed = [
   {
     title: "Digital Marketing Audit",
     isPublic: true,
-    heroHeadline: "Uncover Your Hidden Growth Opportunities",
+    heroHeadline: "Discover What’s Holding Your Online Growth Back",
     heroParagraph:
-      "Our comprehensive audit analyzes every channel of your digital presence to create a data-driven roadmap for success. Stop guessing, start growing.",
+      "Before scaling your marketing, you need to understand what’s working and what isn’t.\nDigital Marketing Agency offers a Free Digital Marketing Audit to evaluate your current online performance.",
     blueprintHeadline: "A 360-Degree View of Your Digital Ecosystem",
     blueprintParagraph:
-      "We dive deep into your website, SEO, social media, paid ads, and more, benchmarking you against competitors to find actionable insights that drive real results.",
+      "After the audit, we provide clear recommendations for improvement. We dive deep into your website, SEO, social media, paid ads, and more.",
     bannerText:
       "Ready to unlock your true potential? Get your comprehensive audit today!",
+    problemPoints: [],
+    whatYouGet: [
+      "Website performance",
+      "SEO health",
+      "Social media strategy",
+      "Advertising performance",
+      "Conversion funnel"
+    ],
+    processSteps: [],
+    expectedResults: [],
     plans: [
       {
         name: "Complete Digital Audit",
@@ -42,14 +52,28 @@ const servicesToSeed = [
   {
     title: "Digital Marketing Strategy",
     isPublic: true,
-    heroHeadline: "Your Roadmap to Sustainable Growth",
+    heroHeadline: "A Complete Roadmap For Your Online Growth",
     heroParagraph:
-      "Move beyond scattered tactics with a bespoke digital marketing strategy that aligns your brand, budget, and business goals for maximum impact.",
+      "Many businesses struggle with digital marketing because they lack a clear, structured strategy. Without a plan, marketing efforts become scattered and ineffective.\nAt Digital Marketing Agency, we develop comprehensive digital marketing strategies that align your marketing channels, campaigns, and goals.",
     blueprintHeadline: "Strategy Built on Data, Not Assumptions",
     blueprintParagraph:
-      "We combine in-depth market research, competitive analysis, and customer journey mapping to build a clear, actionable 3-12 month plan designed for measurable ROI.",
+      "We combine in-depth market research, competitive analysis, and customer journey mapping to build a clear, actionable plan designed for measurable ROI.",
     bannerText:
-      "Stop reacting and start leading. Let's build your winning strategy.",
+      "Let’s Grow Your Business Together\nSuccess in the digital world requires more than just posting online, it requires strategy, creativity, and data-driven marketing.",
+    problemPoints: [],
+    whatYouGet: [],
+    processSteps: [
+      { title: "Market & Competitor Analysis", description: "We study your industry, competitors, and audience to identify growth opportunities." },
+      { title: "Channel Strategy", description: "We determine the most effective channels for your business, including social media, search engines, and advertising platforms." },
+      { title: "Customer Journey Mapping", description: "We design a clear path that moves potential customers from awareness to purchase." },
+      { title: "Campaign Planning", description: "We create structured campaigns designed to generate traffic, leads, and sales." }
+    ],
+    expectedResults: [
+      "Clear marketing direction",
+      "Higher ROI from campaigns",
+      "Better customer targeting",
+      "Scalable marketing growth"
+    ],
     plans: [
       {
         name: "Custom Growth Strategy",
@@ -79,14 +103,29 @@ const servicesToSeed = [
   {
     title: "Full Graphics Design Suite",
     isPublic: true,
-    heroHeadline: "Visuals That Captivate, Communicate, and Convert",
+    heroHeadline: "Professional Designs That Capture Attention",
     heroParagraph:
-      "From a memorable brand identity to stunning marketing materials, our full design suite provides everything you need to make a powerful visual impact.",
+      "Visual content is one of the most important elements of digital marketing.\nOur design team at Digital Marketing Agency creates visually compelling graphics that communicate your brand message and attract your target audience.",
     blueprintHeadline: "Comprehensive Design, From Concept to Creation",
     blueprintParagraph:
-      "We cover every visual touchpoint, including brand identity, marketing collateral, digital assets, product packaging, and professional presentations, ensuring brand consistency everywhere.",
+      "We cover every visual touchpoint, ensuring brand consistency everywhere.",
     bannerText:
       "Elevate your brand with world-class design. Let's create something unforgettable.",
+    problemPoints: [],
+    whatYouGet: [
+      "Social Media Designs",
+      "Marketing Banners",
+      "Brand Identity Design",
+      "Logo Design",
+      "Promotional Materials",
+      "Advertising Creatives"
+    ],
+    processSteps: [],
+    expectedResults: [
+      "Strong visual branding",
+      "Professional marketing assets",
+      "Consistent brand identity"
+    ],
     plans: [
       {
         name: "Full Design Suite",
@@ -147,6 +186,21 @@ const servicesToSeed = [
       "Our retainer plans ensure your brand stays fresh and active with a steady stream of marketing collateral and digital assets, from social media graphics to flyers and banners.",
     bannerText:
       "Never worry about design again. Secure your dedicated creative resource.",
+    problemPoints: [],
+    whatYouGet: [
+      "Social Media Designs",
+      "Marketing Banners",
+      "Brand Identity Design",
+      "Logo Design",
+      "Promotional Materials",
+      "Advertising Creatives"
+    ],
+    processSteps: [],
+    expectedResults: [
+      "Strong visual branding",
+      "Professional marketing assets",
+      "Consistent brand identity"
+    ],
     plans: [
       {
         name: "Marketing & Digital Assets",
@@ -174,14 +228,25 @@ const servicesToSeed = [
   {
     title: "UI/UX Design",
     isPublic: true,
-    heroHeadline: "Intuitive Digital Experiences Users Love",
+    heroHeadline: "Create Seamless User Experiences That Convert Visitors Into Customers",
     heroParagraph:
-      "We design beautiful, user-centric websites and applications that are not only visually stunning but also easy to use, driving engagement and conversions.",
+      "Great design is not only about aesthetics — it's about how users interact with your product.\nAt Digital Marketing Agency, our UI/UX experts design intuitive and user-friendly digital experiences that improve engagement and conversions.",
     blueprintHeadline: "From User Research to Pixel-Perfect Interfaces",
     blueprintParagraph:
       "Our process involves deep user research, information architecture, wireframing, prototyping, and rigorous usability testing to create seamless and effective digital products.",
     bannerText:
       "Turn your idea into an experience. Let's design your digital future.",
+    problemPoints: [],
+    whatYouGet: [
+      "User Research",
+      "Wireframing",
+      "Interactive Prototypes",
+      "Interface Design",
+      "User Journey Mapping",
+      "Usability Testing"
+    ],
+    processSteps: [],
+    expectedResults: [],
     plans: [
       {
         name: "Full UI/UX Product Design",
@@ -246,13 +311,40 @@ const servicesToSeed = [
   {
     title: "Social Media Marketing",
     isPublic: true,
-    heroHeadline: "Build Your Tribe, Grow Your Brand",
+    heroHeadline: "Grow Your Business With Strategic Social Media Marketing",
     heroParagraph:
-      "We manage your social media presence from strategy to execution, creating engaging content and fostering a loyal community around your brand.",
-    blueprintHeadline: "Content, Community, and Conversions",
+      "Social media is one of the most powerful marketing tools today but posting randomly without a strategy rarely delivers results.\nAt Digital Marketing Agency, we help businesses transform their presence on platforms like Instagram, Facebook and TikTok into a consistent source of leads, customers, and brand visibility.",
+    blueprintHeadline: "Our Solution",
     blueprintParagraph:
-      "Our service covers everything: content strategy, creation (graphics, reels, videos), community management, and in-depth analytics to ensure your social media efforts drive business results.",
-    bannerText: "Ready to dominate social media? Let's get started.",
+      "Our Social Media Marketing service combines strategy, creativity, and data to help your brand grow online and attract the right audience.",
+    bannerText: "Ready to turn your social media into a growth engine?\nStart your journey with Digital Marketing Agency today.",
+    problemPoints: [
+      "Low engagement",
+      "Inconsistent posting",
+      "No clear content strategy",
+      "Followers that never become customers"
+    ],
+    whatYouGet: [
+      "Social Media Strategy Development",
+      "Professional Content Creation",
+      "Branded Graphic Designs",
+      "Caption Writing & Hashtag Strategy",
+      "Content Scheduling & Posting",
+      "Audience Engagement",
+      "Performance Tracking & Optimization"
+    ],
+    processSteps: [
+      { title: "Strategy Development", description: "We analyze your business, audience, and competitors." },
+      { title: "Content Planning", description: "We create a powerful monthly content calendar." },
+      { title: "Content Creation", description: "Our team designs engaging visuals and high-converting captions." },
+      { title: "Growth Optimization", description: "We monitor analytics and optimize performance for better reach and engagement." }
+    ],
+    expectedResults: [
+      "Increased brand awareness",
+      "Higher engagement rates",
+      "Stronger online authority",
+      "More leads and conversions"
+    ],
     plans: [
       {
         name: "Monthly",
@@ -288,13 +380,23 @@ const servicesToSeed = [
   {
     title: "Sponsored Ads / Pay-Per-Click (PPC)",
     isPublic: true,
-    heroHeadline: "Generate Leads and Sales, Instantly",
+    heroHeadline: "Generate Immediate Traffic And Leads With Paid Advertising",
     heroParagraph:
-      "Reach your ideal customers at the exact moment they're ready to buy with targeted, high-ROI ad campaigns on Google, Facebook, LinkedIn, and more.",
+      "Paid advertising helps businesses reach their ideal customers quickly.\nOur PPC specialists at Digital Marketing Agency create targeted advertising campaigns on platforms like Facebook, Instagram, and Google.",
     blueprintHeadline: "Precision Targeting for Maximum ROI",
     blueprintParagraph:
-      "We handle everything from keyword research and audience segmentation to ad creative, A/B testing, and landing page optimization to ensure every click counts.",
+      "We handle everything to ensure every click counts.",
     bannerText: "Don't wait for customers to find you. Reach them now.",
+    problemPoints: [],
+    whatYouGet: [
+      "Campaign Strategy",
+      "Ad Creative Development",
+      "Audience Targeting",
+      "Budget Optimization",
+      "Performance Tracking"
+    ],
+    processSteps: [],
+    expectedResults: [],
     plans: [
       {
         name: "Weekly Campaign",
@@ -338,13 +440,35 @@ const servicesToSeed = [
   {
     title: "Search Engine Optimization (SEO)",
     isPublic: true,
-    heroHeadline: "Climb to the Top of Google and Stay There",
+    heroHeadline: "Rank Higher On Google And Get More Organic Traffic",
     heroParagraph:
-      "Our comprehensive SEO service improves your search engine rankings, drives organic traffic, and establishes your brand as an authority in your industry.",
-    blueprintHeadline: "A Holistic Approach to SEO Success",
+      "Most customers begin their journey with a search on Google. If your business is not visible in search results, you’re missing valuable opportunities.",
+    blueprintHeadline: "Our SEO Solution",
     blueprintParagraph:
-      "We combine technical SEO, on-page optimization, quality content creation, and strategic link building to create a sustainable foundation for long-term organic growth.",
+      "At Digital Marketing Agency, we use advanced SEO strategies to improve your search rankings and attract qualified traffic to your website.",
     bannerText: "Be the first answer your customers find. Invest in SEO.",
+    problemPoints: [
+      "Low search engine visibility",
+      "Poor website structure",
+      "Weak keyword targeting",
+      "Limited organic traffic"
+    ],
+    whatYouGet: [
+      "SEO Audit & Competitor Analysis",
+      "Keyword Research",
+      "On-Page Optimization",
+      "Technical SEO Improvements",
+      "Content Optimization",
+      "Link Building Strategies",
+      "Monthly Performance Reporting"
+    ],
+    processSteps: [],
+    expectedResults: [
+      "Higher Google rankings",
+      "Increased website traffic",
+      "More qualified leads",
+      "Long-term digital growth"
+    ],
     plans: [
       {
         name: "Monthly",
@@ -380,14 +504,24 @@ const servicesToSeed = [
   {
     title: "Search Engine Marketing (SEM)",
     isPublic: true,
-    heroHeadline: "Capture High-Intent Customers with Paid Search",
+    heroHeadline: "Maximize Your Visibility On Search Engines",
     heroParagraph:
-      "Combine the power of SEO and PPC with a unified Search Engine Marketing strategy that guarantees visibility and drives qualified leads from search engines.",
+      "Search Engine Marketing helps businesses appear at the top of search results when customers are actively looking for their products or services.",
     blueprintHeadline: "Dominate the Entire Search Page",
     blueprintParagraph:
       "Our SEM service integrates keyword strategy, ad campaign management, and landing page optimization to ensure you capture users at every stage of their search journey.",
     bannerText:
       "Own your keywords. Drive conversions with a powerful SEM strategy.",
+    problemPoints: [],
+    whatYouGet: [
+      "Search Advertising Strategy",
+      "Keyword Targeting",
+      "Ad Campaign Management",
+      "Landing Page Optimization",
+      "Performance Tracking"
+    ],
+    processSteps: [],
+    expectedResults: [],
     plans: [
       {
         name: "Monthly",
@@ -423,14 +557,24 @@ const servicesToSeed = [
   {
     title: "Analytics & Data Insights",
     isPublic: true,
-    heroHeadline: "Turn Your Data Into Your Biggest Advantage",
+    heroHeadline: "Turn Data Into Smart Marketing Decisions",
     heroParagraph:
-      "Stop drowning in data and start making smarter decisions. We set up, manage, and interpret your analytics to provide clear, actionable insights for growth.",
+      "Understanding your marketing performance is key to growth.\nAt Digital Marketing Agency, we use advanced analytics tools to monitor campaign performance and extract actionable insights.",
     blueprintHeadline: "From Tracking Setup to Actionable Recommendations",
     blueprintParagraph:
       "We cover everything from Google Analytics setup and conversion tracking to custom dashboard creation, funnel analysis, and regular reporting that tells you what's working and why.",
     bannerText:
       "Make data-driven decisions with confidence. Let's unlock your insights.",
+    problemPoints: [],
+    whatYouGet: [
+      "Marketing Data Analysis",
+      "Website Performance Tracking",
+      "Customer Behavior Insights",
+      "Conversion Tracking",
+      "Performance Reporting"
+    ],
+    processSteps: [],
+    expectedResults: [],
     plans: [
       {
         name: "Monthly",
@@ -466,13 +610,35 @@ const servicesToSeed = [
   {
     title: "Web & Mobile App Development",
     isPublic: true,
-    heroHeadline: "Build Scalable, High-Performance Digital Products",
+    heroHeadline: "Build Powerful Digital Experiences That Convert",
     heroParagraph:
-      "From custom websites to cross-platform mobile apps, our development team brings your vision to life with secure, scalable, and user-friendly solutions.",
+      "Your website or mobile app is often the first impression customers have of your brand.\nAt Digital Marketing Agency, we design and develop high-performance websites and mobile applications that combine functionality, speed, and modern design.",
     blueprintHeadline: "End-to-End Development, From Design to Deployment",
     blueprintParagraph:
-      "We handle the entire lifecycle: UI/UX design, backend architecture, API integrations, e-commerce setup, and post-launch maintenance, ensuring your product is built for success.",
+      "We handle the entire lifecycle ensuring your product is built for success.",
     bannerText: "Have a big idea? Let's build it, together.",
+    problemPoints: [],
+    whatYouGet: [
+      "Custom Website Development",
+      "E-Commerce Platforms",
+      "Mobile App Development",
+      "Responsive Web Design",
+      "CMS Integration",
+      "Secure and Scalable Architecture"
+    ],
+    processSteps: [
+      { title: "Custom Website Development", description: "We create high-performance websites tailored specifically to your brand and business objectives." },
+      { title: "E-Commerce Solutions", description: "We develop online stores with seamless checkout systems, product management tools, and secure payment integration." },
+      { title: "Mobile App Development", description: "Our team builds powerful mobile applications designed for both performance and usability." },
+      { title: "Responsive Web Design", description: "Every website we create is fully responsive, ensuring it performs perfectly across desktops, tablets, and mobile devices." },
+      { title: "CMS Integration", description: "We integrate user-friendly content management systems so you can easily update and manage your website." }
+    ],
+    expectedResults: [
+      "Build credibility",
+      "Improve customer experience",
+      "Increase conversions",
+      "Scale your business online"
+    ],
     plans: [
       {
         name: "Full Web & Mobile App",
@@ -536,13 +702,25 @@ const servicesToSeed = [
   {
     title: "Website Management & Maintenance",
     isPublic: true,
-    heroHeadline: "Keep Your Website Secure, Fast, and Fresh",
+    heroHeadline: "Keep Your Website Secure, Updated, And Performing At Its Best",
     heroParagraph:
-      "Focus on your business while we handle the technical side. Our website management service ensures your site is always updated, secure, and performing at its best.",
+      "Your website or mobile application is often the first interaction customers have with your brand. A poorly designed platform can push potential clients away, while a well-built one can turn visitors into loyal customers.\nAt Digital Marketing Agency, we design and develop modern websites and mobile applications that combine cutting-edge technology with exceptional user experience.",
     blueprintHeadline: "Proactive Care for Your Most Important Asset",
     blueprintParagraph:
-      "We provide comprehensive support, including hosting, security monitoring, regular backups, performance optimization, content updates, and technical troubleshooting.",
+      "We provide comprehensive support, including hosting, security monitoring, regular backups, and technical troubleshooting.",
     bannerText: "Enjoy peace of mind. Put your website on autopilot.",
+    problemPoints: [],
+    whatYouGet: [
+      "Regular Updates",
+      "Security Monitoring",
+      "Website Backups",
+      "Performance Optimization",
+      "Bug Fixes & Technical Support"
+    ],
+    processSteps: [],
+    expectedResults: [
+      "This ensures your website remains reliable and efficient at all times."
+    ],
     plans: [
       {
         name: "Quarterly",

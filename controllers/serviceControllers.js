@@ -68,6 +68,11 @@ const buildServiceData = async (body, files, existingService = {}, adminId) => {
     heroParagraph,
     blueprintHeadline,
     blueprintParagraph,
+    // New marketing content fields
+    problemPoints,
+    whatYouGet,
+    processSteps,
+    expectedResults,
   } = body;
 
   // 1. Upload all new files in parallel and create a map of their URLs.
@@ -95,6 +100,10 @@ const buildServiceData = async (body, files, existingService = {}, adminId) => {
   const faqs = parseJson(body.faqs);
   const caseStudiesText = parseJson(body.caseStudies);
   const testimonialsText = parseJson(body.testimonials);
+  const problemPointsParsed = parseJson(problemPoints);
+  const whatYouGetParsed = parseJson(whatYouGet);
+  const processStepsParsed = parseJson(processSteps);
+  const expectedResultsParsed = parseJson(expectedResults);
 
   // 3. Construct the final object, merging new data with existing data.
   return {
@@ -103,6 +112,11 @@ const buildServiceData = async (body, files, existingService = {}, adminId) => {
     isPublic: isPublic === "true",
     heroHeadline,
     heroParagraph,
+    // New marketing content fields
+    problemPoints: problemPointsParsed,
+    whatYouGet: whatYouGetParsed,
+    processSteps: processStepsParsed,
+    expectedResults: expectedResultsParsed,
     // Use the new image URL if it exists in the map, otherwise keep the existing one.
     heroImageUrl:
       imageUrlMap["heroImage"] || existingService.heroImageUrl || null,
@@ -215,6 +229,7 @@ exports.updateService = async (req, res) => {
       adminId,
     );
 
+    delete serviceData.admin_id;
     const updatedService = await serviceService.updateService(id, serviceData);
     return sendSuccess(
       res,

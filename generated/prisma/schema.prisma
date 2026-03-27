@@ -91,6 +91,11 @@ model Service {
   blueprintImageUrl  String?          @db.Text
   bannerText         String?          @db.Text
   onboardingVideoUrl String?          @db.Text
+  // --- NEW MARKETING CONTENT FIELDS ---
+  problemPoints      Json? // Array of strings: ["Low engagement", ...]
+  whatYouGet         Json? // Array of strings: ["Strategy Development", ...]
+  processSteps       Json? // Array of {title, description}: [{title: "Step 1", description: "..."}]
+  expectedResults    Json? // Array of strings: ["Increased brand awareness", ...]
   admin_id           String           @db.Char(36)
   created_at         DateTime?        @default(now()) @db.Timestamp(0)
   deleted_at         DateTime?        @db.Timestamp(0)
